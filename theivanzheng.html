@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ivan Zheng</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-light: #e8e8e8;
+      --gray-mid: #aaaaaa;
+      --border: #2a2a2a;
+      --card-bg: #111111;
+      --content-width: 1240px;
+      --panel-card: #151515;
+      --copy-small: #d9d9d9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: transparent;
+      border-bottom: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 64px;
+    }
+    nav .nav-left { display: flex; gap: 32px; }
+    nav .nav-center {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; letter-spacing: 0.01em;
+    }
+    nav .nav-right { display: flex; gap: 32px; }
+    nav a {
+      color: var(--white); text-decoration: none;
+      font-size: 15px; font-weight: 400;
+      opacity: 0.85;
+      transition: opacity .2s;
+    }
+    nav a:hover { opacity: 1; }
+
+    .nav-scrolled {
+      background: rgba(10, 10, 10, 0.72);
+      backdrop-filter: blur(10px);
+      border-bottom: none;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 34vh;
+      background: linear-gradient(to bottom, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.65) 52%, var(--black) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Video background */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* mix-blend-mode difference inverts text over video */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      mix-blend-mode: difference;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 10vw, 110px);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    .hero-scroll svg { animation: bounce 1.6s ease-in-out infinite; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 104px 0; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 56px;
+    }
+
+    .section-label {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 54px;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--white);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROYECTOS NAV (mini links) ── */
+    .projects-nav {
+      padding: 62px 0 48px;
+      border-top: none;
+      scroll-margin-top: 82px;
+    }
+    .projects-nav .section-label {
+      margin-bottom: 28px;
+      font-size: 42px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 44px;
+      max-width: 980px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    .projects-grid a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 28px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      min-height: 112px;
+      padding: 10px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0.85;
+      transition: opacity .2s, transform .2s;
+    }
+    .projects-grid a:hover { opacity: 1; transform: translateY(-2px); }
+
+    .projects-grid a img {
+      width: 60%;
+      height: 60%;
+      max-width: 60%;
+      max-height: 60%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      padding: 6px;
+      margin: 0 auto;
+    }
+
+    /* ── SOBRE MÍ ── */
+    .sobre-mi {
+      background: var(--black);
+      border-top: none;
+      border-bottom: none;
+    }
+    .sobre-mi .inner {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 46px 52px 42px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 58px;
+      align-items: center;
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+    .sobre-mi h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 52px;
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      margin-bottom: 22px;
+    }
+    .sobre-mi p {
+      font-size: 16px;
+      line-height: 1.28;
+      color: var(--copy-small);
+      margin-bottom: 18px;
+      max-width: 760px;
+    }
+    .sobre-mi p:last-child { margin-bottom: 0; }
+
+    .sobre-mi-text {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Stacked cards right side */
+    .cards-stack {
+      position: relative;
+      width: 620px;
+      height: 500px;
+      flex-shrink: 0;
+      margin-top: 20px;
+      margin-left: -98px;
+      z-index: 1;
+    }
+    .card-item {
+      position: absolute;
+      background: #ffffff10;
+      border: 1px solid #ffffff18;
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
+      overflow: hidden;
+    }
+
+    .card-item img,
+    .project-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Sobre mí: 3 cards stacked */
+    .sobre-mi .card-item:nth-child(1) {
+      display: none;
+    }
+    .sobre-mi .card-item:nth-child(2) {
+      width: 320px; height: 438px;
+      top: 92px; left: 72px;
+      transform: rotate(-12deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 28px;
+    }
+    .sobre-mi .card-item:nth-child(3) {
+      width: 372px; height: 510px;
+      top: 8px; left: 248px;
+      transform: rotate(12deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 30px;
+    }
+
+    /* label inside cards */
+    .card-item .card-label {
+      position: absolute;
+      bottom: 16px; left: 16px;
+      font-size: 13px;
+      color: #8a8a8a;
+      font-style: italic;
+    }
+
+    .sobre-mi .card-label {
+      display: none;
+    }
+
+    /* Hover effect: cards separate on hover */
+    .card-item {
+      transition: transform 0.4s ease, z-index 0.4s ease;
+    }
+
+    .cards-stack:hover .card-item:nth-child(2) {
+      transform: rotate(-12deg) translate(-32px, 28px);
+      z-index: 3;
+    }
+    .cards-stack:hover .card-item:nth-child(3) {
+      transform: rotate(12deg) translate(32px, -28px);
+      z-index: 4;
+    }
+
+    .cards-stack-nada:hover .card-item:nth-child(1) {
+      transform: rotate(-23deg) translate(-48px, 32px);
+      z-index: 3;
+    }
+    .cards-stack-nada:hover .card-item:nth-child(2) {
+      transform: rotate(-10deg) translate(0, -40px);
+      z-index: 4;
+    }
+    .cards-stack-nada:hover .card-item:nth-child(3) {
+      transform: rotate(22deg) translate(48px, 32px);
+      z-index: 5;
+    }
+
+    .cards-stack-nl:hover .card-item:nth-child(2) {
+      transform: rotate(-19deg) translate(-38px, 26px);
+      z-index: 3;
+    }
+    .cards-stack-nl:hover .card-item:nth-child(3) {
+      transform: rotate(22deg) translate(38px, -26px);
+      z-index: 4;
+    }
+
+    .cards-stack-contact:hover .card-item:nth-child(1) {
+      transform: rotate(0deg) translate(24px, -20px);
+      z-index: 3;
+    }
+
+    /* ── NADA TIENE SENTIDO ── */
+    .nada {
+      background: var(--black);
+      border-bottom: none;
+    }
+    .nada .inner {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 46px 52px 42px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 58px;
+      align-items: center;
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+    .nada h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 52px;
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      margin-bottom: 22px;
+      line-height: 1.1;
+    }
+    .nada p {
+      font-size: 16px;
+      line-height: 1.24;
+      color: var(--copy-small);
+      max-width: 760px;
+    }
+
+    .nada-text {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Nada section: larger scattered cards */
+    .cards-stack-nada {
+      position: relative;
+      width: 650px;
+      height: 500px;
+      flex-shrink: 0;
+      margin-top: 20px;
+      margin-left: -90px;
+      z-index: 1;
+    }
+    .cards-stack-nada .card-item:nth-child(1) {
+      width: 286px; height: 394px;
+      top: 134px; left: 10px;
+      transform: rotate(-23deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 28px;
+    }
+    .cards-stack-nada .card-item:nth-child(2) {
+      width: 328px; height: 456px;
+      top: 18px; left: 184px;
+      transform: rotate(-10deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 28px;
+    }
+    .cards-stack-nada .card-item:nth-child(3) {
+      width: 366px; height: 510px;
+      top: 36px; left: 326px;
+      transform: rotate(22deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 30px;
+    }
+
+    .nada .card-label {
+      display: none;
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      background: var(--black);
+      border-bottom: none;
+      padding: 82px 0 74px;
+    }
+    .newsletter .inner {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 38px 52px 34px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 62px;
+      align-items: center;
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+    .newsletter h2 {
+      font-size: 13px;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 50px;
+      letter-spacing: 0.02em;
+    }
+    /* reposition h2 full width above grid */
+    .newsletter .newsletter-title {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+
+    /* Cards left side newsletter */
+    .cards-stack-nl {
+      position: relative;
+      width: 460px;
+      height: 380px;
+      flex-shrink: 0;
+      margin-left: -78px;
+    }
+    .cards-stack-nl .card-item:nth-child(1) {
+      display: none;
+    }
+    .cards-stack-nl .card-item:nth-child(2) {
+      width: 268px; height: 356px;
+      top: 52px; left: 4px;
+      transform: rotate(-19deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 28px;
+    }
+    .cards-stack-nl .card-item:nth-child(3) {
+      width: 284px; height: 380px;
+      top: 34px; left: 138px;
+      transform: rotate(22deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 28px;
+    }
+
+    /* Newsletter box */
+    .nl-box {
+      background: var(--panel-card);
+      border: none;
+      border-radius: 12px;
+      padding: 0;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .nl-box h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 42px;
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      margin-bottom: 10px;
+    }
+    .nl-box p {
+      font-size: 17px;
+      color: var(--copy-small);
+      line-height: 1.28;
+      margin-bottom: 26px;
+      max-width: 760px;
+    }
+    .nl-box input[type="email"] {
+      width: min(100%, 700px);
+      background: transparent;
+      border: 1.5px solid #d9d9d9;
+      border-radius: 14px;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      outline: none;
+    }
+    .nl-box input[type="email"]::placeholder { color: #bdbdbd; }
+    .nl-box .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .nl-box .checkbox-row input {
+      accent-color: #ffffff;
+      width: 18px;
+      height: 18px;
+    }
+    .nl-box .checkbox-row label {
+      font-size: 14px;
+      color: #d9d9d9;
+    }
+    .nl-box button {
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      padding: 14px 34px;
+      cursor: pointer;
+      transition: opacity .2s;
+      align-self: flex-start;
+    }
+    .nl-box button:hover { opacity: 0.85; }
+
+    /* ── ARROW connector ── */
+    .arrow-connector {
+      text-align: center;
+      padding: 54px 0 0;
+      color: #ffffff;
+      font-size: 76px;
+      line-height: 1;
+    }
+
+    /* ── PROYECTOS DETAIL ── */
+    .proyectos-detail {
+      padding: 76px 0 96px;
+    }
+    .proyectos-detail .section-label {
+      margin-bottom: 58px;
+    }
+
+    .proyecto-item {
+      max-width: var(--content-width);
+      margin: 0 auto 18px;
+      padding: 34px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 72px;
+      align-items: center;
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      clip-path: inset(0 round 10px);
+      isolation: isolate;
+    }
+    .proyecto-item:last-child { margin-bottom: 0; }
+
+    .proyecto-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 400;
+      margin-bottom: 22px;
+    }
+    .proyecto-item p {
+      font-size: 18px;
+      line-height: 1.72;
+      color: var(--copy-small);
+      max-width: 880px;
+    }
+
+    /* Project cards — large rounded squares */
+    .project-card-img {
+      width: 420px;
+      height: 420px;
+      background: var(--black);
+      border: none;
+      border-radius: 34px;
+      flex-shrink: 0;
+      display: block;
+      position: relative;
+      font-size: 20px;
+      color: #8a8a8a;
+      text-align: center;
+      padding: 0;
+      transform: rotate(-21deg) translateZ(0);
+      overflow: hidden;
+      box-shadow: 0 0 0 1px var(--panel-card);
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .project-card-img img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 102%;
+      height: 102%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border-radius: inherit;
+      transform: translate(-50%, -50%) translateZ(0);
+    }
+
+    .proyecto-item:nth-child(2) .project-card-img { transform: rotate(-21deg); }
+    .proyecto-item:nth-child(3) .project-card-img { transform: rotate(-18deg); }
+    .proyecto-item:nth-child(4) .project-card-img { transform: rotate(-19deg); }
+    .proyecto-item:nth-child(5) .project-card-img { transform: rotate(-20deg); }
+    .proyecto-item:nth-child(6) .project-card-img { transform: rotate(-17deg); }
+
+    @media (max-width: 980px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+      }
+
+      .sobre-mi .inner,
+      .nada .inner,
+      .newsletter .inner,
+      .proyecto-item,
+      .trabajemos .inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .cards-stack,
+      .cards-stack-nada,
+      .cards-stack-nl,
+      .cards-stack-contact {
+        margin: 0 auto;
+      }
+
+      .project-card-img {
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav {
+        padding: 0 18px;
+        height: 54px;
+      }
+
+      nav .nav-left,
+      nav .nav-right {
+        gap: 14px;
+      }
+
+      nav a,
+      nav .nav-center {
+        font-size: 12px;
+      }
+
+      section {
+        padding: 68px 0;
+      }
+
+      .container,
+      .sobre-mi .inner,
+      .nada .inner,
+      .newsletter .inner,
+      .proyecto-item,
+      .trabajemos .inner,
+      footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .section-label {
+        font-size: 34px;
+        margin-bottom: 30px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid a {
+        min-height: 88px;
+        font-size: 22px;
+      }
+
+      .projects-grid a img {
+        width: 74%;
+        height: 74%;
+        max-width: 74%;
+        max-height: 74%;
+        padding: 4px;
+      }
+
+      .sobre-mi h2,
+      .nada h2 {
+        font-size: 34px;
+      }
+
+      .sobre-mi p,
+      .nada p,
+      .nl-box p,
+      .proyecto-item p {
+        font-size: 15px;
+      }
+
+      .cards-stack,
+      .cards-stack-nada,
+      .cards-stack-nl,
+      .cards-stack-contact {
+        width: 250px;
+        height: 250px;
+      }
+
+      .sobre-mi .card-item:nth-child(2) {
+        width: 154px; height: 210px;
+        top: 44px; left: 8px;
+      }
+
+      .sobre-mi .card-item:nth-child(3) {
+        width: 166px; height: 228px;
+        top: 6px; left: 88px;
+      }
+
+      .cards-stack-nada .card-item:nth-child(1) {
+        width: 144px; height: 202px;
+        top: 58px; left: 0;
+      }
+
+      .cards-stack-nada .card-item:nth-child(2) {
+        width: 154px; height: 216px;
+        top: 28px; left: 62px;
+      }
+
+      .cards-stack-nada .card-item:nth-child(3) {
+        width: 166px; height: 230px;
+        top: 54px; left: 104px;
+      }
+
+      .cards-stack-nl .card-item:nth-child(2),
+      .cards-stack-nl .card-item:nth-child(3),
+      .cards-stack-contact .card-item:nth-child(1) {
+        width: 152px;
+        height: 198px;
+      }
+
+      .cards-stack-nl .card-item:nth-child(2) {
+        top: 22px; left: 6px;
+      }
+
+      .cards-stack-nl .card-item:nth-child(3) {
+        top: 12px; left: 74px;
+      }
+
+      .cards-stack-contact .card-item:nth-child(1) {
+        width: 220px;
+        height: 164px;
+        top: 42px;
+        left: 14px;
+      }
+
+      .project-card-img {
+        width: 168px;
+        height: 168px;
+        font-size: 14px;
+      }
+
+      footer {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        row-gap: 18px;
+      }
+
+      footer .footer-left,
+      footer .footer-mid,
+      footer .footer-right {
+        grid-column: 1 / -1;
+      }
+
+      footer .footer-right {
+        gap: 24px;
+      }
+    }
+
+    /* ── TRABAJEMOS JUNTOS ── */
+    .trabajemos {
+      border-top: none;
+      padding: 92px 0 72px;
+    }
+    .trabajemos .section-label { margin-bottom: 44px; }
+    .trabajemos .inner {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 42px 52px 38px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 62px;
+      align-items: center;
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 24px;
+    }
+
+    /* Cards left contact */
+    .cards-stack-contact {
+      position: relative;
+      width: 430px;
+      height: 520px;
+      flex-shrink: 0;
+    }
+    .cards-stack-contact .card-item:nth-child(1) {
+      width: 382px; height: 286px;
+      top: 98px; left: 0;
+      transform: rotate(0deg);
+      background: #ffffff;
+      border-color: #111111;
+      border-radius: 24px;
+    }
+    .cards-stack-contact .card-item:nth-child(2) {
+      display: none;
+    }
+    .cards-stack-contact .card-item:nth-child(3) {
+      display: none;
+    }
+
+    .contact-box h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 44px;
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      margin-bottom: 18px;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 10px; }
+    .contact-form label {
+      font-size: 14px;
+      color: #d9d9d9;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: min(100%, 760px);
+      background: transparent;
+      border: 1.5px solid #d9d9d9;
+      border-radius: 14px;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      padding: 16px 18px;
+      outline: none;
+      resize: none;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: #d9d9d9; opacity: 0.78; }
+    .contact-form textarea { min-height: 144px; }
+    .contact-form button {
+      align-self: flex-start;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      padding: 14px 38px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: opacity .2s;
+    }
+    .contact-form button:hover { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 56px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      row-gap: 26px;
+      align-items: end;
+    }
+    footer .footer-left {
+      font-size: 24px;
+      color: #ffffff;
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+    footer .footer-mid {
+      display: flex;
+      gap: 24px;
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      flex-wrap: wrap;
+    }
+    footer .footer-mid a {
+      font-size: 14px;
+      color: #d9d9d9;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    footer .footer-mid a:hover { color: #999; }
+    footer .footer-right {
+      display: flex;
+      gap: 48px;
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      align-self: end;
+      flex-wrap: wrap;
+    }
+    footer .footer-right a {
+      font-size: 14px;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      transition: color .2s;
+    }
+    footer .footer-right a:hover { color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="site-nav">
+    <div class="nav-left">
+      <a href="#sobre-mi">Sobre Mí</a>
+      <a href="#">Productos</a>
+    </div>
+    <div class="nav-center">IVAN ZHENG</div>
+    <div class="nav-right">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <!-- HERO: video background + texto invertido -->
+  <section class="hero" id="inicio">
+    <!-- Reemplaza la ruta del video según tu carpeta -->
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="./Resources/hero_v1.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-content">
+      <h1>IVAN ZHENG</h1>
+    </div>
+    <div class="hero-scroll">
+      <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 2L12 12L22 2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M2 7L12 17L22 7" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- PROYECTOS NAV -->
+  <section class="projects-nav reveal" id="proyectos">
+    <div class="container">
+      <p class="section-label reveal">Proyectos</p>
+      <div class="projects-grid">
+        <a class="reveal reveal-delay-1" href="#quédate">
+          <img src="./Resources/Long_logos/quedate.svg" alt="logo Quedate">
+        </a>
+        <a class="reveal reveal-delay-1" href="#revon">
+          <img src="./Resources/Long_logos/REVON.svg" alt="logo REVON">
+        </a>
+        <a class="reveal reveal-delay-1" href="#playbeau">
+          <img src="./Resources/Long_logos/PlayBeau.svg" alt="logo PlayBeau">
+        </a>
+        <a class="reveal reveal-delay-2" href="#debtscope">
+          <img src="./Resources/Long_logos/debtScope.svg" alt="logo Debt Scope">
+        </a>
+        <a class="reveal reveal-delay-2" href="#nube">
+          <img src="./Resources/Long_logos/NUBE.svg" alt="logo NUBE">
+        </a>
+        <a class="reveal reveal-delay-2" href="#instagram">
+          <img src="./Resources/Long_logos/@theivanzheng.svg" alt="logo @theivanzheng">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="sobre-mi reveal" id="sobre-mi">
+    <div class="inner">
+      <div class="sobre-mi-text reveal">
+        <h2>Sobre Mí</h2>
+        <p>Iván Zheng estudió Ingeniería Informática en Salamanca.</p>
+        <p>Pero no empezó queriendo ser típico “programador-asiático” de las pelis.</p>
+        <p>Empezó interesándose por cómo funcionan los negocios.<br>
+          Sobre todo los pequeños.<br>
+          Los de verdad.<br>
+          Los que tienen que vender cada día.</p>
+        <p>Probablemente porque pasó gran parte de su infancia en los bazares de su familia.</p>
+        <p>Con el tiempo fue metiendo la tecnología en eso.<br>
+          Y luego el contenido.</p>
+        <p>Y se dio cuenta de algo bastante simple.<br>
+          Que muchas empresas no necesitan más ideas.<br>
+          Necesitan hacer mejor lo obvio.</p>
+        <p>Ahí es donde trabaja.</p>
+        <p>Desarrollando soluciones digitales, mejorando procesos y ayudando a que esas empresas tengan presencia online sin complicarse más de la cuenta.</p>
+      </div>
+      <div class="cards-stack reveal reveal-delay-1">
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-1.jpg" alt="Sobre Mi imagen 1" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 1</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-2.jpg" alt="Sobre Mi imagen 2" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 2</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-3.jpg" alt="Sobre Mi imagen 3" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 3</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NADA TIENE SENTIDO -->
+  <section class="nada reveal">
+    <div class="inner">
+      <div class="nada-text reveal">
+        <h2>Nada tiene sentido, hasta que lo tiene</h2>
+        <p>Durante un tiempo, todo parecía un juego de niños.<br>
+          Hacía muchas cosas: contenido, diseño, proyectos.<br> Pero nada conectaba.<br>
+          <br>
+          Monté un negocio de reventa de zapatillas.<br>
+          Parecía un éxito desde fuera. Acabó quebrando.<br>
+          <br>
+          Sabía un poco de todo. No destacaba en nada.<br>
+          <br>
+          El punto más bajo llegó en primero de ADE:<br>
+          suspendí 9 de 10 asignaturas.<br>
+          Lo dejé. Por miedo.Y por vergüenza.<br>
+          <br>
+          Empecé de nuevo en Ingeniería Informática.<br>
+          <br>
+          Y me prometí que no volvería a fallar.<br>
+          <br>
+          Saqué notazas y matrículas.<br>
+          <br>
+          Acepté un proyecto con casi cien empresas, lo vi claro:<br>
+          lo que parecía un juego de niños ahora tenía sentido.<br>
+          <br>
+          Tecnología, contenido y negocio. Encajaron perfectamente.<br>
+          <br>
+          Y ahí lo entendí.<br>
+          <br>
+          Nada tiene sentido, hasta que lo tiene.</p>
+      </div>
+      <div class="cards-stack-nada reveal reveal-delay-1">
+        <div class="card-item"><img src="./Resources/cards/nada-1.jpg" alt="Nada tiene sentido imagen 1" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 1</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-2.jpg" alt="Nada tiene sentido imagen 2" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 2</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-3.jpg" alt="Nada tiene sentido imagen 3" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 3</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter reveal">
+    <div class="container">
+      <p class="section-label reveal">Entra en mi newsletter (tranquilo, es gratis)</p>
+    </div>
+    <div class="inner">
+      <div class="cards-stack-nl reveal reveal-delay-1">
+        <div class="card-item"><img src="./Resources/cards/newsletter-1.jpg" alt="Newsletter imagen 1" loading="lazy" decoding="async"><span class="card-label"></span></div>
+        <div class="card-item"><img src="./Resources/cards/newsletter-2.jpg" alt="Newsletter imagen 2" loading="lazy" decoding="async"><span class="card-label"></span></div>
+        <div class="card-item"><img src="./Resources/cards/newsletter-3.jpg" alt="Newsletter imagen 3" loading="lazy" decoding="async"><span class="card-label"></span></div>
+      </div>
+      <div class="nl-box reveal reveal-delay-2">
+        <h3>El Círculo Privado</h3>
+        <p>Donde más de 1.000 personas reciben cada semana lo que voy aprendiendo sobre desarrollo web, creación de contenido, IA y negocio digital mientras lo aplico en mis propios proyectos.<br>
+        Sin filtros. Sin humo. Solo lo que funciona.</p>
+        <input type="email" placeholder="Tu correo electrónico" />
+        <div class="checkbox-row">
+          <input type="checkbox" id="acepto" />
+          <label for="acepto">Acepto la política de privacidad y los términos y condiciones</label>
+        </div>
+        <button>Suscribirse</button>
+      </div>
+    </div>
+    <div class="arrow-connector reveal reveal-delay-3">↓</div>
+  </section>
+
+  <!-- PROYECTOS DETAIL -->
+  <section class="proyectos-detail reveal">
+    <div class="container">
+      <p class="section-label reveal">Proyectos</p>
+    </div>
+
+    <!-- Quédate -->
+    <div class="proyecto-item reveal" id="quédate">
+      <div class="reveal">
+        <h3>Quédate</h3>
+        <p>En 2025, Iván empieza a trabajar con comercios locales que apenas tenían presencia digital.
+          Negocios que dependían de quien pasaba por delante.
+          <br><br>A través de la plataforma, empiezan a lanzar campañas, registrar ventas y atraer clientes mediante códigos QR y sistemas de recompensas.
+          <br>Poco a poco, esos clientes vuelven. Usan sus premios.
+          <br>Y los comercios empiezan a tener algo que antes no tenían: visibilidad.
+          <br><br>Hoy, más de 100 negocios se han visto impulsados gracias a esta plataforma.</p>
+      </div>
+      <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-quedate-1.jpg" alt="Quédate imagen 1" loading="lazy" decoding="async"></div>
+    </div>
+
+    <!-- REVON -->
+    <div class="proyecto-item reveal" id="revon">
+      <div class="reveal">
+        <h3>REVON</h3>
+        <p>En 2026, Iván empieza a trabajar bajo el nombre de REVON. 
+          <br>No como una agencia tradicional, sino como una forma de dar estructura a todo lo que venía construyendo hasta ese momento.
+          <br>Empresas que no solo necesitan una web, sino cómo crecer apoyándose en el mundo digital.
+          <br><br>Desde ahí, empieza a combinar tecnología, contenido y negocio en un mismo enfoque.
+          Desarrollando plataformas, sistemas y estrategias que no se quedan en la teoría, sino que se utilizan.
+          <br>Hoy, REVON es el punto desde el que Iván ayuda a empresas a crecer a través de soluciones digitales.</p>
+      </div>
+      <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-revon-1.jpg" alt="REVON imagen 1" loading="lazy" decoding="async"></div>
+    </div>
+
+    <!-- PlayBeau -->
+    <div class="proyecto-item reveal" id="playbeau">
+      <div class="reveal">
+        <h3>PlayBeau</h3>
+        <p>
+          Entre 2023 y 2024, Iván es uno de los tres programadores iniciales de PlayBeau, una plataforma orientada a la gestión de cadenas de peluquería.
+          <br><br>El sistema se diseña para una cadena nacional en España, para centralizar operaciones, unificar procesos y mejorar la productividad de los distintos locales, colaborando con grandes marcas del sector.
+          <br>Gestionando y promocionando los productos de estas marcas dentro de la propia plataforma.
+          <br><br>Años después, PlayBeau es adquirido por L'Oréal.
+          <br><br>Aunque Iván ya no forma parte  del proyecto, fue una de las experiencias clave que le lanzaron al mundo digital y empresarial.
+        </p>
+      </div>
+      <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-playbeau-1.jpg" alt="PlayBeau imagen 1" loading="lazy" decoding="async"></div>
+    </div>
+
+    <!-- @theivanzheng -->
+    <div class="proyecto-item reveal" id="instagram">
+      <div class="reveal">
+        <h3>@theivanzheng</h3>
+        <p>
+          Es el espacio donde Iván empieza a experimentar con la creación de contenido. En 2026, el proyecto crece de 0 a 60.000 seguidores en apenas 60 días, marcando el inicio de su presencia online.
+          <br><br>Desde ahí, comparte contenido sobre mejora personal, productividad, fitness y mentalidad, principalmente en TikTok e Instagram, donde acumula cerca de 100.000 seguidores.
+          <br><br>Más allá de los números, este proyecto se convierte en el laboratorio donde prueba, aprende y aplica todo lo relacionado con contenido, comunicación y crecimiento digital.
+        </p>
+      </div>
+      <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-theivanzheng-1.jpg" alt="@theivanzheng imagen 1" loading="lazy" decoding="async"></div>
+    </div>
+  </section>
+
+  <!-- TRABAJEMOS JUNTOS -->
+  <section class="trabajemos reveal" id="contacto">
+    <div class="container">
+      <p class="section-label reveal">Trabajemos Juntos</p>
+    </div>
+    <div class="inner">
+      <div class="cards-stack-contact reveal reveal-delay-1">
+        <div class="card-item"><img src="./Resources/cards/contacto-1.jpg" alt="Contacto imagen 1" loading="lazy" decoding="async"><span class="card-label">Contacto imagen 1</span></div>
+       
+      </div>
+      <div class="contact-box reveal reveal-delay-2">
+        <h3>Ponte en contacto</h3>
+        <div class="contact-form">
+          <div>
+            <label>Correo Electrónico</label>
+            <input type="email" placeholder="tuemail.com" />
+          </div>
+          <div>
+            <label>Asunto</label>
+            <input type="text" placeholder="Ej: Propuesta de Desarrollo para mi Empresa" />
+          </div>
+          <div>
+            <label>Mensaje</label>
+            <textarea placeholder="Escribe tu mensaje aquí..."></textarea>
+          </div>
+          <button>Enviar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="reveal">
+    <div class="footer-left reveal">© 2026 Iván Zheng</div>
+    <div class="footer-mid reveal reveal-delay-1">
+      <a href="#">Aviso legal</a>
+      <a href="#">Política de privacidad</a>
+      <a href="#">Política de cookies</a>
+    </div>
+    <div class="footer-right reveal reveal-delay-2">
+      <a href="#">INSTAGRAM</a>
+      <a href="#">TIKTOK</a>
+      <a href="#">YOUTUBE</a>
+    </div>
+  </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll(".reveal");
+    let lastScrollY = window.scrollY;
+    let scrollingDown = false;
+    let revealCycleArmed = false;
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target.closest(".hero")) {
+          entry.target.classList.add("is-visible");
+          return;
+        }
+
+        if (entry.isIntersecting && revealCycleArmed) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: "0px 0px -4% 0px"
+    });
+
+    revealItems.forEach((item) => {
+      if (item.closest(".hero")) {
+        item.classList.add("is-visible");
+        return;
+      }
+      revealObserver.observe(item);
+    });
+
+    const nav = document.getElementById("site-nav");
+    const revealVisibleItemsInViewport = () => {
+      revealItems.forEach((item) => {
+        if (item.closest(".hero")) {
+          return;
+        }
+
+        const rect = item.getBoundingClientRect();
+        const inViewport = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+        if (inViewport) {
+          item.classList.add("is-visible");
+        }
+      });
+    };
+
+    const resetRevealCycle = () => {
+      revealCycleArmed = false;
+      revealItems.forEach((item) => {
+        if (!item.closest(".hero")) {
+          item.classList.remove("is-visible");
+        }
+      });
+    };
+
+    const handleScrollState = () => {
+      const currentY = window.scrollY;
+      scrollingDown = currentY > lastScrollY;
+
+      if (currentY <= 4) {
+        resetRevealCycle();
+      } else if (scrollingDown && !revealCycleArmed) {
+        revealCycleArmed = true;
+        revealVisibleItemsInViewport();
+      }
+
+      if (nav) {
+        nav.classList.toggle("nav-scrolled", currentY > 24);
+      }
+      lastScrollY = currentY;
+    };
+
+    handleScrollState();
+    window.addEventListener("scroll", handleScrollState, { passive: true });
+  </script>
+
+</body>
+</html>
