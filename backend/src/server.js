@@ -455,21 +455,29 @@ app.get("/api/newsletter/confirm", async (req, res) => {
     }
 
     if (subscriber?.email) {
-      const syncResult = await syncResendContact({
-        email: subscriber.email,
-        unsubscribed: false,
-        properties: {
-          newsletter_name: subscriber?.metadata?.newsletter_name || env.newsletterName,
-          consent_version: env.consentVersion,
-          source: "website"
-        }
-      });
+      try {
+        const syncResult = await syncResendContact({
+          email: subscriber.email,
+          unsubscribed: false,
+          properties: {
+            newsletter_name: subscriber?.metadata?.newsletter_name || env.newsletterName,
+            consent_version: env.consentVersion,
+            source: "website"
+          }
+        });
 
-      console.log("[newsletter/resend_contact_synced]", {
-        email: subscriber.email,
-        action: syncResult.action,
-        contactId: syncResult.id
-      });
+        console.log("[newsletter/resend_contact_synced]", {
+          email: subscriber.email,
+          action: syncResult.action,
+          contactId: syncResult.id
+        });
+      } catch (syncError) {
+        // Do not block confirmation if contact sync fails.
+        console.error("[newsletter/resend_contact_sync_error]", {
+          email: subscriber.email,
+          error: syncError?.message || syncError
+        });
+      }
 
       try {
         const welcomeEmailId = await sendWelcomeEmail(subscriber.email);
