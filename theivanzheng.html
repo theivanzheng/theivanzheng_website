@@ -2007,7 +2007,10 @@
     handleScrollState();
     window.addEventListener("scroll", handleScrollState, { passive: true });
 
-    const NEWSLETTER_API_BASE = "http://127.0.0.1:8787";
+    const isLocalPage = ["127.0.0.1", "localhost"].includes(window.location.hostname);
+    const API_BASE_CANDIDATES = isLocalPage
+      ? ["http://127.0.0.1:8787", "http://localhost:8787", window.location.origin]
+      : [window.location.origin];
     const newsletterForm = document.getElementById("newsletter-form");
     const newsletterEmail = document.getElementById("newsletter-email");
     const newsletterConsent = document.getElementById("acepto");
@@ -2037,6 +2040,45 @@
       contactResponse.style.color = isError ? "#ff9f9f" : "#d9d9d9";
     };
 
+    const parseJsonSafe = async (response) => {
+      const type = response.headers.get("content-type") || "";
+      if (!type.includes("application/json")) {
+        return null;
+      }
+      try {
+        return await response.json();
+      } catch {
+        return null;
+      }
+    };
+
+    const postApiWithFallback = async (path, body) => {
+      let lastError = null;
+
+      for (const base of API_BASE_CANDIDATES) {
+        try {
+          const response = await fetch(`${base}${path}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          });
+
+          // If this host doesn't expose the API, try next candidate.
+          if (response.status === 404 && API_BASE_CANDIDATES.length > 1) {
+            continue;
+          }
+
+          return response;
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw lastError || new Error("No se pudo conectar con el servidor.");
+    };
+
     if (newsletterForm) {
       newsletterForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -2058,22 +2100,16 @@
         showNewsletterMessage("Enviando...");
 
         try {
-          const response = await fetch(`${NEWSLETTER_API_BASE}/api/newsletter/subscribe`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              email,
-              consentAccepted: true,
-              source: "website"
-            })
+          const response = await postApiWithFallback("/api/newsletter/subscribe", {
+            email,
+            consentAccepted: true,
+            source: "website"
           });
 
-          const payload = await response.json();
+          const payload = await parseJsonSafe(response);
 
           if (!response.ok || !payload?.ok) {
-            throw new Error(payload?.error || "No se pudo completar la suscripcion.");
+            throw new Error(payload?.error || "No se pudo completar la suscripcion. Revisa que el backend este activo.");
           }
 
           if (payload.status === "already_confirmed") {
@@ -2108,20 +2144,14 @@
         showContactMessage("Enviando mensaje...");
 
         try {
-          const response = await fetch(`${NEWSLETTER_API_BASE}/api/contact`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              company: contactCompany?.value || "",
-              email,
-              subject,
-              message
-            })
+          const response = await postApiWithFallback("/api/contact", {
+            company: contactCompany?.value || "",
+            email,
+            subject,
+            message
           });
 
-          const payload = await response.json();
+          const payload = await parseJsonSafe(response);
           if (!response.ok || !payload?.ok) {
             throw new Error(payload?.error || "No se pudo enviar el mensaje.");
           }
