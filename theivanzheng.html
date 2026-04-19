@@ -2011,6 +2011,20 @@
     const API_BASE_CANDIDATES = isLocalPage
       ? ["http://127.0.0.1:8787", "http://localhost:8787", window.location.origin]
       : [window.location.origin];
+    const newsletterQuery = new URLSearchParams(window.location.search);
+    const newsletterState = newsletterQuery.get("newsletter");
+    const newsletterReason = newsletterQuery.get("reason");
+
+    if (newsletterState === "confirmed" || newsletterState === "already_confirmed") {
+      const successUrl = new URL(`${window.location.origin}/newsletter-confirmado.html`);
+      successUrl.searchParams.set("newsletter", newsletterState);
+      if (newsletterReason) {
+        successUrl.searchParams.set("reason", newsletterReason);
+      }
+      window.location.replace(successUrl.toString());
+      return;
+    }
+
     const newsletterForm = document.getElementById("newsletter-form");
     const newsletterEmail = document.getElementById("newsletter-email");
     const newsletterConsent = document.getElementById("acepto");
