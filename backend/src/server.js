@@ -27,6 +27,7 @@ const env = {
   resendApiKey: getEnv("RESEND_API_KEY"),
   resendFromEmail: getEnv("RESEND_FROM_EMAIL"),
   resendReplyTo: getEnv("RESEND_REPLY_TO", "info@theivanzheng.com"),
+  contactToEmail: getEnv("CONTACT_TO_EMAIL", "info@theivanzheng.com"),
   resendSegmentId: getEnv("RESEND_SEGMENT_ID"),
   consentVersion: getEnv("CONSENT_VERSION", "v1-2026-04-18"),
   tokenExpiryHours: Number(getEnv("TOKEN_EXPIRY_HOURS", "24"))
@@ -49,10 +50,30 @@ const supabase = createClient(env.supabaseUrl, env.supabaseServiceRoleKey, {
   auth: { persistSession: false }
 });
 const resend = new Resend(env.resendApiKey);
+const contactRateWindowMs = Number(getEnv("CONTACT_RATE_LIMIT_WINDOW_MS", "60000"));
+const contactRateMax = Number(getEnv("CONTACT_RATE_LIMIT_MAX", "5"));
+const contactRateMap = new Map();
 
 const emailRegex = /^[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,}$/i;
 
 const normalizeEmail = (raw) => String(raw || "").trim().toLowerCase();
+
+const isContactRateLimited = (ip) => {
+  const now = Date.now();
+  const windowStart = now - contactRateWindowMs;
+  const key = String(ip || "unknown");
+  const timestamps = contactRateMap.get(key) || [];
+  const recent = timestamps.filter((ts) => ts >= windowStart);
+
+  if (recent.length >= contactRateMax) {
+    contactRateMap.set(key, recent);
+    return true;
+  }
+
+  recent.push(now);
+  contactRateMap.set(key, recent);
+  return false;
+};
 
 const syncResendContact = async ({ email, unsubscribed = false, properties = {} }) => {
   const contactPayload = {
@@ -439,6 +460,67 @@ app.post("/api/newsletter/unsubscribe", async (req, res) => {
   } catch (error) {
     console.error("[newsletter/unsubscribe]", error);
     return res.status(500).json({ ok: false, error: "No se pudo procesar la baja" });
+  }
+});
+
+app.post("/api/contact", async (req, res) => {
+  try {
+    const email = normalizeEmail(req.body?.email);
+    const subject = String(req.body?.subject || "").trim();
+    const message = String(req.body?.message || "").trim();
+    const company = String(req.body?.company || "").trim();
+
+    // Honeypot: bots usually fill hidden fields. Reply with success to avoid signal.
+    if (company) {
+      return res.status(200).json({ ok: true, message: "Mensaje enviado correctamente" });
+    }
+
+    if (isContactRateLimited(req.ip)) {
+      return res.status(429).json({ ok: false, error: "Has enviado demasiados mensajes. Espera un minuto." });
+    }
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ ok: false, error: "Correo electronico no valido" });
+    }
+
+    if (subject.length < 3) {
+      return res.status(400).json({ ok: false, error: "El asunto es demasiado corto" });
+    }
+
+    if (message.length < 10) {
+      return res.status(400).json({ ok: false, error: "El mensaje es demasiado corto" });
+    }
+
+    const html = [
+      "<h2>Nuevo mensaje desde el formulario de contacto</h2>",
+      `<p><strong>Email:</strong> ${email}</p>`,
+      `<p><strong>Asunto:</strong> ${subject}</p>`,
+      "<hr>",
+      `<p style=\"white-space:pre-wrap;\">${message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`
+    ].join("\n");
+
+    const { data, error } = await resend.emails.send({
+      from: env.resendFromEmail,
+      to: env.contactToEmail,
+      reply_to: email,
+      subject: `[Contacto web] ${subject}`,
+      html
+    });
+
+    if (error) {
+      throw new Error(`Resend error: ${error.message || "unknown_error"}`);
+    }
+
+    console.log("[contact/email_sent]", {
+      from: email,
+      to: env.contactToEmail,
+      emailId: data?.id || null
+    });
+
+    return res.status(200).json({ ok: true, message: "Mensaje enviado correctamente" });
+  } catch (error) {
+    console.error("[contact/send]", error);
+    return res.status(500).json({ ok: false, error: "No se pudo enviar el mensaje" });
   }
 });
 

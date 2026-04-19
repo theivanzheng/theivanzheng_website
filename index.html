@@ -853,7 +853,7 @@
         position: static;
         transform: none;
         margin-right: auto;
-        font-size: 11px;
+        font-size: 15px;
         letter-spacing: 0.04em;
       }
 
@@ -1376,6 +1376,12 @@
       transition: opacity .2s;
     }
     .contact-form button:hover { opacity: 0.85; }
+    .contact-message {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #d9d9d9;
+      min-height: 20px;
+    }
 
     /* Responsive overrides for TRABAJEMOS (must live after base styles) */
     @media (max-width: 1024px) {
@@ -1817,21 +1823,23 @@
       </div>
       <div class="contact-box reveal reveal-delay-2">
         <h3>Ponte en contacto</h3>
-        <div class="contact-form">
+        <form id="contact-form" class="contact-form" novalidate>
+          <input id="contact-company" name="company" type="text" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
           <div>
-            <label>Correo Electrónico</label>
-            <input type="email" placeholder="tu@email.com" />
+            <label for="contact-email">Correo Electrónico</label>
+            <input id="contact-email" type="email" placeholder="tu@email.com" required />
           </div>
           <div>
-            <label>Asunto</label>
-            <input type="text" placeholder="Ej: Propuesta de Desarrollo" />
+            <label for="contact-subject">Asunto</label>
+            <input id="contact-subject" type="text" placeholder="Ej: Propuesta de Desarrollo" required />
           </div>
           <div>
-            <label>Mensaje</label>
-            <textarea placeholder="Escribe tu mensaje aquí..."></textarea>
+            <label for="contact-message">Mensaje</label>
+            <textarea id="contact-message" placeholder="Escribe tu mensaje aquí..." required></textarea>
           </div>
-          <button>Enviar</button>
-        </div>
+          <button id="contact-submit" type="submit">Enviar</button>
+          <p id="contact-response" class="contact-message" aria-live="polite"></p>
+        </form>
       </div>
     </div>
   </section>
@@ -2005,6 +2013,13 @@
     const newsletterConsent = document.getElementById("acepto");
     const newsletterSubmit = document.getElementById("newsletter-submit");
     const newsletterMessage = document.getElementById("newsletter-message");
+    const contactForm = document.getElementById("contact-form");
+    const contactCompany = document.getElementById("contact-company");
+    const contactEmail = document.getElementById("contact-email");
+    const contactSubject = document.getElementById("contact-subject");
+    const contactMessageField = document.getElementById("contact-message");
+    const contactSubmit = document.getElementById("contact-submit");
+    const contactResponse = document.getElementById("contact-response");
 
     const showNewsletterMessage = (text, isError = false) => {
       if (!newsletterMessage) {
@@ -2012,6 +2027,14 @@
       }
       newsletterMessage.textContent = text;
       newsletterMessage.style.color = isError ? "#ff9f9f" : "#d9d9d9";
+    };
+
+    const showContactMessage = (text, isError = false) => {
+      if (!contactResponse) {
+        return;
+      }
+      contactResponse.textContent = text;
+      contactResponse.style.color = isError ? "#ff9f9f" : "#d9d9d9";
     };
 
     if (newsletterForm) {
@@ -2064,6 +2087,51 @@
           showNewsletterMessage(error.message || "Error al suscribirte. Intentalo otra vez.", true);
         } finally {
           newsletterSubmit.disabled = false;
+        }
+      });
+    }
+
+    if (contactForm) {
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const email = (contactEmail?.value || "").trim();
+        const subject = (contactSubject?.value || "").trim();
+        const message = (contactMessageField?.value || "").trim();
+
+        if (!email || !subject || !message) {
+          showContactMessage("Completa todos los campos del formulario.", true);
+          return;
+        }
+
+        contactSubmit.disabled = true;
+        showContactMessage("Enviando mensaje...");
+
+        try {
+          const response = await fetch(`${NEWSLETTER_API_BASE}/api/contact`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              company: contactCompany?.value || "",
+              email,
+              subject,
+              message
+            })
+          });
+
+          const payload = await response.json();
+          if (!response.ok || !payload?.ok) {
+            throw new Error(payload?.error || "No se pudo enviar el mensaje.");
+          }
+
+          showContactMessage("Mensaje enviado. Te responderé lo antes posible.");
+          contactForm.reset();
+        } catch (error) {
+          showContactMessage(error.message || "Error al enviar el mensaje.", true);
+        } finally {
+          contactSubmit.disabled = false;
         }
       });
     }
