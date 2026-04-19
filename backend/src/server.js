@@ -306,6 +306,8 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
     const token = crypto.randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + env.tokenExpiryHours * 60 * 60 * 1000).toISOString();
 
+    console.log("[newsletter/token_generated]", { email, token: token.slice(0, 8) + "...", expiresAt, subscriberId });
+
     const { error: tokenInsertError } = await supabase
       .from("newsletter_confirmations")
       .insert({
@@ -315,8 +317,11 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
       });
 
     if (tokenInsertError) {
+      console.error("[newsletter/token_insert_failed]", { email, error: tokenInsertError.message || tokenInsertError, subscriberId });
       throw tokenInsertError;
     }
+
+    console.log("[newsletter/token_inserted]", { email, token: token.slice(0, 8) + "...", subscriberId });
 
     const emailId = await sendConfirmationEmail(email, token, req);
 
@@ -358,10 +363,13 @@ app.get("/api/newsletter/confirm", async (req, res) => {
   try {
     const token = String(req.query?.token || "").trim();
     if (!token) {
+      console.log("[newsletter/confirm] missing token");
       return res.redirect(302, buildRedirectUrl(req, "error", "missing_token"));
     }
 
     const nowIso = new Date().toISOString();
+
+    console.log("[newsletter/confirm_lookup]", { token: token.slice(0, 8) + "..." });
 
     const { data: confirmation, error: confirmationError } = await supabase
       .from("newsletter_confirmations")
@@ -370,10 +378,14 @@ app.get("/api/newsletter/confirm", async (req, res) => {
       .maybeSingle();
 
     if (confirmationError) {
+      console.error("[newsletter/confirm_lookup_error]", { error: confirmationError.message || confirmationError });
       throw confirmationError;
     }
 
+    console.log("[newsletter/confirm_result]", { found: !!confirmation, used_at: confirmation?.used_at, expires_at: confirmation?.expires_at });
+
     if (!confirmation) {
+      console.log("[newsletter/confirm_invalid_token]", { token: token.slice(0, 8) + "..." });
       return res.redirect(302, buildRedirectUrl(req, "error", "invalid_token"));
     }
 
