@@ -76,6 +76,8 @@ El nombre se guarda en `newsletter_subscribers.metadata.newsletter_name` para se
 - Usa un dominio API real (por ejemplo `https://api.tudominio.com`).
 - Ajusta `ALLOWED_ORIGIN` al dominio frontend.
 - Verifica dominio emisor en Resend para `RESEND_FROM_EMAIL`.
+- Si despliegas en Vercel junto con esta web, expone la API como rutas `https://www.theivanzheng.com/api/*`.
+- Asegura `APP_PUBLIC_BASE_URL=https://www.theivanzheng.com` para que los enlaces de confirmacion en email no apunten a localhost.
 
 ## 6) Plantillas de mailing
 

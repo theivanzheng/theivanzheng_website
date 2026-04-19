@@ -17,10 +17,10 @@ const getEnv = (key, fallback = "") => {
 
 const env = {
   port: Number(getEnv("PORT", "8787")),
-  appPublicBaseUrl: getEnv("APP_PUBLIC_BASE_URL", "http://127.0.0.1:8080"),
-  allowedOrigin: getEnv("ALLOWED_ORIGIN", "http://127.0.0.1:8080"),
-  redirectUrl: getEnv("NEWSLETTER_REDIRECT_URL", "http://127.0.0.1:8080/theivanzheng.html"),
-  successUrl: getEnv("NEWSLETTER_SUCCESS_URL", "http://127.0.0.1:8080/newsletter-confirmado.html"),
+  appPublicBaseUrl: getEnv("APP_PUBLIC_BASE_URL", "https://www.theivanzheng.com"),
+  allowedOrigin: getEnv("ALLOWED_ORIGIN", "https://www.theivanzheng.com"),
+  redirectUrl: getEnv("NEWSLETTER_REDIRECT_URL", "https://www.theivanzheng.com/theivanzheng.html"),
+  successUrl: getEnv("NEWSLETTER_SUCCESS_URL", "https://www.theivanzheng.com/newsletter-confirmado.html"),
   newsletterName: getEnv("NEWSLETTER_NAME", "El Circulo Privado"),
   supabaseUrl: getEnv("SUPABASE_URL"),
   supabaseServiceRoleKey: getEnv("SUPABASE_SERVICE_ROLE_KEY"),
@@ -147,7 +147,8 @@ const renderTemplate = async (filename, replacements) => {
 };
 
 const sendConfirmationEmail = async (email, token) => {
-  const confirmUrl = `http://127.0.0.1:${env.port}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
+  const publicApiBase = env.appPublicBaseUrl.replace(/\/$/, "");
+  const confirmUrl = `${publicApiBase}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
   const html = await renderTemplate("confirmacion.html", {
     NEWSLETTER_NAME: env.newsletterName,
     CONFIRM_URL: confirmUrl
@@ -524,6 +525,10 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-app.listen(env.port, () => {
-  console.log(`Newsletter backend running on http://127.0.0.1:${env.port}`);
-});
+if (require.main === module) {
+  app.listen(env.port, () => {
+    console.log(`Newsletter backend running on http://127.0.0.1:${env.port}`);
+  });
+}
+
+module.exports = app;
