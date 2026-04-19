@@ -146,8 +146,25 @@ const renderTemplate = async (filename, replacements) => {
   }, templateRaw);
 };
 
-const sendConfirmationEmail = async (email, token) => {
-  const publicApiBase = env.appPublicBaseUrl.replace(/\/$/, "");
+const isLocalUrl = (value) => /https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(String(value || ""));
+
+const resolvePublicBaseUrl = (req) => {
+  const configuredBase = String(env.appPublicBaseUrl || "").replace(/\/$/, "");
+  if (configuredBase && !isLocalUrl(configuredBase)) {
+    return configuredBase;
+  }
+
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
+  const forwardedHost = String(req.headers["x-forwarded-host"] || req.headers.host || "").split(",")[0].trim();
+  if (forwardedHost) {
+    return `${forwardedProto}://${forwardedHost}`;
+  }
+
+  return "https://www.theivanzheng.com";
+};
+
+const sendConfirmationEmail = async (email, token, req) => {
+  const publicApiBase = resolvePublicBaseUrl(req);
   const confirmUrl = `${publicApiBase}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
   const html = await renderTemplate("confirmacion.html", {
     NEWSLETTER_NAME: env.newsletterName,
@@ -289,7 +306,7 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
       throw tokenInsertError;
     }
 
-    const emailId = await sendConfirmationEmail(email, token);
+    const emailId = await sendConfirmationEmail(email, token, req);
 
     console.log("[newsletter/email_sent]", {
       email,
