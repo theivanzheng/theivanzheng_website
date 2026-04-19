@@ -257,7 +257,7 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
       const { data: updated, error: updateError } = await supabase
         .from("newsletter_subscribers")
         .update({
-          status: "pending_confirmation",
+          status: "pending",
           consent_accepted: true,
           consent_version: env.consentVersion,
           source,
@@ -278,7 +278,7 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
         .from("newsletter_subscribers")
         .insert({
           email,
-          status: "pending_confirmation",
+          status: "pending",
           source,
           consent_accepted: true,
           consent_version: env.consentVersion,
@@ -334,7 +334,7 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
 
     return res.status(200).json({
       ok: true,
-      status: "pending_confirmation",
+      status: "pending",
       message: "Te hemos enviado un email para confirmar tu suscripcion."
     });
   } catch (error) {
@@ -409,7 +409,7 @@ app.get("/api/newsletter/confirm", async (req, res) => {
     const { error: subscriberUpdateError } = await supabase
       .from("newsletter_subscribers")
       .update({
-        status: "confirmed",
+        status: "active",
         confirmed_at: nowIso,
         updated_at: nowIso
       })
