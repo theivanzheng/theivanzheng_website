@@ -119,8 +119,20 @@ const syncResendContact = async ({ email, unsubscribed = false, properties = {} 
   return { action: "created", id: data?.id || null };
 };
 
-const buildRedirectUrl = (state, reason) => {
-  const url = new URL(env.redirectUrl);
+const resolveRedirectBaseUrl = (req, configuredUrl, fallbackPath) => {
+  const rawConfigured = String(configuredUrl || "").trim();
+  const safeConfigured = rawConfigured || `https://www.theivanzheng.com${fallbackPath}`;
+
+  if (!isLocalUrl(safeConfigured)) {
+    return safeConfigured;
+  }
+
+  const publicBase = resolvePublicBaseUrl(req);
+  return `${publicBase}${fallbackPath}`;
+};
+
+const buildRedirectUrl = (req, state, reason) => {
+  const url = new URL(resolveRedirectBaseUrl(req, env.redirectUrl, "/theivanzheng.html"));
   url.searchParams.set("newsletter", state);
   if (reason) {
     url.searchParams.set("reason", reason);
@@ -128,8 +140,8 @@ const buildRedirectUrl = (state, reason) => {
   return url.toString();
 };
 
-const buildSuccessRedirectUrl = () => {
-  const url = new URL(env.successUrl);
+const buildSuccessRedirectUrl = (req) => {
+  const url = new URL(resolveRedirectBaseUrl(req, env.successUrl, "/newsletter-confirmado.html"));
   url.searchParams.set("newsletter", "confirmed");
   return url.toString();
 };
@@ -346,7 +358,7 @@ app.get("/api/newsletter/confirm", async (req, res) => {
   try {
     const token = String(req.query?.token || "").trim();
     if (!token) {
-      return res.redirect(302, buildRedirectUrl("error", "missing_token"));
+      return res.redirect(302, buildRedirectUrl(req, "error", "missing_token"));
     }
 
     const nowIso = new Date().toISOString();
@@ -362,15 +374,15 @@ app.get("/api/newsletter/confirm", async (req, res) => {
     }
 
     if (!confirmation) {
-      return res.redirect(302, buildRedirectUrl("error", "invalid_token"));
+      return res.redirect(302, buildRedirectUrl(req, "error", "invalid_token"));
     }
 
     if (confirmation.used_at) {
-      return res.redirect(302, buildRedirectUrl("already_confirmed", "token_used"));
+      return res.redirect(302, buildRedirectUrl(req, "already_confirmed", "token_used"));
     }
 
     if (new Date(confirmation.expires_at).getTime() < Date.now()) {
-      return res.redirect(302, buildRedirectUrl("error", "token_expired"));
+      return res.redirect(302, buildRedirectUrl(req, "error", "token_expired"));
     }
 
     const { error: markConfirmationError } = await supabase
@@ -423,10 +435,10 @@ app.get("/api/newsletter/confirm", async (req, res) => {
       });
     }
 
-    return res.redirect(302, buildSuccessRedirectUrl());
+    return res.redirect(302, buildSuccessRedirectUrl(req));
   } catch (error) {
     console.error("[newsletter/confirm]", error);
-    return res.redirect(302, buildRedirectUrl("error", "server_error"));
+    return res.redirect(302, buildRedirectUrl(req, "error", "server_error"));
   }
 });
 
