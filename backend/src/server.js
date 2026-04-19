@@ -140,9 +140,14 @@ const buildRedirectUrl = (req, state, reason) => {
   return url.toString();
 };
 
-const buildSuccessRedirectUrl = (req) => {
-  const url = new URL(resolveRedirectBaseUrl(req, env.successUrl, "/newsletter-confirmado.html"));
-  url.searchParams.set("newsletter", "confirmed");
+const buildSuccessRedirectUrl = (req, state = "confirmed", reason = "") => {
+  // Always land on the success page after confirmation to avoid env misconfiguration.
+  const publicBase = resolvePublicBaseUrl(req);
+  const url = new URL(`${publicBase}/newsletter-confirmado.html`);
+  url.searchParams.set("newsletter", state);
+  if (reason) {
+    url.searchParams.set("reason", reason);
+  }
   return url.toString();
 };
 
@@ -390,7 +395,7 @@ app.get("/api/newsletter/confirm", async (req, res) => {
     }
 
     if (confirmation.used_at) {
-      return res.redirect(302, buildRedirectUrl(req, "already_confirmed", "token_used"));
+      return res.redirect(302, buildSuccessRedirectUrl(req, "already_confirmed", "token_used"));
     }
 
     if (new Date(confirmation.expires_at).getTime() < Date.now()) {
@@ -471,7 +476,7 @@ app.post("/api/newsletter/unsubscribe", async (req, res) => {
         updated_at: nowIso
       })
       .eq("email", email)
-      .in("status", ["pending", "confirmed"]);
+      .in("status", ["pending", "active"]);
 
     if (error) {
       throw error;
