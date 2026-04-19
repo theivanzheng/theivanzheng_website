@@ -257,7 +257,7 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
       const { data: updated, error: updateError } = await supabase
         .from("newsletter_subscribers")
         .update({
-          status: "pending",
+          status: "pending_confirmation",
           consent_accepted: true,
           consent_version: env.consentVersion,
           source,
@@ -278,7 +278,7 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
         .from("newsletter_subscribers")
         .insert({
           email,
-          status: "pending",
+          status: "pending_confirmation",
           source,
           consent_accepted: true,
           consent_version: env.consentVersion,
