@@ -203,6 +203,26 @@ const sendConfirmationEmail = async (email, token, req) => {
   return data?.id || null;
 };
 
+const sendWelcomeEmail = async (email) => {
+  const html = await renderTemplate("bienvenida.html", {
+    NEWSLETTER_NAME: env.newsletterName
+  });
+
+  const { data, error } = await resend.emails.send({
+    from: env.resendFromEmail,
+    to: email,
+    reply_to: env.resendReplyTo,
+    subject: `Suscripcion confirmada a ${env.newsletterName}`,
+    html
+  });
+
+  if (error) {
+    throw new Error(`Resend error: ${error.message || "unknown_error"}`);
+  }
+
+  return data?.id || null;
+};
+
 app.use(
   cors({
     origin: env.allowedOrigin,
@@ -245,7 +265,7 @@ app.post("/api/newsletter/subscribe", async (req, res) => {
 
     let subscriberId;
 
-    if (existing?.status === "confirmed") {
+    if (existing?.status === "active") {
       return res.status(200).json({
         ok: true,
         status: "already_confirmed",
@@ -450,6 +470,21 @@ app.get("/api/newsletter/confirm", async (req, res) => {
         action: syncResult.action,
         contactId: syncResult.id
       });
+
+      try {
+        const welcomeEmailId = await sendWelcomeEmail(subscriber.email);
+        console.log("[newsletter/welcome_email_sent]", {
+          email: subscriber.email,
+          provider: "resend",
+          emailId: welcomeEmailId
+        });
+      } catch (welcomeError) {
+        // Keep confirmation successful even if welcome email fails.
+        console.error("[newsletter/welcome_email_error]", {
+          email: subscriber.email,
+          error: welcomeError?.message || welcomeError
+        });
+      }
     }
 
     return res.redirect(302, buildSuccessRedirectUrl(req));
