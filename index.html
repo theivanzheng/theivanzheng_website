@@ -1691,20 +1691,20 @@
           Monté un negocio de reventa de zapatillas.<br>
           Parecía un éxito desde fuera. Acabó quebrando.<br>
           <br>
-          Sabía un poco de todo. No destacaba en nada.<br>
+          Sabía un poco de todo pero no destacaba en nada.<br>
           <br>
           El punto más bajo llegó en primero de ADE:<br>
-          suspendí 9 de 10 asignaturas.<br>
-          Lo dejé. Por miedo.Y por vergüenza.<br>
+          suspendí 9 de 10 asignaturas y<br>
+          lo dejé por miedo.Y por vergüenza.<br>
           <br>
           Empecé de nuevo en Ingeniería Informática.<br>
           <br>
-          Y me prometí que no volvería a fallar.<br>
+          Y me prometí que no volvería a fracasar.<br>
           <br>
-          Saqué notazas y muchas matrículas.<br>
+          Me esforcé y aqué notazas y muchas matrículas.<br>
           <br>
-          Acepté un proyecto con casi cien empresas, lo vi claro:<br>
-          lo que parecía un juego de niños ahora tenía sentido.<br>
+          Acepté un proyecto con casi cien empresas, ahí lo vi claro:<br>
+          lo que no parecía conectar ahora tenía sentido.<br>
           <br>
           Tecnología, contenido y negocio. Encajaron perfectamente.<br>
           <br>
@@ -1735,11 +1735,7 @@
         <p>Donde más de 1.000 personas reciben cada semana lo que voy aprendiendo sobre desarrollo web, creación de contenido, IA y negocio digital mientras lo aplico en mis propios proyectos.<br>
         Sin filtros. Sin humo. Solo lo que funciona.</p>
         <form id="newsletter-form" novalidate>
-          <input id="newsletter-email" type="email" placeholder="Tu correo electrónico" required />
-          <div class="checkbox-row">
-            <input type="checkbox" id="acepto" required />
-            <label for="acepto">Acepto la política de privacidad y los términos y condiciones</label>
-          </div>
+          <input id="newsletter-email" name="email_address" type="email" placeholder="Tu correo electrónico" required />
           <button id="newsletter-submit" type="submit">Suscribirse</button>
           <p id="newsletter-message" class="nl-message" aria-live="polite"></p>
         </form>
@@ -2016,6 +2012,16 @@
     const newsletterConsent = document.getElementById("acepto");
     const newsletterSubmit = document.getElementById("newsletter-submit");
     const newsletterMessage = document.getElementById("newsletter-message");
+    const newsletterFirstUrl = document.getElementById("newsletter-first-url");
+    const newsletterFirstReferrer = document.getElementById("newsletter-first-referrer");
+    const newsletterCurrentUrl = document.getElementById("newsletter-current-url");
+    const newsletterCurrentReferrer = document.getElementById("newsletter-current-referrer");
+    const newsletterFirstSessionUrl = document.getElementById("newsletter-first-session-url");
+    const newsletterFirstSessionReferrer = document.getElementById("newsletter-first-session-referrer");
+    const newsletterReferralCode = document.getElementById("newsletter-referral-code");
+    const newsletterReferringPubId = document.getElementById("newsletter-referring-pub-id");
+    const newsletterAdditionalReferringPubIds = document.getElementById("newsletter-additional-referring-pub-ids");
+    const substackNewsletterFrame = document.getElementById("substack-newsletter-frame");
     const contactForm = document.getElementById("contact-form");
     const contactCompany = document.getElementById("contact-company");
     const contactEmail = document.getElementById("contact-email");
@@ -2100,24 +2106,22 @@
         showNewsletterMessage("Enviando...");
 
         try {
-          const response = await postApiWithFallback("/api/newsletter/subscribe", {
-            email,
-            consentAccepted: true,
-            source: "website"
+          const response = await fetch("https://app.kit.com/forms/9395152/subscriptions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email_address: email,
+              fields: { null: "" }
+            })
           });
 
-          const payload = await parseJsonSafe(response);
-
-          if (!response.ok || !payload?.ok) {
-            throw new Error(payload?.error || "No se pudo completar la suscripcion. Revisa que el backend este activo.");
+          if (!response.ok) {
+            throw new Error("No se pudo completar la suscripcion.");
           }
 
-          if (payload.status === "already_confirmed") {
-            showNewsletterMessage("Este correo ya estaba suscrito y confirmado.");
-          } else {
-            showNewsletterMessage("Revisa tu email y confirma la suscripcion para terminar el proceso.");
-          }
-
+          showNewsletterMessage("Revisa tu correo para confirmar la suscripcion.");
           newsletterForm.reset();
         } catch (error) {
           showNewsletterMessage(error.message || "Error al suscribirte. Intentalo otra vez.", true);

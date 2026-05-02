@@ -1735,7 +1735,7 @@
         <p>Donde más de 500 personas reciben cada semana lo que voy aprendiendo sobre desarrollo web, creación de contenido, IA y negocio digital mientras lo aplico en mis propios proyectos.<br>
         <br>Sin filtros. Sin humo. Solo lo que funciona.</p>
         <form id="newsletter-form" novalidate>
-          <input id="newsletter-email" type="email" placeholder="Tu correo electrónico" required />
+          <input id="newsletter-email" name="email_address" type="email" placeholder="Tu correo electrónico" required />
           <div class="checkbox-row">
             <input type="checkbox" id="acepto" required />
             <label for="acepto">Acepto la política de privacidad y los términos y condiciones</label>
@@ -2029,6 +2029,16 @@
     const newsletterConsent = document.getElementById("acepto");
     const newsletterSubmit = document.getElementById("newsletter-submit");
     const newsletterMessage = document.getElementById("newsletter-message");
+    const newsletterFirstUrl = document.getElementById("newsletter-first-url");
+    const newsletterFirstReferrer = document.getElementById("newsletter-first-referrer");
+    const newsletterCurrentUrl = document.getElementById("newsletter-current-url");
+    const newsletterCurrentReferrer = document.getElementById("newsletter-current-referrer");
+    const newsletterFirstSessionUrl = document.getElementById("newsletter-first-session-url");
+    const newsletterFirstSessionReferrer = document.getElementById("newsletter-first-session-referrer");
+    const newsletterReferralCode = document.getElementById("newsletter-referral-code");
+    const newsletterReferringPubId = document.getElementById("newsletter-referring-pub-id");
+    const newsletterAdditionalReferringPubIds = document.getElementById("newsletter-additional-referring-pub-ids");
+    const substackNewsletterFrame = document.getElementById("substack-newsletter-frame");
     const contactForm = document.getElementById("contact-form");
     const contactCompany = document.getElementById("contact-company");
     const contactEmail = document.getElementById("contact-email");
@@ -2078,7 +2088,6 @@
             body: JSON.stringify(body)
           });
 
-          // If this host doesn't expose the API, try next candidate.
           if (response.status === 404 && API_BASE_CANDIDATES.length > 1) {
             continue;
           }
@@ -2113,24 +2122,22 @@
         showNewsletterMessage("Enviando...");
 
         try {
-          const response = await postApiWithFallback("/api/newsletter/subscribe", {
-            email,
-            consentAccepted: true,
-            source: "website"
+          const response = await fetch("https://app.kit.com/forms/9395152/subscriptions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email_address: email,
+              fields: { null: "" }
+            })
           });
 
-          const payload = await parseJsonSafe(response);
-
-          if (!response.ok || !payload?.ok) {
-            throw new Error(payload?.error || "No se pudo completar la suscripcion. Revisa que el backend este activo.");
+          if (!response.ok) {
+            throw new Error("No se pudo completar la suscripcion.");
           }
 
-          if (payload.status === "already_confirmed") {
-            showNewsletterMessage("Este correo ya estaba suscrito y confirmado.");
-          } else {
-            showNewsletterMessage("Revisa tu email y confirma la suscripcion para terminar el proceso.");
-          }
-
+          showNewsletterMessage("Revisa tu correo para confirmar la suscripcion.");
           newsletterForm.reset();
         } catch (error) {
           showNewsletterMessage(error.message || "Error al suscribirte. Intentalo otra vez.", true);
