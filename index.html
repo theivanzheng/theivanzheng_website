@@ -1736,6 +1736,10 @@
         Sin filtros. Sin humo. Solo lo que funciona.</p>
         <form id="newsletter-form" novalidate>
           <input id="newsletter-email" name="email_address" type="email" placeholder="Tu correo electrónico" required />
+          <div class="checkbox-row">
+            <input type="checkbox" id="acepto" required />
+            <label for="acepto">Acepto la política de privacidad y los términos y condiciones</label>
+          </div>
           <button id="newsletter-submit" type="submit">Suscribirse</button>
           <p id="newsletter-message" class="nl-message" aria-live="polite"></p>
         </form>
