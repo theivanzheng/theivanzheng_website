@@ -711,6 +711,32 @@
     .proyecto-item:nth-child(5) .project-card-img { transform: rotate(-20deg); }
     .proyecto-item:nth-child(6) .project-card-img { transform: rotate(-17deg); }
 
+    /* ── VER MÁS PROYECTOS (botón píldora) ── */
+    .ver-mas-wrap {
+      text-align: center;
+      padding-top: 52px;
+    }
+    .ver-mas-proyectos-btn {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 44px;
+      border: 2.5px solid rgba(255, 255, 255, 0.55);
+      border-radius: 999px;
+      background: transparent;
+      letter-spacing: 0.03em;
+      transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    }
+    .ver-mas-proyectos-btn:hover {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+      transform: translateY(-2px);
+    }
+
     /* Tablet + mobile shared */
     @media (max-width: 1024px) {
       .sobre-mi .inner,
@@ -1219,6 +1245,9 @@
         padding-top: 22px;
       }
 
+      .ver-mas-wrap { padding-top: 36px; }
+      .ver-mas-proyectos-btn { font-size: 14px; padding: 12px 32px; }
+
       footer {
         position: relative;
         display: flex;
@@ -1593,7 +1622,7 @@
     </div>
     <div class="nav-center">IVAN ZHENG</div>
     <div class="nav-right">
-      <a href="#proyectos-detalle">Proyectos</a>
+      <a href="proyectos.html">Proyectos</a>
       <a href="#contacto">Contacto</a>
     </div>
     <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
@@ -1603,7 +1632,7 @@
     <div id="nav-mobile-menu" class="nav-mobile-menu">
       <a href="#inicio">Inicio</a>
       <a href="#sobre-mi">Sobre Mí</a>
-      <a href="#proyectos-detalle">Proyectos</a>
+      <a href="proyectos.html">Proyectos</a>
       <a href="#contacto">Contacto</a>
     </div>
   </nav>
@@ -1630,22 +1659,22 @@
     <div class="container">
       <p class="section-label reveal">Proyectos</p>
       <div class="projects-grid">
-        <a class="reveal reveal-delay-1" href="#quédate">
+        <a class="reveal reveal-delay-1" href="./proyectos.html#quedate">
           <img src="./Resources/Long_logos/quedate.svg" alt="logo Quedate">
         </a>
-        <a class="reveal reveal-delay-1" href="#revon">
+        <a class="reveal reveal-delay-1" href="./proyectos.html#revon">
           <img src="./Resources/Long_logos/REVON.svg" alt="logo REVON">
         </a>
-        <a class="reveal reveal-delay-1" href="#playbeau">
+        <a class="reveal reveal-delay-1" href="./proyectos.html#playbeau">
           <img src="./Resources/Long_logos/PlayBeau.svg" alt="logo PlayBeau">
         </a>
-        <a class="reveal reveal-delay-2" href="#debtscope">
+        <a class="reveal reveal-delay-2" href="./proyectos.html#debtscope">
           <img src="./Resources/Long_logos/debtScope.svg" alt="logo Debt Scope">
         </a>
-        <a class="reveal reveal-delay-2" href="#nube">
+        <a class="reveal reveal-delay-2" href="./proyectos.html#nube">
           <img src="./Resources/Long_logos/NUBE.svg" alt="logo NUBE">
         </a>
-        <a class="reveal reveal-delay-2" href="#instagram">
+        <a class="reveal reveal-delay-2" href="./proyectos.html#instagram">
           <img src="./Resources/Long_logos/@theivanzheng.svg" alt="logo @theivanzheng">
         </a>
       </div>
@@ -1673,9 +1702,9 @@
         <p>Desarrollando soluciones digitales, mejorando procesos y ayudando a que esas empresas tengan presencia online sin complicarse más de la cuenta.</p>
       </div>
       <div class="cards-stack reveal reveal-delay-1">
-        <div class="card-item"><img src="./Resources/cards/sobre-mi-1.jpg" alt="Sobre Mi imagen 1" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 1</span></div>
-        <div class="card-item"><img src="./Resources/cards/sobre-mi-2.jpg" alt="Sobre Mi imagen 2" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 2</span></div>
-        <div class="card-item"><img src="./Resources/cards/sobre-mi-3.jpg" alt="Sobre Mi imagen 3" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 3</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-1.jpg" alt="Sobre Mi imagen 1" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Sobre Mí imagen 1</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-2.jpg" alt="Sobre Mi imagen 2" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Sobre Mí imagen 2</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-3.jpg" alt="Sobre Mi imagen 3" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Sobre Mí imagen 3</span></div>
       </div>
     </div>
   </section>
@@ -1713,9 +1742,9 @@
           Nada tiene sentido, hasta que lo tiene.</p>
       </div>
       <div class="cards-stack-nada reveal reveal-delay-1">
-        <div class="card-item"><img src="./Resources/cards/nada-1.jpg" alt="Nada tiene sentido imagen 1" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 1</span></div>
-        <div class="card-item"><img src="./Resources/cards/nada-2.jpg" alt="Nada tiene sentido imagen 2" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 2</span></div>
-        <div class="card-item"><img src="./Resources/cards/nada-3.jpg" alt="Nada tiene sentido imagen 3" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 3</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-1.jpg" alt="Nada tiene sentido imagen 1" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Nada tiene sentido imagen 1</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-2.jpg" alt="Nada tiene sentido imagen 2" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Nada tiene sentido imagen 2</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-3.jpg" alt="Nada tiene sentido imagen 3" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Nada tiene sentido imagen 3</span></div>
       </div>
     </div>
   </section>
@@ -1808,6 +1837,10 @@
         </p>
       </div>
       <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-theivanzheng-1.jpg" alt="@theivanzheng imagen 1" loading="lazy" decoding="async"></div>
+    </div>
+
+    <div class="container ver-mas-wrap">
+      <a class="ver-mas-proyectos-btn reveal reveal-delay-1" href="./proyectos.html">Ver más</a>
     </div>
   </section>
 

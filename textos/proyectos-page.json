@@ -1,0 +1,267 @@
+{
+  "hero": {
+    "eyebrow": "Proyectos",
+    "titulo": "Proyectos de Iván",
+    "subtitulo": "Desde plataformas SaaS hasta creación de contenido. Cada proyecto es un experimento real."
+  },
+  "metricas": [
+    { "numero": "+100", "label": "pymes impactadas" },
+    { "numero": "+100k", "label": "seguidores" },
+    { "numero": "4", "label": "hackathons premiados" }
+  ],
+  "horizontal": {
+    "eyebrow": "Archivo vivo",
+    "titulo": "Lo que he construido, ganado y aprendido",
+    "subtitulo": "Una selección de proyectos, premios y experiencias donde he aplicado tecnología, negocio y comunicación."
+  },
+  "items": [
+    {
+      "id": "revon",
+      "nombre": "REVON",
+      "categoria": "Proyecto",
+      "tipo": "Consultoría digital",
+      "periodo": "2025 – Actualidad",
+      "destacado": true,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Agencia propia de tecnología, contenido y negocio digital.",
+      "descripcionLarga": "Fundé REVON como una iniciativa tecnológica dedicada a mejorar la infraestructura digital de empresas y asociaciones locales.\n\nA través de desarrollo web, automatización, IA y contenido, he trabajado en soluciones pensadas para que negocios reales puedan mejorar su visibilidad, sus procesos y su forma de vender.\n\nHoy REVON es el punto desde el que trabajo con clientes directos: empresas que no solo necesitan una web, sino cómo crecer apoyándose en el mundo digital.",
+      "stats": [
+        { "numero": "100+", "label": "pymes impactadas" }
+      ],
+      "imagen": "./Resources/cards/proyecto-revon-1.jpg",
+      "logo": "./Resources/Long_logos/REVON.svg",
+      "url": "",
+      "rotacion": "-18deg"
+    },
+    {
+      "id": "theivanzheng",
+      "nombre": "@theivanzheng",
+      "categoria": "Proyecto",
+      "tipo": "Contenido y productos digitales",
+      "periodo": "2022 – Actualidad",
+      "destacado": true,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Comunidad de contenido sobre tecnología, productividad, creación y negocio digital.",
+      "descripcionLarga": "Es el espacio donde empecé a experimentar con la creación de contenido. En 2026, el proyecto creció de 0 a 60.000 seguidores en apenas 60 días, marcando el inicio de mi presencia online.\n\nDesde ahí, comparto contenido sobre tecnología, productividad, creación digital y negocio, principalmente en TikTok e Instagram, donde acumulo cerca de 100.000 seguidores.\n\nMás allá de los números, este proyecto se convierte en el laboratorio donde pruebo, aprendo y aplico todo lo relacionado con contenido, comunicación y crecimiento digital.",
+      "stats": [
+        { "numero": "100k+", "label": "seguidores" }
+      ],
+      "imagen": "./Resources/cards/proyecto-theivanzheng-1.jpg",
+      "logo": "./Resources/Long_logos/@theivanzheng.svg",
+      "url": "https://instagram.com/theivanzheng",
+      "rotacion": "-17deg"
+    },
+    {
+      "id": "quedate",
+      "nombre": "Quédate",
+      "categoria": "Proyecto",
+      "tipo": "SaaS comercio local",
+      "periodo": "2023",
+      "destacado": true,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Plataforma QR y fidelización para comercio local.",
+      "descripcionLarga": "Una plataforma para que los comercios locales fidelicen a sus clientes con tarjetas QR y promociones digitales. Sin app que descargar, sin hardware que instalar: solo un código QR en el mostrador.\n\nNació de ver cómo los negocios del barrio perdían clientes frente a las grandes cadenas. La solución no era competir en precio, sino en relación.\n\nMás de 100 negocios de toda España han probado el sistema.",
+      "stats": [
+        { "numero": "100+", "label": "negocios" }
+      ],
+      "imagen": "./Resources/cards/proyecto-quedate-1.jpg",
+      "logo": "./Resources/Long_logos/quedate.svg",
+      "url": "",
+      "rotacion": "-21deg"
+    },
+    {
+      "id": "playbeau",
+      "nombre": "PlayBeau",
+      "categoria": "Proyecto",
+      "tipo": "SaaS peluquerías",
+      "periodo": "2022 – 2024",
+      "destacado": true,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Plataforma de gestión para salones de peluquería, stock y promociones.",
+      "descripcionLarga": "Software de gestión para salones de peluquería. Citas online, control de stock, gestión de clientes y campañas de promoción, todo desde un solo panel.\n\nLo que empezó como un proyecto para un salón concreto acabó siendo una herramienta usada por decenas de salones. Fui uno de los tres programadores iniciales y participé en el diseño de todo el sistema.\n\nAños después, PlayBeau fue adquirida por L'Oréal para integrarla en su ecosistema digital.",
+      "stats": [
+        { "numero": "Adquirida", "label": "por L'Oréal" }
+      ],
+      "imagen": "./Resources/cards/proyecto-playbeau-1.jpg",
+      "logo": "./Resources/Long_logos/PlayBeau.svg",
+      "url": "",
+      "rotacion": "-19deg"
+    },
+    {
+      "id": "debtscope",
+      "nombre": "debtScope",
+      "categoria": "Proyecto",
+      "tipo": "Herramienta financiera",
+      "periodo": "2025",
+      "destacado": true,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Herramienta de gestión y visualización de deuda.",
+      "descripcionLarga": "Herramienta para visualizar, organizar y reducir deuda de forma inteligente. La mayoría de apps financieras muestran el problema; debtScope muestra el camino para salir de él.\n\nPensada para personas que quieren entender cómo funcionan sus deudas sin necesitar un asesor financiero. Simula escenarios, prioriza pagos y muestra el progreso real.",
+      "stats": [],
+      "imagen": "./Resources/cards/proyecto-debtscope-1.jpg",
+      "logo": "./Resources/Long_logos/debtScope.svg",
+      "url": "",
+      "rotacion": "-20deg"
+    },
+    {
+      "id": "hack-banking-ai",
+      "nombre": "Hack the Future of Banking with AI",
+      "categoria": "Hackathon",
+      "tipo": "IA aplicada a banca",
+      "periodo": "2025",
+      "destacado": false,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Hackathon organizado por AWS, Deloitte y WiZink.",
+      "descripcionLarga": "Primer Premio en el hackathon de innovación financiera con inteligencia artificial, organizado por AWS, Deloitte y WiZink.\n\nEl reto: diseñar una solución de IA aplicada al sector bancario en menos de 48 horas.",
+      "stats": [
+        { "numero": "1er", "label": "Premio" }
+      ],
+      "organizadores": "AWS · Deloitte · WiZink",
+      "imagen": "",
+      "logo": "",
+      "url": ""
+    },
+    {
+      "id": "hack4edu-sociedad",
+      "nombre": "Hack4Edu: IA para una Mejor Sociedad",
+      "categoria": "Hackathon",
+      "tipo": "IA y educación",
+      "periodo": "2025",
+      "destacado": false,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Hackathon de Telefónica ProFuturo.",
+      "descripcionLarga": "Primer Premio Local en el hackathon de Telefónica ProFuturo sobre el uso de la inteligencia artificial para mejorar la sociedad.\n\nProyecto centrado en aplicaciones educativas con IA que resuelven problemas reales de acceso al aprendizaje.",
+      "stats": [
+        { "numero": "1er", "label": "Premio Local" }
+      ],
+      "organizadores": "Telefónica ProFuturo",
+      "imagen": "",
+      "logo": "",
+      "url": ""
+    },
+    {
+      "id": "nasa-space-apps",
+      "nombre": "NASA International Space Apps Challenge",
+      "categoria": "Hackathon",
+      "tipo": "Innovación y datos",
+      "periodo": "2024",
+      "destacado": false,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Competición internacional vinculada a NASA y Global Exchange.",
+      "descripcionLarga": "Tercer Premio en el NASA International Space Apps Challenge, una de las competiciones de innovación tecnológica más grandes del mundo.\n\nEl reto: usar datos abiertos de la NASA para crear soluciones a problemas globales en menos de 48 horas.",
+      "stats": [
+        { "numero": "3er", "label": "Premio" }
+      ],
+      "organizadores": "NASA · Global Exchange",
+      "imagen": "",
+      "logo": "",
+      "url": ""
+    },
+    {
+      "id": "hack4edu-sanidad",
+      "nombre": "Hack4Edu: IA para una Mejor Sanidad",
+      "categoria": "Hackathon",
+      "tipo": "IA y salud",
+      "periodo": "2023",
+      "destacado": false,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Hackathon de Telefónica ProFuturo.",
+      "descripcionLarga": "Tercer Premio en el hackathon de Telefónica ProFuturo sobre el uso de la inteligencia artificial para mejorar la sanidad.\n\nSolución enfocada en la mejora del diagnóstico temprano y la accesibilidad a servicios médicos mediante IA.",
+      "stats": [
+        { "numero": "3er", "label": "Premio" }
+      ],
+      "organizadores": "Telefónica ProFuturo",
+      "imagen": "",
+      "logo": "",
+      "url": ""
+    },
+    {
+      "id": "conecta-empleo-santander",
+      "nombre": "Beca Conecta Empleo Santander",
+      "categoria": "Experiencia",
+      "tipo": "Coordinación y empleabilidad",
+      "periodo": "Noviembre 2025 – Mayo 2026",
+      "destacado": false,
+      "mostrarEnCarrusel": true,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Coordinación de empleabilidad, talleres semanales y gestión de equipos.",
+      "descripcionLarga": "Coordinación del programa de empleabilidad de la Beca Conecta Empleo del Banco Santander.\n\nTalleres semanales sobre habilidades digitales, comunicación profesional y búsqueda de empleo. Gestión de grupos, diseño de dinámicas y seguimiento de participantes durante seis meses.",
+      "stats": [],
+      "tags": ["Liderazgo", "Talleres", "Comunicación"],
+      "imagen": "",
+      "logo": "",
+      "url": ""
+    },
+    {
+      "id": "afe-santander",
+      "nombre": "Beca AFE Santander",
+      "categoria": "Experiencia",
+      "tipo": "Comunicación digital",
+      "periodo": "Noviembre 2025 – Mayo 2026",
+      "destacado": false,
+      "mostrarEnCarrusel": false,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Creación de contenido audiovisual y promoción de la Facultad de Ingeniería Informática.",
+      "descripcionLarga": "Responsable de comunicación digital de la Facultad de Ingeniería Informática en el marco de la Beca AFE del Banco Santander.\n\nCreación de contenido audiovisual, gestión de redes sociales y desarrollo de la identidad digital de la facultad.",
+      "stats": [],
+      "tags": ["Contenido", "Redes sociales", "Audiovisual"],
+      "imagen": "",
+      "logo": "",
+      "url": ""
+    },
+    {
+      "id": "representacion-estudiantil",
+      "nombre": "Representación Estudiantil",
+      "categoria": "Experiencia",
+      "tipo": "Liderazgo universitario",
+      "periodo": "2022 – 2026",
+      "destacado": false,
+      "mostrarEnCarrusel": false,
+      "mostrarEnHorizontal": true,
+      "descripcionCorta": "Delegado de curso, delegado de Facultad, representante de calidad, IFEMA y UPSAFest.",
+      "descripcionLarga": "Cuatro años de representación estudiantil en distintos niveles: delegado de curso, delegado de Facultad de Ingeniería Informática, representante en comisiones de calidad, coordinador en IFEMA y organizador del UPSAFest.\n\nExperiencia directa en mediación, organización de eventos, comunicación institucional y trabajo con equipos multidisciplinares.",
+      "stats": [],
+      "tags": ["Liderazgo", "Organización", "Comunicación"],
+      "imagen": "",
+      "logo": "",
+      "url": ""
+    }
+  ],
+  "comoTrabajo": {
+    "eyebrow": "El método",
+    "titulo": "Cómo trabajo",
+    "descripcion": "Construyo soluciones digitales desde tres ángulos: tecnología, negocio y comunicación.",
+    "pilares": [
+      {
+        "numero": "01",
+        "titulo": "Tecnología",
+        "texto": "Desarrollo web, IA, automatización y software. Las herramientas al servicio del problema, no al revés."
+      },
+      {
+        "numero": "02",
+        "titulo": "Negocio",
+        "texto": "Visibilidad, procesos, ventas y estrategia digital. Soluciones que generan resultados medibles."
+      },
+      {
+        "numero": "03",
+        "titulo": "Comunicación",
+        "texto": "Contenido, narrativa, marca y crecimiento. Sin comunicación, la mejor tecnología pasa desapercibida."
+      }
+    ]
+  },
+  "cta": {
+    "titulo": "¿Construimos algo juntos?",
+    "texto": "Si tienes una idea, un negocio o un proyecto digital, podemos bajarlo a tierra.",
+    "boton": "Contactar",
+    "url": "./theivanzheng.html#contacto"
+  }
+}

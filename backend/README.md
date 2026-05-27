@@ -2,6 +2,10 @@
 
 Backend API para gestionar suscripciones de newsletter con doble opt-in.
 
+## Contexto dentro del repo
+
+Este backend sigue perteneciendo a la línea original de la web y puede reutilizarse más adelante en la migración WordPress si se decide conectar formularios o flujos de newsletter desde `REVON.es`.
+
 ## 1) Variables de entorno
 
 Copia `.env.example` a `.env` y completa:
