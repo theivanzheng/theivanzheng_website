@@ -48,6 +48,11 @@
       font-family: 'Playfair Display', serif;
       font-size: 24px; letter-spacing: 0.01em;
     }
+    nav .nav-center a {
+      color: var(--white); text-decoration: none;
+      font-family: inherit; font-size: inherit; letter-spacing: inherit;
+    }
+    nav .nav-center a:hover { opacity: 0.75; }
     nav .nav-right { display: flex; gap: 32px; }
     nav a {
       color: var(--white); text-decoration: none;
@@ -755,12 +760,13 @@
   <nav id="site-nav">
     <div class="nav-left">
       <a href="theivanzheng.html#sobre-mi">Sobre Mí</a>
-      <a href="theivanzheng.html#proyectos">Productos</a>
-    </div>
-    <div class="nav-center">IVAN ZHENG</div>
-    <div class="nav-right">
       <a href="proyectos.html">Proyectos</a>
-      <a href="theivanzheng.html#contacto">Contacto</a>
+    </div>
+    <div class="nav-center"><a href="theivanzheng.html">IVAN ZHENG</a></div>
+    <div class="nav-right">
+      <a href="blog.html">Blog</a>
+      <a href="plugins-mejoras.html">Plugins</a>
+      <a href="contacto.html">Contacto</a>
     </div>
     <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
       <span></span>
@@ -770,7 +776,9 @@
       <a href="theivanzheng.html">Inicio</a>
       <a href="theivanzheng.html#sobre-mi">Sobre Mí</a>
       <a href="proyectos.html">Proyectos</a>
-      <a href="theivanzheng.html#contacto">Contacto</a>
+      <a href="blog.html">Blog</a>
+      <a href="plugins-mejoras.html">Plugins</a>
+      <a href="contacto.html">Contacto</a>
     </div>
   </nav>
 
@@ -778,10 +786,10 @@
     <div class="container">
       <h1 class="reveal">Proyectos</h1>
       <div class="hero-routes reveal reveal-delay-1">
-        <a href="#proyectos-reales">Proyectos reales</a>
+        <a href="#proyectos-reales">Proyectos actuales</a>
         <a href="#hackathons-premios">Hackathons y Premios</a>
         <a href="#creacion-contenido">Creación de contenido</a>
-        <a href="#contacto">Contacto</a>
+        <a href="contacto.html">Contacto</a>
       </div>
 
       <div class="carousel-shell reveal reveal-delay-2" id="carousel-shell">
@@ -891,7 +899,7 @@
 
   <section class="proyectos-section reveal" id="proyectos-reales">
     <div class="container">
-      <h2 class="section-title reveal">Proyectos Reales</h2>
+      <h2 class="section-title reveal">Proyectos actuales</h2>
       <div class="project-list">
         <article class="project-row reveal reveal-delay-1" id="quedate">
           <div>
