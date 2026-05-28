@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ivan Zheng</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="./Resources/pfp.jpg" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,6 +51,11 @@
       font-family: 'Playfair Display', serif;
       font-size: 24px; letter-spacing: 0.01em;
     }
+    nav .nav-center a {
+      color: var(--white); text-decoration: none;
+      font-family: inherit; font-size: inherit; letter-spacing: inherit;
+    }
+    nav .nav-center a:hover { opacity: 0.75; }
     nav .nav-right { display: flex; gap: 32px; }
     nav a {
       color: var(--white); text-decoration: none;
@@ -688,8 +693,8 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 102%;
-      height: 102%;
+      width: 103%;
+      height: 103%;
       object-fit: contain;
       object-position: center;
       display: block;
@@ -701,8 +706,8 @@
     }
 
     #instagram .project-card-img img {
-      width: 115%;
-      height: 115%;
+      width: 110%;
+      height: 110%;
     }
 
     .proyecto-item:nth-child(2) .project-card-img { transform: rotate(-21deg); }
@@ -710,6 +715,32 @@
     .proyecto-item:nth-child(4) .project-card-img { transform: rotate(-19deg); }
     .proyecto-item:nth-child(5) .project-card-img { transform: rotate(-20deg); }
     .proyecto-item:nth-child(6) .project-card-img { transform: rotate(-17deg); }
+
+    /* ── VER MÁS PROYECTOS (botón píldora) ── */
+    .ver-mas-wrap {
+      text-align: center;
+      padding-top: 52px;
+    }
+    .ver-mas-proyectos-btn {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 44px;
+      border: 2.5px solid rgba(255, 255, 255, 0.55);
+      border-radius: 999px;
+      background: transparent;
+      letter-spacing: 0.03em;
+      transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    }
+    .ver-mas-proyectos-btn:hover {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+      transform: translateY(-2px);
+    }
 
     /* Tablet + mobile shared */
     @media (max-width: 1024px) {
@@ -853,7 +884,7 @@
         position: static;
         transform: none;
         margin-right: auto;
-        font-size: 15px;
+        font-size: 20px;
         letter-spacing: 0.04em;
       }
 
@@ -1219,6 +1250,9 @@
         padding-top: 22px;
       }
 
+      .ver-mas-wrap { padding-top: 36px; }
+      .ver-mas-proyectos-btn { font-size: 14px; padding: 12px 32px; }
+
       footer {
         position: relative;
         display: flex;
@@ -1368,7 +1402,7 @@
       border: none;
       border-radius: 8px;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 500;
       padding: 14px 49px;
       cursor: pointer;
@@ -1589,12 +1623,11 @@
   <nav id="site-nav">
     <div class="nav-left">
       <a href="#sobre-mi">Sobre Mí</a>
-      <a href="#proyectos">Productos</a>
+      <a href="proyectos.html">Proyectos</a>
     </div>
-    <div class="nav-center">IVAN ZHENG</div>
+    <div class="nav-center"><a href="theivanzheng.html">IVAN ZHENG</a></div>
     <div class="nav-right">
-      <a href="#proyectos-detalle">Proyectos</a>
-      <a href="#contacto">Contacto</a>
+      <a href="contacto.html">Contacto</a>
     </div>
     <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
       <span></span>
@@ -1603,8 +1636,8 @@
     <div id="nav-mobile-menu" class="nav-mobile-menu">
       <a href="#inicio">Inicio</a>
       <a href="#sobre-mi">Sobre Mí</a>
-      <a href="#proyectos-detalle">Proyectos</a>
-      <a href="#contacto">Contacto</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="contacto.html">Contacto</a>
     </div>
   </nav>
 
@@ -1630,22 +1663,22 @@
     <div class="container">
       <p class="section-label reveal">Proyectos</p>
       <div class="projects-grid">
-        <a class="reveal reveal-delay-1" href="#quédate">
+        <a class="reveal reveal-delay-1" href="./proyectos.html#quedate">
           <img src="./Resources/Long_logos/quedate.svg" alt="logo Quedate">
         </a>
-        <a class="reveal reveal-delay-1" href="#revon">
+        <a class="reveal reveal-delay-1" href="./proyectos.html#revon">
           <img src="./Resources/Long_logos/REVON.svg" alt="logo REVON">
         </a>
-        <a class="reveal reveal-delay-1" href="#playbeau">
+        <a class="reveal reveal-delay-1" href="./proyectos.html#playbeau">
           <img src="./Resources/Long_logos/PlayBeau.svg" alt="logo PlayBeau">
         </a>
-        <a class="reveal reveal-delay-2" href="#debtscope">
+        <a class="reveal reveal-delay-2" href="./proyectos.html#debtscope">
           <img src="./Resources/Long_logos/debtScope.svg" alt="logo Debt Scope">
         </a>
-        <a class="reveal reveal-delay-2" href="#nube">
+        <a class="reveal reveal-delay-2" href="./proyectos.html#nube">
           <img src="./Resources/Long_logos/NUBE.svg" alt="logo NUBE">
         </a>
-        <a class="reveal reveal-delay-2" href="#instagram">
+        <a class="reveal reveal-delay-2" href="./proyectos.html#instagram">
           <img src="./Resources/Long_logos/@theivanzheng.svg" alt="logo @theivanzheng">
         </a>
       </div>
@@ -1658,7 +1691,7 @@
       <div class="sobre-mi-text reveal">
         <h2>Sobre Mí</h2>
         <p>Iván Zheng estudió <span class="playfair-inline">Ingeniería Informática</span> en Salamanca.</p>
-        <p>Pero no empezó queriendo ser típico "programador-asiático" de las pelis.</p>
+        <p>Pero no empezó queriendo ser típico “programador-asiático” de las pelis.</p>
         <p>Empezó interesándose por cómo funcionan los negocios.<br>
           Sobre todo los pequeños.<br>
           Los de verdad.<br>
@@ -1673,9 +1706,9 @@
         <p>Desarrollando soluciones digitales, mejorando procesos y ayudando a que esas empresas tengan presencia online sin complicarse más de la cuenta.</p>
       </div>
       <div class="cards-stack reveal reveal-delay-1">
-        <div class="card-item"><img src="./Resources/cards/sobre-mi-1.jpg" alt="Sobre Mi imagen 1" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 1</span></div>
-        <div class="card-item"><img src="./Resources/cards/sobre-mi-2.jpg" alt="Sobre Mi imagen 2" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 2</span></div>
-        <div class="card-item"><img src="./Resources/cards/sobre-mi-3.jpg" alt="Sobre Mi imagen 3" loading="lazy" decoding="async"><span class="card-label">Sobre Mí imagen 3</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-1.jpg" alt="Sobre Mi imagen 1" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Sobre Mí imagen 1</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-2.jpg" alt="Sobre Mi imagen 2" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Sobre Mí imagen 2</span></div>
+        <div class="card-item"><img src="./Resources/cards/sobre-mi-3.jpg" alt="Sobre Mi imagen 3" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Sobre Mí imagen 3</span></div>
       </div>
     </div>
   </section>
@@ -1691,20 +1724,20 @@
           Monté un negocio de reventa de zapatillas.<br>
           Parecía un éxito desde fuera. Acabó quebrando.<br>
           <br>
-          Sabía un poco de todo pero no destacaba en nada.<br>
+          Sabía un poco de todo. No destacaba en nada.<br>
           <br>
           El punto más bajo llegó en primero de ADE:<br>
-          suspendí 9 de 10 asignaturas y<br>
-          lo dejé por miedo.Y por vergüenza.<br>
+          suspendí 9 de 10 asignaturas.<br>
+          Lo dejé. Por miedo.Y por vergüenza.<br>
           <br>
           Empecé de nuevo en Ingeniería Informática.<br>
           <br>
-          Y me prometí que no volvería a fracasar.<br>
+          Y me prometí que no volvería a fallar.<br>
           <br>
-          Me esforcé y aqué notazas y muchas matrículas.<br>
+          Saqué notazas y matrículas.<br>
           <br>
-          Acepté un proyecto con casi cien empresas, ahí lo vi claro:<br>
-          lo que no parecía conectar ahora tenía sentido.<br>
+          Acepté un proyecto con casi cien empresas, lo vi claro:<br>
+          lo que parecía un juego de niños ahora tenía sentido.<br>
           <br>
           Tecnología, contenido y negocio. Encajaron perfectamente.<br>
           <br>
@@ -1713,9 +1746,9 @@
           Nada tiene sentido, hasta que lo tiene.</p>
       </div>
       <div class="cards-stack-nada reveal reveal-delay-1">
-        <div class="card-item"><img src="./Resources/cards/nada-1.jpg" alt="Nada tiene sentido imagen 1" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 1</span></div>
-        <div class="card-item"><img src="./Resources/cards/nada-2.jpg" alt="Nada tiene sentido imagen 2" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 2</span></div>
-        <div class="card-item"><img src="./Resources/cards/nada-3.jpg" alt="Nada tiene sentido imagen 3" loading="lazy" decoding="async"><span class="card-label">Nada tiene sentido imagen 3</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-1.jpg" alt="Nada tiene sentido imagen 1" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Nada tiene sentido imagen 1</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-2.jpg" alt="Nada tiene sentido imagen 2" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Nada tiene sentido imagen 2</span></div>
+        <div class="card-item"><img src="./Resources/cards/nada-3.jpg" alt="Nada tiene sentido imagen 3" loading="eager" fetchpriority="high" decoding="async"><span class="card-label">Nada tiene sentido imagen 3</span></div>
       </div>
     </div>
   </section>
@@ -1727,13 +1760,13 @@
     </div>
     <div class="inner">
       <div class="cards-stack-nl reveal reveal-delay-1">
-        <div class="card-item"><img src="./Resources/cards/newsletter-1.jpg" alt="Newsletter imagen 1" loading="lazy" decoding="async"><span class="card-label"></span></div>
-        <div class="card-item"><img src="./Resources/cards/newsletter-2.jpg" alt="Newsletter imagen 2" loading="lazy" decoding="async"><span class="card-label"></span></div>
+        <div class="card-item"><img src="./Resources/cards/newsletter-2.jpg" alt="Newsletter imagen 1" loading="lazy" decoding="async"><span class="card-label"></span></div>
+        <div class="card-item"><img src="./Resources/cards/newsletter-3.jpg" alt="Newsletter imagen 2" loading="lazy" decoding="async"><span class="card-label"></span></div>
       </div>
       <div class="nl-box reveal reveal-delay-2">
         <h3>El Círculo Privado</h3>
-        <p>Donde más de 1.000 personas reciben cada semana lo que voy aprendiendo sobre desarrollo web, creación de contenido, IA y negocio digital mientras lo aplico en mis propios proyectos.<br>
-        Sin filtros. Sin humo. Solo lo que funciona.</p>
+        <p>Donde más de 500 personas reciben cada semana lo que voy aprendiendo sobre desarrollo web, creación de contenido, IA y negocio digital mientras lo aplico en mis propios proyectos.<br>
+        <br>Sin filtros. Sin humo. Solo lo que funciona.</p>
         <form id="newsletter-form" novalidate>
           <input id="newsletter-email" name="email_address" type="email" placeholder="Tu correo electrónico" required />
           <div class="checkbox-row">
@@ -1765,7 +1798,7 @@
           <br>Y los comercios empiezan a tener algo que antes no tenían: visibilidad.
           <br><br>Hoy, más de 100 negocios se han visto impulsados gracias a esta plataforma.</p>
       </div>
-      <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-quedate-1.jpg" alt="Quédate imagen 1" loading="lazy" decoding="async"></div>
+      <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-quedate-1.jpg" alt="Quédate imagen 1" loading="lazy" decoding="async"></div>
     </div>
 
     <!-- REVON -->
@@ -1809,6 +1842,10 @@
       </div>
       <div class="project-card-img reveal reveal-delay-1"><img src="./Resources/cards/proyecto-theivanzheng-1.jpg" alt="@theivanzheng imagen 1" loading="lazy" decoding="async"></div>
     </div>
+
+    <div class="container ver-mas-wrap">
+      <a class="ver-mas-proyectos-btn reveal reveal-delay-1" href="./proyectos.html">Ver más</a>
+    </div>
   </section>
 
   <!-- TRABAJEMOS JUNTOS -->
@@ -1831,7 +1868,7 @@
           </div>
           <div>
             <label for="contact-subject">Asunto</label>
-            <input id="contact-subject" type="text" placeholder="Ej: Propuesta de Desarrollo" required />
+            <input id="contact-subject" type="text" placeholder="Ej: Propuesta de Desarrollo para mi Empresa" required />
           </div>
           <div>
             <label for="contact-message">Mensaje</label>
@@ -2011,6 +2048,19 @@
     const API_BASE_CANDIDATES = isLocalPage
       ? ["http://127.0.0.1:8787", "http://localhost:8787", window.location.origin]
       : [window.location.origin];
+    const newsletterQuery = new URLSearchParams(window.location.search);
+    const newsletterState = newsletterQuery.get("newsletter");
+    const newsletterReason = newsletterQuery.get("reason");
+
+    if (newsletterState === "confirmed" || newsletterState === "already_confirmed") {
+      const successUrl = new URL(`${window.location.origin}/newsletter-confirmado.html`);
+      successUrl.searchParams.set("newsletter", newsletterState);
+      if (newsletterReason) {
+        successUrl.searchParams.set("reason", newsletterReason);
+      }
+      window.location.replace(successUrl.toString());
+    }
+
     const newsletterForm = document.getElementById("newsletter-form");
     const newsletterEmail = document.getElementById("newsletter-email");
     const newsletterConsent = document.getElementById("acepto");
@@ -2075,7 +2125,6 @@
             body: JSON.stringify(body)
           });
 
-          // If this host doesn't expose the API, try next candidate.
           if (response.status === 404 && API_BASE_CANDIDATES.length > 1) {
             continue;
           }
