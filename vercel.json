@@ -4,9 +4,6 @@
     { "source": "/", "destination": "/theivanzheng.html" },
     { "source": "/proyectos", "destination": "/proyectos.html" },
     { "source": "/contacto", "destination": "/contacto.html" },
-    { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/plugins", "destination": "/plugins-mejoras.html" },
-    { "source": "/plugins-y-mejoras", "destination": "/plugins-mejoras.html" },
     { "source": "/servicios", "destination": "/servicios.html" }
   ]
 }
