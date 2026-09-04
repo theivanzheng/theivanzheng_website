@@ -19,7 +19,7 @@ const env = {
   port: Number(getEnv("PORT", "8787")),
   appPublicBaseUrl: getEnv("APP_PUBLIC_BASE_URL", "https://www.theivanzheng.com"),
   allowedOrigin: getEnv("ALLOWED_ORIGIN", "https://www.theivanzheng.com"),
-  redirectUrl: getEnv("NEWSLETTER_REDIRECT_URL", "https://www.theivanzheng.com/theivanzheng.html"),
+  redirectUrl: getEnv("NEWSLETTER_REDIRECT_URL", "https://www.theivanzheng.com/"),
   successUrl: getEnv("NEWSLETTER_SUCCESS_URL", "https://www.theivanzheng.com/newsletter-confirmado.html"),
   newsletterName: getEnv("NEWSLETTER_NAME", "El Circulo Privado"),
   supabaseUrl: getEnv("SUPABASE_URL"),
@@ -132,7 +132,7 @@ const resolveRedirectBaseUrl = (req, configuredUrl, fallbackPath) => {
 };
 
 const buildRedirectUrl = (req, state, reason) => {
-  const url = new URL(resolveRedirectBaseUrl(req, env.redirectUrl, "/theivanzheng.html"));
+  const url = new URL(resolveRedirectBaseUrl(req, env.redirectUrl, "/"));
   url.searchParams.set("newsletter", state);
   if (reason) {
     url.searchParams.set("reason", reason);
