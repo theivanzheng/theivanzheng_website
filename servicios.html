@@ -508,6 +508,40 @@
         text-transform: uppercase;
       }
     }
+
+    /* --- Footer: enlaces de sitio + copyright abajo a la izquierda --- */
+    footer .footer-nav {
+      display: flex;
+      gap: 24px;
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      align-self: end;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    footer .footer-nav a {
+      font-size: 14px;
+      color: #d9d9d9;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+    footer .footer-nav a:hover { color: #999999; }
+
+    @media (max-width: 1024px) {
+      footer { align-items: flex-start; }
+      footer .footer-nav {
+        order: 1;
+        justify-content: flex-start;
+        gap: 18px;
+        width: 100%;
+      }
+      footer .footer-mid { order: 2; }
+      footer .footer-right { order: 3; }
+      footer .footer-left {
+        order: 4;
+        margin-top: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -519,6 +553,7 @@
     </div>
     <div class="nav-center"><a href="theivanzheng.html">IVAN ZHENG</a></div>
     <div class="nav-right">
+      <a href="productos.html">Productos</a>
       <a href="contacto.html">Contacto</a>
     </div>
     <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
@@ -529,6 +564,7 @@
       <a href="theivanzheng.html">Inicio</a>
       <a href="theivanzheng.html#sobre-mi">Sobre Mí</a>
       <a href="proyectos.html">Proyectos</a>
+      <a href="productos.html">Productos</a>
       <a href="contacto.html">Contacto</a>
     </div>
   </nav>
@@ -645,6 +681,12 @@
 
   <footer>
     <div class="footer-left">© 2026 Iván Zheng</div>
+    <div class="footer-nav">
+      <a href="theivanzheng.html#sobre-mi">Sobre Mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="productos.html">Productos</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
     <div class="footer-mid">
       <a href="aviso-legal.html">Aviso legal</a>
       <a href="politica-privacidad.html">Politica de privacidad</a>
