@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>¿Estás enamorado o estás perdido? | Iván Zheng</title>
+  <meta name="description" content="5 preguntas. 2 minutos. La respuesta te va a incomodar un poco." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="./Resources/pfp.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-mid: #aaaaaa;
+      --border: #2a2a2a;
+      --panel-card: #151515;
+      --copy-small: #d9d9d9;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Cada pantalla ocupa el alto real del viewport. 100dvh evita que la barra
+       de direcciones de Safari/Chrome móvil recorte la pantalla. */
+    .quiz {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pantalla {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      padding: 32px 22px calc(32px + env(safe-area-inset-bottom));
+      max-width: 620px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .pantalla.is-activa { display: flex; }
+
+    /* La de resultado es la única que puede desbordar: lleva texto largo más
+       el formulario, así que se ancla arriba y deja hacer scroll. */
+    .pantalla.es-larga { justify-content: flex-start; padding-top: 56px; }
+
+    .aparece {
+      animation: entrar .34s ease both;
+    }
+    @keyframes entrar {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .marca {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .marca a { color: var(--white); text-decoration: none; opacity: 0.7; pointer-events: auto; }
+    .marca a:hover { opacity: 1; }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 8vw, 50px);
+      font-weight: 700;
+      line-height: 1.08;
+      margin-bottom: 22px;
+    }
+
+    /* El brazo cruza la pantalla de lado a lado, saliéndose de la columna por los
+       dos bordes. La imagen mide 402px de ancho y los móviles van de 375 a 430,
+       así que estirarla al 100% supone como mucho un 7% de ampliación. */
+    .portada-brazo {
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .portada-brazo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* A partir de tablet, estirar la imagen sí se notaría: se deja a tamaño
+       nativo pegada a la derecha y la cuerda entra desde donde llegue. */
+    @media (min-width: 560px) {
+      .portada-brazo {
+        height: 65px;
+        overflow: hidden;
+      }
+      .portada-brazo img {
+        width: auto;
+        height: 100%;
+        max-width: none;
+      }
+    }
+
+    /* Volver: solo aparece si se ha llegado desde la propia web. */
+    .volver {
+      position: fixed;
+      top: 0;
+      left: 14px;
+      height: 52px;
+      display: none;
+      align-items: center;
+      background: transparent;
+      border: 0;
+      padding: 0 6px;
+      color: var(--gray-mid);
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 6;
+      transition: color .18s ease;
+    }
+    .volver.is-visible { display: flex; }
+    .volver:hover { color: var(--white); }
+    .subtitulo {
+      font-size: 16px;
+      line-height: 1.66;
+      color: var(--copy-small);
+      margin-bottom: 38px;
+    }
+    .portada-meta {
+      margin: -26px 0 34px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.42);
+    }
+
+    .boton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 58px;
+      padding: 14px 22px;
+      background: var(--white);
+      color: var(--black);
+      border: 1px solid var(--white);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.3;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+    .boton:hover { transform: translateY(-2px); opacity: 0.9; }
+    .boton:active { transform: translateY(0); }
+    .boton:disabled { opacity: 0.5; cursor: default; transform: none; }
+    .boton:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+
+    /* ---------- Preguntas ---------- */
+
+    .progreso {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 42px;
+    }
+    .progreso-linea {
+      flex: 1;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+    .progreso-relleno {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: var(--white);
+      transition: width .38s ease;
+    }
+    .progreso-cuenta {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.4);
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .pregunta {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 6.2vw, 36px);
+      font-weight: 400;
+      line-height: 1.22;
+      margin-bottom: 40px;
+    }
+
+    .respuestas {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .boton-respuesta {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .boton-respuesta:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.06);
+      opacity: 1;
+    }
+
+    .atras {
+      align-self: flex-start;
+      margin-top: 26px;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      color: var(--gray-mid);
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      transition: color .18s ease;
+    }
+    .atras:hover { color: var(--white); }
+    .atras[hidden] { display: none; }
+
+    /* ---------- Resultado ---------- */
+
+    .marcador {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+    }
+    .marcador::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .resultado-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 7.5vw, 46px);
+      font-weight: 400;
+      line-height: 1.06;
+      margin-bottom: 24px;
+    }
+    .resultado-texto p {
+      font-size: 16px;
+      line-height: 1.74;
+      color: var(--copy-small);
+      margin-bottom: 18px;
+    }
+    .resultado-texto p:last-child { margin-bottom: 0; }
+
+    /* ---------- Bloque de compra ---------- */
+
+    .compra {
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Las tres hojas: las laterales giradas y ligeramente detrás, la portada
+       centrada encima proyectando su sombra sobre ellas. */
+    .hojas {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-bottom: -34px;
+      padding: 0 8px;
+    }
+    .hoja {
+      width: 39%;
+      max-width: 190px;
+      border-radius: 12px;
+      overflow: hidden;
+      display: block;
+      opacity: 0;
+      transform: translateY(46px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .hoja img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: inherit;
+    }
+    .hoja--izq { transform: translateY(46px) rotate(-8deg); margin-right: -13%; }
+    .hoja--der { transform: translateY(46px) rotate(8deg); margin-left: -13%; }
+    .hoja--centro {
+      width: 45%;
+      max-width: 216px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.62), 0 6px 14px rgba(0, 0, 0, 0.5);
+    }
+
+    .compra.is-visible .hoja { opacity: 1; }
+    .compra.is-visible .hoja--izq { transform: translateY(0) rotate(-8deg); }
+    .compra.is-visible .hoja--der { transform: translateY(0) rotate(8deg); }
+    .compra.is-visible .hoja--centro { transform: translateY(0); }
+
+    /* Las laterales entran antes; la portada cae la última, encima. */
+    .compra .hoja--izq { transition-delay: 0s; }
+    .compra .hoja--der { transition-delay: .09s; }
+    .compra .hoja--centro { transition-delay: .18s; }
+
+    .compra-boton {
+      position: relative;
+      z-index: 3;
+      font-size: 22px;
+      min-height: 66px;
+      border-radius: 14px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+    }
+
+    .compra-pie {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--gray-mid);
+    }
+
+    .cargando {
+      padding: 80px 0;
+      text-align: center;
+      font-size: 14px;
+      color: var(--gray-mid);
+    }
+
+    @media (min-width: 700px) {
+      .pantalla { padding-left: 0; padding-right: 0; }
+      .respuestas { flex-direction: row; }
+      .respuestas .boton { flex: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aparece { animation: none; }
+      .progreso-relleno { transition: none; }
+      .boton:hover, .boton-respuesta:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="volver" id="volver" type="button">← Volver</button>
+  <div class="marca"><a href="/" id="marca">IVAN ZHENG</a></div>
+
+  <main class="quiz" id="quiz">
+    <p class="cargando" id="cargando">Cargando…</p>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const RUTA_JSON = "./textos/quiz-para-soltar.json";
+      const contenedor = document.getElementById("quiz");
+
+      // Precio real de Payhip; si la función no responde se usa el respaldo
+      // escrito en el JSON. En local no existe /api/precio y cae al respaldo.
+      const pedirPrecio = () =>
+        fetch("/api/precio")
+          .then((r) => (r.ok ? r.json() : null))
+          .then((d) => (d && d.precio) || null)
+          .catch(() => null);
+
+      const parrafos = (texto) => String(texto || "")
+        .split(/\n\s*\n/)
+        .map((p) => p.trim())
+        .filter(Boolean);
+
+      const nodoParrafos = (texto) => {
+        const envoltorio = document.createElement("div");
+        envoltorio.className = "resultado-texto";
+        parrafos(texto).forEach((p) => {
+          const nodo = document.createElement("p");
+          nodo.textContent = p;
+          envoltorio.appendChild(nodo);
+        });
+        return envoltorio;
+      };
+
+      const arrancar = (quiz) => {
+        const preguntas = quiz.preguntas || [];
+        const total = preguntas.length;
+        const ui = quiz.interfaz || {};
+
+        // Rellena {n}, {total} y {puntos} en las cadenas con formato del JSON.
+        const plantilla = (texto, valores) =>
+          String(texto || "").replace(/\{(\w+)\}/g, (_, clave) =>
+            valores[clave] === undefined ? "" : valores[clave]);
+
+        if (quiz.meta) {
+          if (quiz.meta.title) document.title = quiz.meta.title;
+          if (quiz.meta.marca) document.getElementById("marca").textContent = quiz.meta.marca;
+          const descripcion = document.querySelector('meta[name="description"]');
+          if (descripcion && quiz.meta.description) descripcion.setAttribute("content", quiz.meta.description);
+        }
+
+        // Estado en memoria. Si el usuario recarga, empieza de cero: es lo
+        // pedido, no hace falta persistirlo.
+        let indice = 0;
+        const respuestas = new Array(total).fill(null);
+
+        const puntuar = () => respuestas.filter(Boolean).length;
+
+        const resultadoDe = (puntos) =>
+          (quiz.resultados || []).find((r) => puntos >= r.min && puntos <= r.max)
+          || (quiz.resultados || [])[0];
+
+        const pintar = (construir, larga) => {
+          const pantalla = document.createElement("section");
+          pantalla.className = "pantalla is-activa aparece" + (larga ? " es-larga" : "");
+          construir(pantalla);
+          contenedor.innerHTML = "";
+          contenedor.appendChild(pantalla);
+          window.scrollTo(0, 0);
+          return pantalla;
+        };
+
+        /* ---------- Portada ---------- */
+
+        const verPortada = () => pintar((pantalla) => {
+          const h1 = document.createElement("h1");
+          // Un \n en el título del JSON fuerza un corte de línea.
+          String(quiz.portada.titulo || "").split("\n").forEach((linea, i) => {
+            if (i) h1.appendChild(document.createElement("br"));
+            h1.appendChild(document.createTextNode(linea));
+          });
+
+          // El brazo se sale por el borde derecho, entre el titular y el subtítulo.
+          let brazo = null;
+          if (quiz.portada.imagen && quiz.portada.imagen.src) {
+            brazo = document.createElement("div");
+            brazo.className = "portada-brazo";
+            const img = document.createElement("img");
+            img.src = quiz.portada.imagen.src;
+            img.alt = quiz.portada.imagen.alt || "";
+            img.decoding = "async";
+            brazo.appendChild(img);
+          }
+
+          const sub = document.createElement("p");
+          sub.className = "subtitulo";
+          sub.textContent = quiz.portada.subtitulo;
+
+          // Etiqueta corta opcional (p. ej. "5 preguntas · 2 minutos").
+          // Si en el JSON está vacía, no se pinta.
+          let etiqueta = null;
+          if (quiz.portada.meta) {
+            etiqueta = document.createElement("p");
+            etiqueta.className = "portada-meta";
+            etiqueta.textContent = quiz.portada.meta;
+          }
+
+          const boton = document.createElement("button");
+          boton.className = "boton";
+          boton.type = "button";
+          boton.textContent = quiz.portada.boton;
+          boton.addEventListener("click", () => { indice = 0; verPregunta(); });
+
+          pantalla.appendChild(h1);
+          if (brazo) pantalla.appendChild(brazo);
+          pantalla.appendChild(sub);
+          if (etiqueta) pantalla.appendChild(etiqueta);
+          pantalla.appendChild(boton);
+        });
+
+        /* ---------- Preguntas ---------- */
+
+        const verPregunta = () => pintar((pantalla) => {
+          const progreso = document.createElement("div");
+          progreso.className = "progreso";
+          progreso.innerHTML =
+            '<span class="progreso-linea"><span class="progreso-relleno"></span></span>'
+            + '<span class="progreso-cuenta"></span>';
+          progreso.querySelector(".progreso-cuenta").textContent =
+            plantilla(ui.contador || "{n} / {total}", { n: indice + 1, total: total });
+
+          const enunciado = document.createElement("p");
+          enunciado.className = "pregunta";
+          enunciado.textContent = preguntas[indice];
+
+          const opciones = document.createElement("div");
+          opciones.className = "respuestas";
+
+          [[ui.si || "Sí", true], [ui.no || "No", false]].forEach(([etiqueta, valor]) => {
+            const boton = document.createElement("button");
+            boton.className = "boton boton-respuesta";
+            boton.type = "button";
+            boton.textContent = etiqueta;
+            boton.addEventListener("click", () => {
+              respuestas[indice] = valor;
+              if (indice < total - 1) { indice += 1; verPregunta(); }
+              else { verResultado(); }
+            });
+            opciones.appendChild(boton);
+          });
+
+          // En la primera pregunta no hay pregunta anterior, así que el
+          // botón devuelve a la portada en vez de esconderse.
+          const atras = document.createElement("button");
+          atras.className = "atras";
+          atras.type = "button";
+          atras.textContent = indice === 0
+            ? (ui.atrasPortada || ui.atras || "← Atrás")
+            : (ui.atras || "← Atrás");
+          atras.addEventListener("click", () => {
+            if (indice > 0) { indice -= 1; verPregunta(); }
+            else { verPortada(); }
+          });
+
+          pantalla.append(progreso, enunciado, opciones, atras);
+
+          // Se anima en el siguiente frame para que la barra se vea crecer.
+          const relleno = progreso.querySelector(".progreso-relleno");
+          requestAnimationFrame(() => {
+            relleno.style.width = ((indice + 1) / total * 100) + "%";
+          });
+        });
+
+        /* ---------- Resultado + compra ---------- */
+
+        const verResultado = () => pintar((pantalla) => {
+          const puntos = puntuar();
+          const bloque = resultadoDe(puntos);
+          const cta = quiz.cta || {};
+
+          const marcador = document.createElement("p");
+          marcador.className = "marcador";
+          marcador.textContent = plantilla(ui.marcador || "Tu resultado", { puntos: puntos, total: total });
+
+          const titulo = document.createElement("h2");
+          titulo.className = "resultado-titulo";
+          titulo.textContent = bloque.titulo;
+
+          /* --- Bloque de compra --- */
+
+          const compra = document.createElement("div");
+          compra.className = "compra";
+
+          const hojas = document.createElement("div");
+          hojas.className = "hojas";
+
+          const posiciones = ["izq", "centro", "der"];
+          (cta.imagenes || []).slice(0, 3).forEach((imagen, i) => {
+            const hoja = document.createElement("div");
+            hoja.className = "hoja hoja--" + (posiciones[i] || "centro");
+            const img = document.createElement("img");
+            img.src = imagen.src;
+            img.alt = imagen.alt || "";
+            img.decoding = "async";
+            hoja.appendChild(img);
+            hojas.appendChild(hoja);
+          });
+
+          const boton = document.createElement("a");
+          boton.className = "boton compra-boton";
+          boton.href = cta.url || "#";
+          boton.textContent = cta.boton || "Descúbrelo";
+
+          // Si el destino es la propia web, se navega en la misma pestaña. Si
+          // apunta fuera (Payhip, por ejemplo), se abre en una nueva.
+          let esExterno = false;
+          try {
+            const destino = new URL(boton.href, window.location.href);
+            esExterno = destino.origin !== window.location.origin
+              && !/(^|\.)theivanzheng\.com$/.test(destino.hostname);
+          } catch (error) {
+            esExterno = false;
+          }
+          if (esExterno) {
+            boton.target = "_blank";
+            boton.rel = "noopener noreferrer";
+          }
+
+          const pie = document.createElement("p");
+          pie.className = "compra-pie";
+          const pintarPie = (precio) => {
+            pie.textContent = plantilla(cta.pie || "{precio}", { precio: precio });
+          };
+          pintarPie(cta.precioRespaldo || "");
+          pedirPrecio().then((precio) => { if (precio) pintarPie(precio); });
+
+          compra.append(hojas, boton, pie);
+
+          // Las hojas solo se revelan cuando el usuario baja hasta aquí.
+          const observador = new IntersectionObserver((entradas) => {
+            entradas.forEach((entrada) => {
+              if (!entrada.isIntersecting) return;
+              compra.classList.add("is-visible");
+              observador.disconnect();
+            });
+          }, { threshold: 0.25 });
+          observador.observe(compra);
+
+          pantalla.append(marcador, titulo, nodoParrafos(bloque.texto), compra);
+        }, true);
+
+        // El botón "Volver" solo tiene sentido si se ha llegado desde la propia
+        // web (por ejemplo desde el "Preview" de la página del libro). Quien entra
+        // directo desde redes no tiene página anterior, así que no se le muestra:
+        // para salir ya tiene el logo, que lleva a la home.
+        const volver = document.getElementById("volver");
+        if (volver) {
+          let mismaWeb = false;
+          try {
+            mismaWeb = Boolean(document.referrer)
+              && new URL(document.referrer).origin === window.location.origin;
+          } catch (error) {
+            mismaWeb = false;
+          }
+          if (mismaWeb && window.history.length > 1) {
+            volver.textContent = ui.volver || "← Volver";
+            volver.classList.add("is-visible");
+            volver.addEventListener("click", () => window.history.back());
+          }
+        }
+
+        verPortada();
+      };
+
+      fetch(RUTA_JSON)
+        .then((respuesta) => {
+          if (!respuesta.ok) throw new Error("No se pudo cargar el cuestionario");
+          return respuesta.json();
+        })
+        .then(arrancar)
+        .catch(() => {
+          contenedor.innerHTML =
+            '<p class="cargando">No se ha podido cargar el cuestionario. Recarga la página.</p>';
+        });
+    })();
+  </script>
+</body>
+</html>

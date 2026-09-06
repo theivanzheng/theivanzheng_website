@@ -1,0 +1,81 @@
+{
+  "id": "para-soltar",
+  "ref": "test-para-soltar",
+  "_como_editar": "TODO el texto visible del cuestionario está en este archivo. Cambia lo que quieras y recarga la página, no hace falta tocar el HTML. En 'portada.titulo' un salto de línea (\\n) fuerza un corte de línea. En 'resultados', el campo 'texto' admite varios párrafos: sepáralos con una línea en blanco.",
+  "meta": {
+    "title": "Test de los aferrados",
+    "description": "Test para conocer si realmente estás listo para soltar un apego",
+    "marca": "IVAN ZHENG"
+  },
+  "portada": {
+    "titulo": "Antes de soltar,\nhay que saber a qué te estás aferrando",
+    "subtitulo": "5 preguntas cortas. 2 minutos. Las preguntas te van a incomodar, pero es lo que ahora necesitas.",
+    "boton": "Comenzar",
+    "meta": "",
+    "imagen": {
+      "src": "./Resources/quiz/brazo-cuerda.png",
+      "alt": "Un puño agarrando una cuerda tensa"
+    }
+  },
+  "preguntas": [
+    "¿Pasas más tiempo pensando en esta persona/situación que en tus objetivos y metas para dentro de 5 años?",
+    "Si te preguntara ahora mismo qué objetivo quieres conseguir este año, aparte de arreglar esto, ¿tardarías más de 10 segundos en responder?",
+    "¿Sientes que esta persona/situación solo te da migajas, y aun así te emocionas y se lo agradeces cada vez que ocurre?",
+    "Si mañana esa persona/situación desapareciera de tu vida del todo, ¿tu rutina, tus metas y tu día a día se vendrían abajo?",
+    "¿Alguna vez te has sorprendido defendiendo algo de esa persona/situación que en el fondo sabes que está mal, solo para no tener que soltarlo?"
+  ],
+  "interfaz": {
+    "si": "Sí",
+    "no": "No",
+    "atras": "← Atrás",
+    "cargando": "Cargando…",
+    "errorCarga": "No se ha podido cargar el cuestionario. Recarga la página.",
+    "_nota_formatos": "{n} es la pregunta actual y {total} el número de preguntas.",
+    "contador": "{n} / {total}",
+    "marcador": "Tu resultado",
+    "atrasPortada": "← Volver al inicio",
+    "volver": "← Volver"
+  },
+  "_nota_resultados": "Cada 'Sí' suma 1 punto. 'min' y 'max' son los puntos que activan cada bloque.",
+  "resultados": [
+    {
+      "min": 0,
+      "max": 1,
+      "titulo": "Ya soltaste. Solo te falta dejar de pelear con lo que pasó.",
+      "texto": "Esto me recuerda a la historia de las Ray-Ban rotas, donde discutí con mi padre durante un viaje por unas malditas gafas.\n\nEstaba en una montaña preciosa de China sacando fotos al paisaje y de repente se me cayeron y tropecé. No me puse de mal humor, simplemente recogí lo que quedaban de ellas y seguí haciendo fotos.\n\nMe dijo mi padre que era demasiado frío, desagradecido y que no me importaban las cosas. Y probablemente pienses lo mismo que él.\n\n¿Pero qué iba a hacer? ¿Pasarme el resto del viaje lamentando las gafas? ¿O admirar el precioso paisaje que tenía en frente mío? Escogí la segunda.\n\nAl fin y al cabo ya estaban rotas. Tampoco fingí que no me había dolido, porque me costaron un pastizal.\n\nPero ahí entendí un concepto que tardé años en aplicar a mi vida sentimental. Uno que, la segunda vez que Katie me rompió el corazón, hizo que tardara horas en soltarlo en vez de 200 días.\n\nY es el siguiente..."
+    },
+    {
+      "min": 2,
+      "max": 3,
+      "titulo": "Sabes que ahí ya no hay nada, pero sigues sin moverte.",
+      "texto": "Imagina que tu relación ahora mismo es un coche parado en medio de una montaña. Es de noche. Delante hay dos caminos, y sabes perfectamente cuáles son: quedarte donde ya no te quieren pero donde estás cómodo, o soltar el freno e irte y afrontar una nueva realidad. Pero tu escoges la peor opción de todas. No escoger, en punto muerto, sin decidir ninguno.\n\nPiensas que si no eliges, no pasa nada, ¿verdad?\n\nFalso. Pasa lo peor. El coche sigue gastando gasolina. Los días pasan. Las semanas pasan. Y tú sigues tirado en mitad de la montaña, a oscuras, con el tanque cada vez más vacío. Con una angustia que crece a cada segundo que pasa. A la espera de que venga cualquier tragedia y acabe con tu sufrimiento.\n\nEso era yo con Katie. Motor encendido, gasolina bajando a chorros, incapaz de soltar el embrague, aún sabiendo que era la peor elección posible.\n\nY ahí aprendí algo sobre el arte de dejar ir que cambió todo lo que hice después. Es lo siguiente..."
+    },
+    {
+      "min": 4,
+      "max": 5,
+      "titulo": "Estás enganchado, y eso te está cegando.",
+      "texto": "Piensa en las películas de terror. Estás en el sofá, viendo la pantalla. La protagonista sale de casa a las tres de la mañana, se mete por un sendero oscuro con una linterna y su móvil al 2% de batería, y tú ya sabes que hay un tío con un hacha persiguiéndola.\n\nLe gritas: \"¡vuelve para dentro, cierra la puerta, llama a la policía!\" \"¿Estás ciega o qué te pasa?\".\n\nPara ti es evidente.\n\nPero cuando la película es tu vida, tú no estás en la butaca comiendo palomitas. Eres tú quien camina por el bosque a oscuras, justificando cada red flag, diciéndote que \"en el fondo no es para tanto\". Porque todos hemos pasado por ahí. Tus sentimientos te ciegan.\n\nNo lo vas a ver hasta que te obligues a salir de ahí dentro y mirarte desde la butaca, como si fueras un espectador cualquiera viendo tu propia vida en pantalla.\n\nY hay un ejercicio que hago para conseguir justo eso, y es el único que me ha funcionado de verdad. Es el siguiente..."
+    }
+  ],
+  "_nota_cta": "Bloque de compra que aparece bajo los tres resultados. {precio} se rellena solo con el precio real de Payhip; 'precioRespaldo' es lo que se muestra si Payhip no responde. Si la url apunta a theivanzheng.com se abre en la misma pestaña; si apunta fuera (p. ej. a Payhip), en una nueva.",
+  "cta": {
+    "boton": "Descúbrelo",
+    "pie": "“El Arte de Dejar Ir” — {precio}",
+    "precioRespaldo": "19,99€",
+    "url": "https://www.theivanzheng.com/ElArteDeDejarIr?ref=test-para-soltar",
+    "imagenes": [
+      {
+        "src": "./Resources/productos/libro-pagina-izq.jpg",
+        "alt": "Página interior de El Arte de Dejar Ir"
+      },
+      {
+        "src": "./Resources/productos/libro-portada.jpg",
+        "alt": "Portada de El Arte de Dejar Ir"
+      },
+      {
+        "src": "./Resources/productos/libro-pagina-der.jpg",
+        "alt": "Página interior de El Arte de Dejar Ir"
+      }
+    ]
+  }
+}
