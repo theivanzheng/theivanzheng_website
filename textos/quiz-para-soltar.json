@@ -18,11 +18,11 @@
     }
   },
   "preguntas": [
-    "¿Pasas más tiempo pensando en esta persona/situación que en tus objetivos y metas para dentro de 5 años?",
-    "Si te preguntara ahora mismo qué objetivo quieres conseguir este año, aparte de arreglar esto, ¿tardarías más de 10 segundos en responder?",
-    "¿Sientes que esta persona/situación solo te da migajas, y aun así te emocionas y se lo agradeces cada vez que ocurre?",
-    "Si mañana esa persona/situación desapareciera de tu vida del todo, ¿tu rutina, tus metas y tu día a día se vendrían abajo?",
-    "¿Alguna vez te has sorprendido defendiendo algo de esa persona/situación que en el fondo sabes que está mal, solo para no tener que soltarlo?"
+    "¿Piensas más en esa persona/situación que en tus metas a cinco años?",
+    "Aparte de arreglar esto, si te pregunto qué quieres lograr este año, ¿tardarías más de 10 segundos en responder?",
+    "¿Sientes que solo recibes migajas y, aun así, te alegras y lo agradeces cada vez que te da algo?",
+    "Si mañana esta persona o situación desapareciera por completo de tu vida, ¿se vendrían abajo tu rutina y tus metas?",
+    "¿Has defendido algo que sabes que está mal, solo para no tener que dejar ir a esta persona/situación?"
   ],
   "interfaz": {
     "si": "Sí",

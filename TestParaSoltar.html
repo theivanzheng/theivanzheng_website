@@ -45,7 +45,7 @@
       flex-direction: column;
       justify-content: center;
       padding: 32px 22px calc(32px + env(safe-area-inset-bottom));
-      max-width: 620px;
+      max-width: 700px;
       width: 100%;
       margin: 0 auto;
     }
@@ -87,12 +87,9 @@
       margin-bottom: 22px;
     }
 
-    /* El brazo cruza la pantalla de lado a lado, saliéndose de la columna por los
-       dos bordes. La imagen mide 402px de ancho y los móviles van de 375 a 430,
-       así que estirarla al 100% supone como mucho un 7% de ampliación. */
+    /* El brazo ocupa exactamente el ancho del bloque de texto, alineado con el
+       titular y el botón. No se sale de la columna en ninguna resolución. */
     .portada-brazo {
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
       margin-bottom: 30px;
       display: flex;
       justify-content: flex-end;
@@ -102,20 +99,6 @@
       width: 100%;
       height: auto;
       display: block;
-    }
-
-    /* A partir de tablet, estirar la imagen sí se notaría: se deja a tamaño
-       nativo pegada a la derecha y la cuerda entra desde donde llegue. */
-    @media (min-width: 560px) {
-      .portada-brazo {
-        height: 65px;
-        overflow: hidden;
-      }
-      .portada-brazo img {
-        width: auto;
-        height: 100%;
-        max-width: none;
-      }
     }
 
     /* Volver: solo aparece si se ha llegado desde la propia web. */
@@ -362,7 +345,6 @@
     }
 
     @media (min-width: 700px) {
-      .pantalla { padding-left: 0; padding-right: 0; }
       .respuestas { flex-direction: row; }
       .respuestas .boton { flex: 1; }
     }
