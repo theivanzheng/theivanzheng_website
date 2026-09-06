@@ -1,0 +1,16 @@
+# Empaquetados y exportaciones: se regeneran, no se versionan.
+*.zip
+
+# Basura de macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Dependencias
+node_modules/
+
+# Entorno local
+.env
+.env.local
+.vercel/
