@@ -172,6 +172,30 @@
     }
     .producto-card:hover .producto-card-visual img { transform: scale(1.03); }
 
+    /* Visual tipográfico mientras el producto no tiene portada */
+    .producto-card-visual-texto {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+    .producto-card-visual-texto span {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+    }
+    .producto-card-visual-texto strong {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 3.6vw, 44px);
+      font-weight: 400;
+      line-height: 1;
+      transition: transform .35s ease;
+    }
+    .producto-card:hover .producto-card-visual-texto strong { transform: scale(1.03); }
+
     .producto-card-body {
       padding: 20px 22px 22px;
       display: flex;
@@ -511,6 +535,27 @@
               <span class="producto-precio" data-precio>19,99€</span>
               <span class="producto-link">
                 Ver producto
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <a class="producto-card reveal reveal-delay-1" href="/yapping-101">
+          <div class="producto-card-visual producto-card-visual-texto" aria-hidden="true">
+            <span>Curso · Lista de espera</span>
+            <strong>Yapping 101</strong>
+          </div>
+          <div class="producto-card-body">
+            <div class="producto-card-head">
+              <h2>Yapping 101</h2>
+              <span class="producto-badge">Curso</span>
+            </div>
+            <p>Gané 100.000 seguidores en 100 días hablando a cámara, sin edición ni equipo caro. 9 módulos para aprender a comunicar como si hablaras con un amigo.</p>
+            <div class="producto-card-foot">
+              <span class="producto-precio">99€</span>
+              <span class="producto-link">
+                Ver curso
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
             </div>

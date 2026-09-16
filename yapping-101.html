@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yapping 101 | Iván Zheng</title>
+  <meta name="description" content="Gané 100.000 seguidores en 100 días. Sin edición, sin equipo caro, solo hablando a cámara. Yapping 101 te enseña el sistema." />
+  <link rel="icon" type="image/svg+xml" href="./Resources/pfp.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --copy-small: #d9d9d9;
+      --gray-mid: #aaaaaa;
+      --border: #2a2a2a;
+      --card-bg: #111111;
+      --panel-card: #151515;
+      --content-width: 1240px;
+      --gutter: 56px;
+
+      /* Movimiento (emil-design-eng + impeccable/motion-design) */
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);      /* interacciones: respuesta inmediata */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);  /* entradas: decidido, sin rebote */
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);  /* movimiento en pantalla */
+      --dur-press: 160ms;
+      --dur-state: 240ms;
+      --dur-layout: 360ms;
+      --dur-enter: 900ms;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      overflow-x: hidden;
+    }
+
+    .playfair-inline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    /* ---------- Nav ---------- */
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 64px;
+      transition: background-color var(--dur-state) ease;
+    }
+    nav .nav-left { display: flex; gap: 32px; }
+    nav .nav-center {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; letter-spacing: 0.01em;
+    }
+    nav .nav-center a {
+      color: var(--white); text-decoration: none;
+      font-family: inherit; font-size: inherit; letter-spacing: inherit;
+    }
+    nav .nav-right { display: flex; gap: 32px; }
+    nav a {
+      color: var(--white); text-decoration: none;
+      font-size: 15px; font-weight: 400;
+      opacity: 0.85;
+      transition: opacity .2s ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      nav a:hover { opacity: 1; }
+      nav .nav-center a:hover { opacity: 0.75; }
+    }
+    nav .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 0;
+      padding: 8px 4px;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+    nav .nav-toggle span {
+      display: block;
+      width: 20px;
+      height: 1px;
+      border-radius: 999px;
+      background: var(--white);
+    }
+    nav .nav-mobile-menu { display: none; }
+    .nav-scrolled {
+      background: rgba(10, 10, 10, 0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ---------- Estructura ---------- */
+
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .col {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Ritmo: separaciones generosas entre bloques, variables según su peso */
+    .bloque { padding-top: clamp(88px, 11vw, 150px); scroll-margin-top: 80px; }
+    .bloque-corto { padding-top: clamp(64px, 7vw, 96px); }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 4.6vw, 54px);
+      font-weight: 400;
+      line-height: 1.08;
+      margin-bottom: clamp(28px, 3.4vw, 44px);
+    }
+
+    /* ---------- Reveal (scroll) ---------- */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity var(--dur-enter) var(--ease-out-expo), transform var(--dur-enter) var(--ease-out-expo);
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+
+    /* Cascada: los hijos entran de uno en uno (70ms entre cada uno) */
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 700ms var(--ease-out-expo), transform 700ms var(--ease-out-expo);
+      transition-delay: calc(var(--i, 0) * 70ms);
+    }
+    .stagger.is-visible > * { opacity: 1; transform: translateY(0); }
+
+    /* ---------- Botón ---------- */
+
+    .btn-primario {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 62px;
+      padding: 0 44px;
+      background: var(--white);
+      color: var(--black);
+      border: 0;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform var(--dur-press) var(--ease-out), opacity var(--dur-state) ease;
+    }
+    .btn-primario:active { transform: scale(0.97); }
+    .btn-primario:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+    .btn-primario:disabled { opacity: 0.55; cursor: wait; transform: none; }
+    @media (hover: hover) and (pointer: fine) {
+      .btn-primario:hover { opacity: 0.88; }
+    }
+    .cta { margin-top: clamp(40px, 5vw, 56px); }
+
+    /* ---------- Hero: coreografía de carga ---------- */
+
+    .hero { padding: 150px 0 0; text-align: center; }
+    .hero-kicker {
+      font-size: 13px;
+      color: var(--gray-mid);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6.4vw, 80px);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.06;
+      max-width: 940px;
+      margin: 0 auto 26px;
+      text-wrap: balance;
+    }
+    .hero-bajada {
+      font-size: clamp(19px, 2.2vw, 24px);
+      line-height: 1.45;
+      color: var(--copy-small);
+      margin: 0 auto 56px;
+    }
+
+    .hero-in {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(8px);
+      transition:
+        opacity 800ms var(--ease-out-expo),
+        transform 800ms var(--ease-out-expo),
+        filter 800ms var(--ease-out-expo);
+      transition-delay: calc(var(--i, 0) * 110ms + 60ms);
+    }
+    .is-loaded .hero-in { opacity: 1; transform: none; filter: blur(0); }
+
+    .hero-media {
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+      background: var(--panel-card);
+      border: 5px solid var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.32);
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      clip-path: inset(10% 10% 10% 10% round 16px);
+      opacity: 0;
+      transition: clip-path 1100ms var(--ease-out-expo), opacity 700ms ease;
+      transition-delay: 420ms;
+    }
+    .is-loaded .hero-media { clip-path: inset(0 0 0 0 round 16px); opacity: 1; }
+    .hero-media img,
+    .hero-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ---------- Dolor ---------- */
+
+    .dolor-panel {
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 24px;
+      padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 60px);
+    }
+    /* La lista se centra como bloque, pero sus filas arrancan todas desde la misma X */
+    .dolor-lista {
+      list-style: none;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .dolor-lista li {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 20px 0;
+      font-size: clamp(17px, 1.9vw, 21px);
+      line-height: 1.45;
+      text-wrap: balance;
+    }
+    .dolor-lista li + li { border-top: 1px solid rgba(255, 255, 255, 0.07); }
+    .icono-x {
+      display: inline-block;
+      width: 0.72em;
+      height: 0.72em;
+      margin-right: 0.6em;
+      vertical-align: 0.02em;
+      stroke: var(--gray-mid);
+      fill: none;
+    }
+    .dolor-lista .icono-x { margin-right: 0; flex-shrink: 0; transform: translateY(0.04em); }
+    .dolor-piensas {
+      margin-top: clamp(48px, 6vw, 72px);
+      font-size: 18px;
+      color: var(--copy-small);
+    }
+    .dolor-piensas .playfair-inline {
+      display: block;
+      margin-top: 6px;
+      font-size: clamp(24px, 3vw, 32px);
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    /* ---------- La verdad: el giro ---------- */
+    /* Secuencia al entrar en pantalla: el panel aparece, se tacha "el algoritmo"
+       y después se resalta el titular. Solo ocurre una vez. */
+
+    .verdad-panel {
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 24px;
+      padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 60px);
+    }
+    .verdad-kicker {
+      font-size: 13px;
+      color: var(--gray-mid);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+    .verdad-no {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.6vw, 30px);
+      line-height: 1.3;
+      color: var(--copy-small);
+      margin-bottom: 14px;
+    }
+    .tachado {
+      position: relative;
+      white-space: nowrap;
+      transition: color 400ms ease 450ms;
+    }
+    .tachado::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 56%;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 600ms var(--ease-in-out);
+    }
+    .verdad-panel.is-visible .tachado { color: rgba(255, 255, 255, 0.4); }
+    .verdad-panel.is-visible .tachado::after { transform: scaleX(1); }
+
+    .verdad-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 400;
+      line-height: 1.62;
+      margin-bottom: clamp(28px, 3.6vw, 40px);
+    }
+    /* Un bloque blanco por renglón (box-decoration-break: clone). El blanco se
+       pinta de izquierda a derecha justo después del tachado. */
+    /* Cada renglón se "subraya" de izquierda a derecha, primero el de arriba y
+       luego el de abajo. El texto ya es negro, así que va apareciendo a medida
+       que el blanco pasa por debajo, como un rotulador. */
+    .resaltado {
+      color: var(--black);
+      background-image: linear-gradient(var(--white), var(--white));
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-size: 0% 100%;
+      padding: 0.02em 0.2em 0.08em;
+      -webkit-box-decoration-break: clone;
+              box-decoration-break: clone;
+      transition: background-size 650ms var(--ease-in-out) var(--retraso, 0ms);
+    }
+    .verdad-panel.is-visible .resaltado { background-size: 100% 100%; }
+
+    .verdad-prueba {
+      font-size: 16px;
+      line-height: 1.72;
+      color: var(--copy-small);
+      max-width: 560px;
+      margin: 0 auto clamp(26px, 3.4vw, 36px);
+    }
+    .verdad-solucion {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.4vw, 26px);
+      line-height: 1.3;
+      margin-bottom: clamp(36px, 5vw, 52px);
+    }
+    .verdad-pie .stack { margin-bottom: clamp(36px, 5vw, 52px); }
+
+    /* ---------- Stack de fotos físicas ---------- */
+    /* Las fotos están apiladas y un poco giradas, con marco blanco como una
+       copia en papel. Al pasar, la de arriba sale lanzada hacia un lado y se
+       mete debajo del montón; al volver, la última se saca y se pone encima. */
+
+    .stack { --ancho: clamp(260px, 74vw, 460px); }
+    .stack-escenario {
+      position: relative;
+      width: var(--ancho);
+      aspect-ratio: 4 / 3;
+      margin: 0 auto;
+      touch-action: pan-y;
+      outline: none;
+    }
+    .stack-escenario:focus-visible::after {
+      content: "";
+      position: absolute;
+      inset: -14px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 22px;
+      pointer-events: none;
+    }
+    /* El tamaño lo calcula el JS para que el marco se ajuste a la proporción de
+       cada foto (horizontal, cuadrada o vertical) dentro del escenario. */
+    .foto {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(10, 10, 10, 0.3), 0 24px 48px rgba(10, 10, 10, 0.55);
+      transform-origin: 50% 80%;
+      transition: transform 520ms var(--ease-out), opacity 320ms ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .foto.es-arriba { cursor: grab; }
+    .foto.es-arriba:active { cursor: grabbing; }
+    .foto-interior {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--panel-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.35);
+    }
+    .foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+
+    .stack-controles {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 40px;
+    }
+    .stack-contador {
+      min-width: 54px;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+      color: rgba(255, 255, 255, 0.52);
+      text-align: center;
+    }
+    .stack-flecha {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: transparent;
+      color: var(--white);
+      cursor: pointer;
+      transition: transform var(--dur-press) var(--ease-out), border-color var(--dur-state) ease;
+    }
+    .stack-flecha:active { transform: scale(0.94); }
+    .stack-flecha:focus-visible { outline: 1px solid var(--white); outline-offset: 3px; }
+    @media (hover: hover) and (pointer: fine) {
+      .stack-flecha:hover { border-color: rgba(255, 255, 255, 0.6); }
+    }
+    .stack-flecha svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+
+    /* ---------- Qué incluye ---------- */
+
+    .incluye-lista {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 34px 40px;
+      text-align: left;
+    }
+    .incluye-lista li {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+    .incluye-icono {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 5px;
+    }
+    .incluye-icono svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: var(--white);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .incluye-modulo {
+      display: block;
+      font-size: 12px;
+      color: var(--gray-mid);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .incluye-lista strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.3vw, 26px);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .incluye-texto {
+      display: block;
+      font-size: 15px;
+      color: var(--copy-small);
+      line-height: 1.5;
+    }
+    .incluye-etiquetas {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: clamp(36px, 4.6vw, 48px);
+    }
+    .incluye-etiquetas span {
+      font-size: 14px;
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 5px;
+    }
+
+    /* ---------- Precio ---------- */
+
+    .precio-panel {
+      background: var(--panel-card);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 24px;
+      padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 52px);
+      text-align: center;
+    }
+    .precio-importe {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(76px, 12vw, 128px);
+      font-weight: 400;
+      line-height: 1;
+    }
+    .precio-tipo {
+      font-size: 14px;
+      color: var(--gray-mid);
+      margin: 12px 0 20px;
+    }
+    .precio-desc {
+      font-size: 18px;
+      color: var(--copy-small);
+      max-width: 440px;
+      margin: 0 auto 28px;
+    }
+    .early-bird {
+      max-width: 460px;
+      margin: 0 auto 36px;
+      padding: 22px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 8px;
+    }
+    .early-kicker {
+      font-size: 12px;
+      color: var(--gray-mid);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .early-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.6vw, 26px);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .early-texto { font-size: 15px; color: var(--copy-small); line-height: 1.6; }
+    .precio-panel .btn-primario { width: 100%; max-width: 420px; }
+    .precio-nota {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--gray-mid);
+    }
+
+    /* ---------- FAQ (acordeón animado) ---------- */
+
+    .faq-lista { text-align: left; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .faq-item summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 26px 0;
+      font-size: 19px;
+      font-weight: 500;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:focus-visible { outline: 1px solid rgba(255, 255, 255, 0.6); outline-offset: 4px; border-radius: 4px; }
+
+    .faq-icono {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      transition: transform var(--dur-layout) var(--ease-out), border-color var(--dur-state) ease;
+    }
+    .faq-icono::before,
+    .faq-icono::after {
+      content: "";
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 12px; height: 1.5px;
+      background: var(--white);
+      border-radius: 2px;
+      transform: translate(-50%, -50%);
+    }
+    .faq-icono::after { transform: translate(-50%, -50%) rotate(90deg); }
+    .faq-item.is-open .faq-icono { transform: rotate(45deg); border-color: rgba(255, 255, 255, 0.5); }
+    @media (hover: hover) and (pointer: fine) {
+      .faq-item summary:hover .faq-icono { border-color: rgba(255, 255, 255, 0.5); }
+    }
+
+    /* grid-template-rows 0fr → 1fr: altura real sin animar height */
+    .faq-cuerpo {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 220ms var(--ease-out);
+    }
+    .faq-item.is-open .faq-cuerpo {
+      grid-template-rows: 1fr;
+      transition-duration: var(--dur-layout);
+    }
+    .faq-interior { overflow: hidden; }
+    .faq-interior p {
+      font-size: 17px;
+      color: var(--copy-small);
+      padding: 0 52px 28px 0;
+      opacity: 0;
+      transform: translateY(-6px);
+      filter: blur(2px);
+      transition: opacity 160ms ease, transform 160ms ease, filter 160ms ease;
+    }
+    .faq-item.is-open .faq-interior p {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+      transition: opacity 300ms var(--ease-out) 60ms, transform 300ms var(--ease-out) 60ms, filter 300ms var(--ease-out) 60ms;
+    }
+
+    /* ---------- Prueba social ---------- */
+
+    .prueba-stats {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px clamp(32px, 6vw, 72px);
+    }
+    .stat { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(44px, 5.4vw, 64px);
+      font-weight: 400;
+      line-height: 1;
+    }
+    .stat-label { font-size: 14px; color: var(--gray-mid); line-height: 1.4; max-width: 170px; text-align: center; }
+
+    .comentarios { margin-top: clamp(64px, 8vw, 104px); }
+
+    .carrusel-cierre {
+      margin-top: clamp(48px, 6vw, 72px);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.18;
+      text-wrap: balance;
+    }
+
+    /* ---------- Formulario ---------- */
+
+    .aplicar { padding-bottom: clamp(88px, 11vw, 150px); }
+    .form-panel {
+      background: var(--panel-card);
+      border: 1px solid #2b2b2b;
+      border-radius: 24px;
+      padding: 46px 52px 42px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .form-panel .section-title { margin-bottom: 10px; text-align: center; }
+    .form-intro {
+      font-size: 16px;
+      color: var(--copy-small);
+      margin-bottom: 36px;
+      text-align: center;
+    }
+
+    .campo { margin-bottom: 22px; }
+    .campo > label,
+    .campo > legend {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    fieldset.campo { border: 0; }
+
+    .campo input[type="text"],
+    .campo input[type="email"],
+    .campo select {
+      width: 100%;
+      background: transparent;
+      border: 1.5px solid #d9d9d9;
+      border-radius: 5px;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      padding: 16px 18px;
+      transition: border-color var(--dur-state) ease, box-shadow var(--dur-state) ease;
+    }
+    .campo input::placeholder { color: rgba(255, 255, 255, 0.38); }
+    .campo input:focus,
+    .campo select:focus {
+      outline: none;
+      border-color: var(--white);
+      box-shadow: 0 0 0 1px var(--white);
+    }
+    .campo select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      padding-right: 48px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaaaaa' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      background-size: 18px;
+    }
+    .campo select option { background: var(--black); color: var(--white); }
+    .campo select:invalid { color: rgba(255, 255, 255, 0.38); }
+
+    /* Sí / No: sin relleno, el estado lo marca el borde y el check */
+    .opciones { display: flex; gap: 12px; }
+    .opcion { flex: 1; position: relative; }
+    .opcion input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .opcion span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 56px;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border-radius: 5px;
+      font-size: 17px;
+      color: var(--copy-small);
+      transition: border-color var(--dur-state) ease, box-shadow var(--dur-state) ease, color var(--dur-state) ease, transform var(--dur-press) var(--ease-out);
+    }
+    .opcion input:active + span { transform: scale(0.98); }
+    .opcion input:checked + span {
+      border-color: var(--white);
+      box-shadow: inset 0 0 0 1px var(--white);
+      color: var(--white);
+      font-weight: 600;
+    }
+    .opcion input:focus-visible + span { outline: 1px solid var(--white); outline-offset: 3px; }
+    @media (hover: hover) and (pointer: fine) {
+      .opcion input:not(:checked):hover + span { border-color: rgba(255, 255, 255, 0.65); }
+    }
+
+    /* Checks dibujados: borde blanco, fondo transparente, trazo animado */
+    .check {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      border: 1.5px solid var(--white);
+      border-radius: 3px;
+      background: transparent;
+      transition: transform var(--dur-press) var(--ease-out);
+    }
+    .check svg { width: 12px; height: 12px; fill: none; stroke: var(--white); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .check path {
+      stroke-dasharray: 20;
+      stroke-dashoffset: 20;
+      transition: stroke-dashoffset 120ms ease;
+    }
+    input:checked + .check path,
+    input:checked + span .check path {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 260ms var(--ease-out);
+    }
+    .opcion .check { width: 16px; height: 16px; border-radius: 999px; border-color: transparent; }
+    .opcion .check svg { width: 12px; height: 12px; }
+
+    .campo > .consentimiento {
+      margin-bottom: 0;
+      font-weight: 400;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--copy-small);
+      line-height: 1.55;
+      cursor: pointer;
+    }
+    .consentimiento input {
+      position: absolute;
+      top: 1px; left: 0;
+      width: 20px; height: 20px;
+      opacity: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    .consentimiento .check { margin-top: 1px; }
+    .consentimiento input:active + .check { transform: scale(0.92); }
+    .consentimiento input:focus-visible + .check { outline: 1px solid var(--white); outline-offset: 3px; }
+    .consentimiento a {
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      transition: border-color .2s ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .consentimiento a:hover { border-color: var(--white); }
+    }
+
+    .campo-error {
+      display: block;
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--white);
+    }
+    .campo-error:empty { display: none; }
+    .campo.tiene-error input[type="text"],
+    .campo.tiene-error input[type="email"],
+    .campo.tiene-error select,
+    .campo.tiene-error .opcion span,
+    .campo.tiene-error .check {
+      border-style: dashed;
+      border-color: var(--gray-mid);
+    }
+    .campo.tiene-error .opcion input:checked + span { border-style: solid; border-color: var(--white); }
+
+    .honeypot {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .form-panel .btn-primario { width: 100%; margin-top: 10px; }
+    .form-mensaje {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--copy-small);
+      text-align: center;
+    }
+    .form-mensaje:empty { display: none; }
+
+    .form-gracias { text-align: center; padding: 40px 0 24px; }
+    .form-gracias p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.2;
+    }
+    .form-gracias:not([hidden]) {
+      animation: aparecer 600ms var(--ease-out-expo) both;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(12px); filter: blur(6px); }
+      to   { opacity: 1; transform: none; filter: blur(0); }
+    }
+
+    /* ---------- Footer ---------- */
+
+    footer {
+      padding: 28px 56px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      row-gap: 26px;
+      align-items: end;
+    }
+    footer .footer-left {
+      font-size: 24px; color: #ffffff;
+      grid-column: 1/2; grid-row: 1/2;
+    }
+    footer .footer-nav {
+      display: flex;
+      gap: 24px;
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      align-self: end;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    footer .footer-mid {
+      display: flex; gap: 24px;
+      grid-column: 1/2; grid-row: 2/3; flex-wrap: wrap;
+    }
+    footer .footer-nav a,
+    footer .footer-mid a,
+    footer .footer-right a {
+      font-size: 14px;
+      color: #d9d9d9;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      footer .footer-nav a:hover { color: #999999; }
+    }
+    footer .footer-right {
+      display: flex; gap: 48px;
+      grid-column: 2/3; grid-row: 2/3;
+      align-self: end; flex-wrap: wrap;
+    }
+
+    /* ---------- Tablet ---------- */
+
+    @media (max-width: 1024px) {
+      :root { --gutter: 24px; }
+      nav { padding: 0 26px; }
+      nav .nav-left, nav .nav-right { gap: 18px; }
+      nav a { font-size: 13px; }
+      nav .nav-center { font-size: 18px; }
+      footer { padding-left: 24px; padding-right: 24px; }
+
+      .hero { padding-top: 120px; }
+      .form-panel { padding: 38px 32px 34px; }
+    }
+
+    /* ---------- Mobile ---------- */
+
+    @media (max-width: 640px) {
+      :root { --gutter: 18px; }
+      nav { padding: 0 14px; height: 54px; }
+      nav .nav-left, nav .nav-right { display: none; }
+      nav .nav-center {
+        position: static;
+        transform: none;
+        margin-right: auto;
+        font-size: 20px;
+        letter-spacing: 0.04em;
+      }
+      nav .nav-toggle { display: flex; margin-left: auto; }
+      nav .nav-mobile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: absolute;
+        top: 54px;
+        left: 0;
+        right: 0;
+        padding: 14px 18px 16px;
+        background: rgba(10,10,10,0.9);
+        border-top: 1px solid rgba(255,255,255,0.12);
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        pointer-events: none;
+        transform-origin: top center;
+        transform: scaleY(0.96) translateY(-6px);
+        transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+      }
+      nav.nav-open .nav-mobile-menu {
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+      }
+      nav.nav-open {
+        background: rgba(10,10,10,0.9);
+        backdrop-filter: blur(8px);
+      }
+
+      .hero { padding-top: 100px; }
+      .hero h1 { letter-spacing: 0; margin-bottom: 18px; }
+      .hero-bajada { margin-bottom: 36px; }
+      .hero-media { border-width: 4px; border-radius: 12px; }
+      .btn-primario { min-height: 56px; padding: 0 16px; font-size: 17px; border-radius: 10px; width: 100%; white-space: nowrap; }
+
+      .dolor-lista li { padding: 16px 0; gap: 12px; }
+      .dolor-piensas { font-size: 16px; }
+      /* Máximo dos renglones de titular en móvil */
+      .verdad-titulo { font-size: clamp(22px, 7.4vw, 30px); line-height: 1.95; }
+      .verdad-prueba { font-size: 15px; }
+      .verdad-solucion { font-size: 20px; }
+      .incluye-lista { grid-template-columns: 1fr; gap: 24px; }
+      .incluye-icono { width: 42px; height: 42px; }
+      .precio-panel { border-radius: 16px; }
+      .precio-desc { font-size: 16px; }
+      .faq-item summary { font-size: 17px; padding: 20px 0; }
+      .faq-interior p { font-size: 15px; padding-right: 0; }
+      .stack-flecha { width: 42px; height: 42px; }
+      .foto { padding: 4px; border-radius: 10px; }
+      .foto-interior { border-radius: 6px; }
+      .form-panel { padding: 28px 18px 26px; border-radius: 16px; }
+      .campo input[type="text"],
+      .campo input[type="email"],
+      .campo select { font-size: 16px; padding: 14px 16px; }
+
+      footer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 24px 18px 40px;
+        position: relative;
+      }
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 18px;
+        right: 18px;
+        height: 1px;
+        background: rgba(255,255,255,0.18);
+      }
+      footer .footer-nav { order: 1; justify-content: flex-start; gap: 18px; width: 100%; margin-top: 14px; }
+      footer .footer-mid { order: 2; flex-wrap: nowrap; gap: 0; opacity: 0.7; }
+      footer .footer-mid a { font-size: 9px; }
+      footer .footer-mid a:not(:last-child)::after { content: " · "; color: rgba(255,255,255,0.5); }
+      footer .footer-right { order: 3; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
+      footer .footer-right a { letter-spacing: 0.08em; text-transform: uppercase; }
+      footer .footer-left { order: 4; margin-top: 20px; font-size: 22px; font-weight: 600; line-height: 1; }
+    }
+
+    /* Movimiento reducido: se mantienen los fundidos, se quita el desplazamiento */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal, .stagger > *, .hero-in, .hero-media {
+        transform: none !important;
+        filter: none !important;
+        clip-path: none !important;
+        transition: opacity 300ms ease !important;
+        transition-delay: 0ms !important;
+      }
+      .faq-cuerpo, .faq-interior p, .faq-icono, .foto, .btn-primario, .stack-flecha, .check {
+        transition-duration: 0ms !important;
+      }
+      .check path { transition: none !important; }
+      .tachado, .tachado::after, .resaltado { transition: none !important; }
+      .form-gracias:not([hidden]) { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="site-nav">
+    <div class="nav-left">
+      <a href="/#sobre-mi">Sobre Mí</a>
+      <a href="proyectos.html">Proyectos</a>
+    </div>
+    <div class="nav-center"><a href="/">IVAN ZHENG</a></div>
+    <div class="nav-right">
+      <a href="productos.html">Productos</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
+      <span></span>
+      <span></span>
+    </button>
+    <div id="nav-mobile-menu" class="nav-mobile-menu">
+      <a href="/">Inicio</a>
+      <a href="/#sobre-mi">Sobre Mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="productos.html">Productos</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="container">
+      <p class="hero-kicker hero-in" style="--i:0">Yapping 101</p>
+      <h1 class="hero-in" style="--i:1">Gané 100.000 seguidores en 100 días.</h1>
+      <p class="hero-bajada hero-in" style="--i:2">
+        Sin edición. Sin equipo caro. Solo hablando a cámara.<br>
+        Este es el sistema.
+      </p>
+
+      <div class="hero-media">
+        <!-- AGREGAR IMAGEN/VIDEO YAPPEANDO AQUÍ: Iván hablando a cámara con naturalidad -->
+        <!-- Proporción 16:9 (800×450). Ej.: <video src="./Resources/productos/yapping-101.mp4" autoplay muted loop playsinline></video> -->
+        <span aria-hidden="true">800 × 450</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOLOR -->
+  <section class="bloque" id="dejame-adivinar">
+    <div class="container">
+      <div class="col dolor-panel reveal">
+        <h2 class="section-title">Déjame adivinar</h2>
+        <ul class="dolor-lista stagger">
+          <li style="--i:0"><svg class="icono-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-width="2" stroke-linecap="round"/></svg><span>Ya creas contenido, pero no terminas de despegar</span></li>
+          <li style="--i:1"><svg class="icono-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-width="2" stroke-linecap="round"/></svg><span>La gente se salta tus vídeos, aunque tu hook sea perfecto</span></li>
+          <li style="--i:2"><svg class="icono-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-width="2" stroke-linecap="round"/></svg><span>No eres capaz de hablar sin muletillas y te trabas todo el rato</span></li>
+          <li style="--i:3"><svg class="icono-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-width="2" stroke-linecap="round"/></svg><span>Sientes que tus vídeos son como una presentación de clase (rígida y aburrida) y no como una conversación con un amigo</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <p class="dolor-piensas reveal">
+          Probablemente piensas:
+          <span class="playfair-inline">“El algoritmo me odia. Me han shadow-baneado.”</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA VERDAD -->
+  <section class="bloque" id="la-verdad">
+    <div class="container">
+      <div class="col verdad-panel reveal">
+        <p class="verdad-kicker">Aquí está la verdad</p>
+        <p class="verdad-no">El problema no es <span class="tachado">el algoritmo</span>.</p>
+        <h2 class="verdad-titulo"><span class="resaltado" style="--retraso:0ms">Está en <span class="playfair-inline">cómo hablas</span></span><br><span class="resaltado" style="--retraso:350ms">a cámara.</span></h2>
+
+        <div class="verdad-pie">
+          <p class="verdad-prueba">Mis seguidores me escriben a diario diciendo “es como si un amigo me estuviera hablando”. No es porque tenga un micrófono de 500€ o una cámara profesional. Es porque aprendí la clave para comunicar.</p>
+          <p class="verdad-solucion">En Yapping 101 te enseño exactamente eso.</p>
+          <!-- Capturas de vídeos: se añaden en textos/yapping-101.json → capturasVideos -->
+          <div class="stack" id="stack-videos" role="region" aria-roledescription="carrusel" aria-label="Capturas de vídeos de Iván hablando a cámara">
+            <div class="stack-escenario" tabindex="0"></div>
+            <div class="stack-controles">
+              <button class="stack-flecha" type="button" data-dir="-1" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <p class="stack-contador" aria-live="polite"></p>
+              <button class="stack-flecha" type="button" data-dir="1" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+          <a class="btn-primario" href="#aplicar">Unirse a la lista de espera</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ INCLUYE -->
+  <section class="bloque" id="que-incluye">
+    <div class="container">
+      <div class="col dolor-panel reveal">
+        <h2 class="section-title">Qué incluye</h2>
+        <ul class="incluye-lista stagger" id="incluye-lista"></ul>
+        <p class="incluye-etiquetas" id="incluye-etiquetas"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ NO ES -->
+  <section class="bloque" id="que-no-es">
+    <div class="container">
+      <div class="col dolor-panel reveal">
+        <h2 class="section-title">Qué no es</h2>
+        <ul class="dolor-lista stagger" id="no-es-lista"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRECIO -->
+  <section class="bloque" id="precio">
+    <div class="container">
+      <div class="col">
+        <div class="precio-panel reveal">
+          <p class="precio-importe">99€</p>
+          <p class="precio-tipo">Pago único</p>
+          <p class="precio-desc">Acceso permanente. Paga una vez, acceso de por vida.</p>
+          <div class="early-bird">
+            <p class="early-kicker">Early bird</p>
+            <p class="early-titulo">80€ + 4 llamadas semanales</p>
+            <p class="early-texto">Para los seguidores más fieles que hagan la precompra: 20% de descuento + llamadas semanales conmigo durante un mes para que veas resultados antes.</p>
+          </div>
+          <a class="btn-primario" id="btn-payhip" href="#aplicar">Unirse a la lista de espera</a>
+          <p class="precio-nota">Abre el 10 de octubre. 200 accesos disponibles.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bloque" id="faq">
+    <div class="container">
+      <div class="col">
+        <h2 class="section-title reveal">Preguntas frecuentes</h2>
+        <div class="faq-lista reveal reveal-delay-1" id="faq-lista"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRUEBA SOCIAL: cifras + comentarios de TikTok -->
+  <section class="bloque" id="resultados">
+    <div class="container">
+      <ul class="prueba-stats stagger">
+        <li class="stat" style="--i:0"><span class="stat-num">100k</span><span class="stat-label">seguidores acumulados en mis redes</span></li>
+        <li class="stat" style="--i:1"><span class="stat-num">100</span><span class="stat-label">días hablando a cámara, sin edición</span></li>
+      </ul>
+
+      <div class="col comentarios reveal">
+        <h2 class="section-title">Lo que me dicen en TikTok</h2>
+        <!-- Capturas de comentarios: se añaden en textos/yapping-101.json → comentarios -->
+          <div class="stack" id="stack-comentarios" role="region" aria-roledescription="carrusel" aria-label="Comentarios de TikTok sobre cómo habla Iván">
+            <div class="stack-escenario" tabindex="0"></div>
+            <div class="stack-controles">
+              <button class="stack-flecha" type="button" data-dir="-1" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <p class="stack-contador" aria-live="polite"></p>
+              <button class="stack-flecha" type="button" data-dir="1" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+      </div>
+
+      <div class="col">
+        <p class="carrusel-cierre reveal">Si lo notan en mí, <span class="playfair-inline">lo pueden notar en ti.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARIO DE APLICACIÓN -->
+  <section class="bloque bloque-corto aplicar" id="aplicar">
+    <div class="container">
+      <div class="form-panel reveal">
+        <h2 class="section-title">Únete a la lista de espera</h2>
+        <p class="form-intro">5 preguntas rápidas.</p>
+
+        <form id="form-aplicar" novalidate>
+          <div class="honeypot" aria-hidden="true">
+            <label for="f-empresa">Empresa</label>
+            <input id="f-empresa" name="empresa" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="campo">
+            <label for="f-nombre">Nombre completo</label>
+            <input id="f-nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre y apellidos" required>
+            <span class="campo-error" id="e-nombre" aria-live="polite"></span>
+          </div>
+
+          <div class="campo">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" required>
+            <span class="campo-error" id="e-email" aria-live="polite"></span>
+          </div>
+
+          <div class="campo">
+            <label for="f-seguidores">Seguidores actuales</label>
+            <select id="f-seguidores" name="seguidores" required>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option value="0-1k">0 a 1k</option>
+              <option value="1k-5k">1k a 5k</option>
+              <option value="5k-10k">5k a 10k</option>
+              <option value="10k+">Más de 10k</option>
+            </select>
+            <span class="campo-error" id="e-seguidores" aria-live="polite"></span>
+          </div>
+
+          <div class="campo">
+            <label for="f-nicho">Nicho / industria</label>
+            <input id="f-nicho" name="nicho" type="text" placeholder="Ej.: fitness, finanzas, tecnología" required>
+            <span class="campo-error" id="e-nicho" aria-live="polite"></span>
+          </div>
+
+          <fieldset class="campo">
+            <legend>¿Puedes crear contenido semanal?</legend>
+            <div class="opciones">
+              <label class="opcion">
+                <input type="radio" name="compromiso" value="si" required>
+                <span><i class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Sí</span>
+              </label>
+              <label class="opcion">
+                <input type="radio" name="compromiso" value="no">
+                <span><i class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>No</span>
+              </label>
+            </div>
+            <span class="campo-error" id="e-compromiso" aria-live="polite"></span>
+          </fieldset>
+
+          <div class="campo">
+            <label class="consentimiento">
+              <input id="f-consentimiento" name="consentimiento" type="checkbox" required>
+              <i class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>
+              <span>He leído y acepto la <a href="politica-privacidad.html" target="_blank" rel="noopener">política de privacidad</a> y que Iván Zheng me escriba sobre Yapping 101.</span>
+            </label>
+            <span class="campo-error" id="e-consentimiento" aria-live="polite"></span>
+          </div>
+
+          <button class="btn-primario" id="btn-aplicar" type="submit">Unirse a la lista de espera</button>
+          <p class="form-mensaje" id="form-mensaje" role="status"></p>
+        </form>
+
+        <div class="form-gracias" id="form-gracias" hidden>
+          <p>Gracias. Te enviaremos un correo en breves</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">© 2026 Iván Zheng</div>
+    <div class="footer-nav">
+      <a href="/#sobre-mi">Sobre Mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="productos.html">Productos</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <div class="footer-mid">
+      <a href="aviso-legal.html">Aviso legal</a>
+      <a href="politica-privacidad.html">Politica de privacidad</a>
+      <a href="politica-cookies.html">Politica de cookies</a>
+    </div>
+    <div class="footer-right">
+      <a href="https://www.instagram.com/theivanzheng/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+      <a href="https://www.tiktok.com/@theivanzheng" target="_blank" rel="noopener noreferrer">TIKTOK</a>
+      <a href="https://www.linkedin.com/in/theivanzheng" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+    </div>
+  </footer>
+
+  <script>
+    /* ---------- Entrada del hero ---------- */
+    requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add("is-loaded")));
+
+    /* ---------- Reveal y cascadas al hacer scroll ---------- */
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: "0px 0px -6% 0px"
+    });
+
+    const observar = () => {
+      document.querySelectorAll(".reveal:not(.is-visible), .stagger:not(.is-visible)").forEach((el) => revealObserver.observe(el));
+    };
+    observar();
+
+    /* ---------- Nav ---------- */
+
+    const nav = document.getElementById("site-nav");
+    const navToggle = document.getElementById("nav-toggle");
+    const navMobileMenu = document.getElementById("nav-mobile-menu");
+
+    const closeMobileNav = () => {
+      nav.classList.remove("nav-open");
+      navToggle.setAttribute("aria-expanded", "false");
+    };
+
+    navToggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const isOpen = nav.classList.toggle("nav-open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    navMobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMobileNav));
+    document.addEventListener("click", (event) => {
+      if (!nav.contains(event.target)) closeMobileNav();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMobileNav();
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 640) closeMobileNav();
+    });
+
+    const handleScrollState = () => nav.classList.toggle("nav-scrolled", window.scrollY > 24);
+    handleScrollState();
+    window.addEventListener("scroll", handleScrollState, { passive: true });
+
+    /* ---------- Utilidades ---------- */
+
+    const ICONO_X = '<svg class="icono-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-width="2" stroke-linecap="round"/></svg>';
+    // Iconos de "Qué incluye": trazo blanco, mismo grosor que el resto de la página
+    const ICONOS_INCLUYE = {
+      cerebro: '<path d="M9.5 4A2.5 2.5 0 0 1 12 6.5V20h-2.5a3 3 0 0 1-3-3 3 3 0 0 1-2-5.2A3 3 0 0 1 6.5 7a2.5 2.5 0 0 1 3-3z"/><path d="M14.5 4A2.5 2.5 0 0 0 12 6.5V20h2.5a3 3 0 0 0 3-3 3 3 0 0 0 2-5.2A3 3 0 0 0 17.5 7a2.5 2.5 0 0 0-3-3z"/>',
+      ubicacion: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+      rayo: '<path d="M13 3L5 13.5h6L10.5 21 19 10.5h-6z"/>',
+      microfono: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/>',
+      bombilla: '<path d="M9.5 18h5M10.5 21h3"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2v.5h5V16c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/>',
+      libro: '<path d="M12 6.5C10.5 5.2 8.3 4.5 4 4.5v14c4.3 0 6.5.7 8 2 1.5-1.3 3.7-2 8-2v-14c-4.3 0-6.5.7-8 2z"/><path d="M12 6.5v14"/>',
+      tijeras: '<circle cx="6" cy="6.5" r="2.5"/><circle cx="6" cy="17.5" r="2.5"/><path d="M8.2 7.8L20 17M8.2 16.2L20 7"/>',
+      pausa: '<circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/>',
+      claqueta: '<rect x="3.5" y="9.5" width="17" height="11" rx="1.5"/><path d="M3.5 9.5l.9-4.3 15.7 3.3M8.6 5.9l1.5 3.6M13.5 6.9l1.5 3.3"/>',
+      infinito: '<path d="M12 12c-2-2.6-3.6-4-5.5-4a4 4 0 0 0 0 8c1.9 0 3.5-1.4 5.5-4zm0 0c2 2.6 3.6 4 5.5 4a4 4 0 0 0 0-8c-1.9 0-3.5 1.4-5.5 4z"/>'
+    };
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const crear = (etiqueta, clase, contenido) => {
+      const el = document.createElement(etiqueta);
+      if (clase) el.className = clase;
+      if (contenido !== undefined) el.textContent = contenido;
+      return el;
+    };
+
+    /* ---------- FAQ: acordeón con apertura y cierre animados ---------- */
+    // <details> nativo por accesibilidad; la clase .is-open conduce la animación
+    // y el cierre espera a que termine antes de quitar [open].
+
+    const montarFaq = (item) => {
+      const details = crear("details", "faq-item");
+      const summary = crear("summary");
+      summary.append(crear("span", "", item.pregunta), crear("span", "faq-icono"));
+      summary.lastChild.setAttribute("aria-hidden", "true");
+
+      const cuerpo = crear("div", "faq-cuerpo");
+      const interior = crear("div", "faq-interior");
+      interior.append(crear("p", "", item.respuesta));
+      cuerpo.append(interior);
+      details.append(summary, cuerpo);
+
+      let cierre = null;
+
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+        clearTimeout(cierre);
+
+        if (!details.open || !details.classList.contains("is-open")) {
+          details.open = true;
+          requestAnimationFrame(() => requestAnimationFrame(() => details.classList.add("is-open")));
+          return;
+        }
+
+        details.classList.remove("is-open");
+        cierre = setTimeout(() => { details.open = false; }, reduceMotion.matches ? 0 : 240);
+      });
+
+      return details;
+    };
+
+    /* ---------- Stack de fotos físicas ---------- */
+    // Poses de las fotos según su profundidad en el montón (0 = la de arriba).
+    const POSES = [
+      { x: 0, y: 0, r: 0, s: 1 },
+      { x: -14, y: 10, r: -5, s: 0.97 },
+      { x: 16, y: 18, r: 6, s: 0.94 },
+      { x: -6, y: 26, r: -2.5, s: 0.91 }
+    ];
+    // Las fotos se centran en el escenario con translate(-50%, -50%) y encima se aplica la pose.
+    const CENTRO = "translate(-50%, -50%) ";
+    const PROPORCION_HUECO = 4 / 3;
+    const transformar = (p) => CENTRO + "translate(" + p.x + "px, " + p.y + "px) rotate(" + p.r + "deg) scale(" + p.s + ")";
+
+    const montarStack = (raiz, items, huecos, etiquetaHueco, altPorDefecto) => {
+      const escenario = raiz.querySelector(".stack-escenario");
+      const contador = raiz.querySelector(".stack-contador");
+      const lista = items.length ? items : Array.from({ length: huecos }, () => null);
+      const total = lista.length;
+
+      // Encaja la foto dentro del escenario respetando su proporción.
+      const ajustar = (foto) => {
+        const caja = escenario.getBoundingClientRect();
+        const proporcion = Number(foto.dataset.proporcion) || PROPORCION_HUECO;
+        let ancho = caja.width;
+        let alto = ancho / proporcion;
+        if (alto > caja.height) {
+          alto = caja.height;
+          ancho = alto * proporcion;
+        }
+        foto.style.width = ancho + "px";
+        foto.style.height = alto + "px";
+      };
+
+      const fotos = lista.map((item, i) => {
+        const foto = crear("div", "foto");
+        const interior = crear("div", "foto-interior");
+        foto.dataset.proporcion = String(PROPORCION_HUECO);
+        if (item && item.src) {
+          const img = document.createElement("img");
+          img.alt = item.alt || altPorDefecto;
+          img.decoding = "async";
+          img.draggable = false;
+          img.addEventListener("load", () => {
+            if (img.naturalWidth && img.naturalHeight) {
+              foto.dataset.proporcion = String(img.naturalWidth / img.naturalHeight);
+              ajustar(foto);
+            }
+          });
+          img.src = item.src;
+          interior.append(img);
+        } else {
+          interior.textContent = etiquetaHueco + " " + (i + 1);
+        }
+        foto.append(interior);
+        escenario.append(foto);
+        ajustar(foto);
+        return foto;
+      });
+
+      window.addEventListener("resize", () => fotos.forEach(ajustar));
+
+      let orden = fotos.map((_, i) => i);
+      let ocupado = false;
+
+      const colocar = (foto, profundidad) => {
+        const pose = POSES[Math.min(profundidad, POSES.length - 1)];
+        foto.style.zIndex = String(total - profundidad);
+        foto.style.transform = transformar(pose);
+        foto.style.opacity = profundidad < POSES.length ? "1" : "0";
+        foto.classList.toggle("es-arriba", profundidad === 0);
+        foto.setAttribute("aria-hidden", profundidad === 0 ? "false" : "true");
+      };
+
+      const pintar = (saltar) => {
+        orden.forEach((indice, profundidad) => {
+          if (fotos[indice] !== saltar) colocar(fotos[indice], profundidad);
+        });
+        contador.textContent = (orden[0] + 1) + " / " + total;
+      };
+
+      // Saca la de arriba lanzándola hacia un lado y la mete al fondo del montón.
+      const siguiente = (lado = 1) => {
+        if (ocupado || total < 2) return;
+        const arriba = fotos[orden[0]];
+        orden.push(orden.shift());
+
+        if (reduceMotion.matches) { pintar(); return; }
+
+        ocupado = true;
+        arriba.style.transition = "transform 300ms var(--ease-in-out)";
+        arriba.style.transform = CENTRO + "translate(" + (lado * 118) + "%, -8%) rotate(" + (lado * 18) + "deg)";
+        pintar(arriba);
+
+        setTimeout(() => {
+          arriba.style.transition = "transform 520ms var(--ease-out), opacity 320ms ease";
+          colocar(arriba, total - 1);
+          ocupado = false;
+        }, 300);
+      };
+
+      // Recupera la última del montón y la deja encima, entrando desde la izquierda.
+      const anterior = () => {
+        if (ocupado || total < 2) return;
+        const ultima = fotos[orden[total - 1]];
+        orden.unshift(orden.pop());
+
+        if (reduceMotion.matches) { pintar(); return; }
+
+        ultima.style.transition = "none";
+        ultima.style.zIndex = String(total + 1);
+        ultima.style.opacity = "1";
+        ultima.style.transform = CENTRO + "translate(-118%, -8%) rotate(-18deg)";
+        ultima.getBoundingClientRect();
+        ultima.style.transition = "";
+        pintar();
+      };
+
+      raiz.querySelectorAll(".stack-flecha").forEach((boton) => {
+        boton.addEventListener("click", () => (boton.dataset.dir === "1" ? siguiente(1) : anterior()));
+      });
+
+      escenario.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") { event.preventDefault(); siguiente(1); }
+        if (event.key === "ArrowLeft") { event.preventDefault(); anterior(); }
+      });
+
+      // Arrastrar la foto de arriba: sigue al dedo o al ratón y, si se suelta
+      // con suficiente recorrido o velocidad, sale volando hacia ese lado.
+      let inicioX = 0;
+      let inicioT = 0;
+      let dx = 0;
+      let arrastrando = false;
+
+      escenario.addEventListener("pointerdown", (event) => {
+        if (ocupado || !event.target.closest(".foto.es-arriba")) return;
+        arrastrando = true;
+        inicioX = event.clientX;
+        inicioT = performance.now();
+        dx = 0;
+        escenario.setPointerCapture(event.pointerId);
+      });
+
+      escenario.addEventListener("pointermove", (event) => {
+        if (!arrastrando) return;
+        dx = event.clientX - inicioX;
+        const arriba = fotos[orden[0]];
+        arriba.style.transition = "none";
+        arriba.style.transform = CENTRO + "translate(" + dx + "px, " + (Math.abs(dx) * -0.04) + "px) rotate(" + (dx * 0.05) + "deg)";
+      });
+
+      const soltar = () => {
+        if (!arrastrando) return;
+        arrastrando = false;
+        const arriba = fotos[orden[0]];
+        arriba.style.transition = "";
+        const velocidad = Math.abs(dx) / Math.max(performance.now() - inicioT, 1);
+
+        if (Math.abs(dx) < 5) { siguiente(1); return; }
+        if (Math.abs(dx) > 90 || velocidad > 0.11) { siguiente(dx > 0 ? 1 : -1); return; }
+        colocar(arriba, 0);
+      };
+      escenario.addEventListener("pointerup", soltar);
+      escenario.addEventListener("pointercancel", soltar);
+
+      pintar();
+    };
+
+    const montarGalerias = (datos) => {
+      montarStack(document.getElementById("stack-videos"), datos.capturasVideos || [], 4, "Vídeo", "Captura de un vídeo de Iván hablando a cámara");
+      montarStack(document.getElementById("stack-comentarios"), datos.comentarios || [], 6, "Captura", "Comentario de TikTok sobre cómo habla Iván");
+    };
+
+    /* ---------- Contenido desde textos/yapping-101.json ---------- */
+
+    fetch("./textos/yapping-101.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("No se pudo cargar el JSON de Yapping 101");
+        return response.json();
+      })
+      .then((datos) => {
+        const incluye = document.getElementById("incluye-lista");
+        (datos.incluye || []).forEach((item, i) => {
+          const li = crear("li");
+          li.style.setProperty("--i", i);
+          const icono = crear("i", "incluye-icono");
+          icono.setAttribute("aria-hidden", "true");
+          icono.innerHTML = '<svg viewBox="0 0 24 24">' + (ICONOS_INCLUYE[item.icono] || "") + "</svg>";
+          const texto = crear("div");
+          if (item.modulo) texto.append(crear("span", "incluye-modulo", item.modulo));
+          texto.append(crear("strong", "", item.titulo), crear("span", "incluye-texto", item.texto));
+          li.append(icono, texto);
+          incluye.append(li);
+        });
+
+        const etiquetas = document.getElementById("incluye-etiquetas");
+        (datos.incluyeEtiquetas || []).forEach((etiqueta) => etiquetas.append(crear("span", "", etiqueta)));
+
+        const noEs = document.getElementById("no-es-lista");
+        (datos.noEs || []).forEach((frase, i) => {
+          const li = crear("li");
+          li.style.setProperty("--i", i);
+          li.innerHTML = ICONO_X;
+          li.append(crear("span", "", frase));
+          noEs.append(li);
+        });
+
+        const faq = document.getElementById("faq-lista");
+        (datos.faq || []).forEach((item) => faq.append(montarFaq(item)));
+
+        montarGalerias(datos);
+
+        // Mientras no haya URL de Payhip, el botón lleva al formulario.
+        if (datos.payhipUrl) {
+          const boton = document.getElementById("btn-payhip");
+          boton.href = datos.payhipUrl;
+          boton.target = "_blank";
+          boton.rel = "noopener noreferrer";
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        montarGalerias({});
+      });
+
+    /* ---------- Formulario de aplicación → /api/yapping-101 → Kit ---------- */
+
+    const form = document.getElementById("form-aplicar");
+    const botonAplicar = document.getElementById("btn-aplicar");
+    const mensaje = document.getElementById("form-mensaje");
+    const gracias = document.getElementById("form-gracias");
+    const emailRegex = /^[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,}$/i;
+
+    const leer = () => ({
+      nombre: form.nombre.value.trim(),
+      email: form.email.value.trim(),
+      seguidores: form.seguidores.value,
+      nicho: form.nicho.value.trim(),
+      compromiso: (form.querySelector('input[name="compromiso"]:checked') || {}).value || "",
+      consentimiento: form.consentimiento.checked,
+      empresa: form.empresa.value
+    });
+
+    const validar = (d) => {
+      const errores = {};
+      if (!d.nombre) errores.nombre = "Escribe tu nombre completo.";
+      if (!d.email) errores.email = "Escribe tu email.";
+      else if (!emailRegex.test(d.email)) errores.email = "Ese email no parece válido.";
+      if (!d.seguidores) errores.seguidores = "Elige cuántos seguidores tienes.";
+      if (!d.nicho) errores.nicho = "Cuéntanos tu nicho o industria.";
+      if (!d.compromiso) errores.compromiso = "Elige sí o no.";
+      if (!d.consentimiento) errores.consentimiento = "Debes aceptar la política de privacidad.";
+      return errores;
+    };
+
+    const pintarErrores = (errores) => {
+      ["nombre", "email", "seguidores", "nicho", "compromiso", "consentimiento"].forEach((campo) => {
+        const hueco = document.getElementById("e-" + campo);
+        hueco.textContent = errores[campo] || "";
+        hueco.closest(".campo").classList.toggle("tiene-error", Boolean(errores[campo]));
+      });
+    };
+
+    // Una vez el usuario ha intentado enviar, los errores se corrigen al vuelo.
+    let intentado = false;
+    form.addEventListener("input", () => { if (intentado) pintarErrores(validar(leer())); });
+    form.addEventListener("change", () => { if (intentado) pintarErrores(validar(leer())); });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      intentado = true;
+      mensaje.textContent = "";
+
+      const datos = leer();
+      const errores = validar(datos);
+      pintarErrores(errores);
+
+      const primero = Object.keys(errores)[0];
+      if (primero) {
+        const campo = primero === "compromiso"
+          ? form.querySelector('input[name="compromiso"]')
+          : form[primero];
+        campo.focus();
+        return;
+      }
+
+      botonAplicar.disabled = true;
+      botonAplicar.textContent = "Enviando…";
+
+      try {
+        const response = await fetch("/api/yapping-101", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datos)
+        });
+        const respuesta = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(respuesta.error || "No se pudo enviar la aplicación. Inténtalo otra vez.");
+
+        form.hidden = true;
+        gracias.hidden = false;
+      } catch (error) {
+        mensaje.textContent = error.message || "No se pudo enviar la aplicación. Inténtalo otra vez.";
+      } finally {
+        botonAplicar.disabled = false;
+        botonAplicar.textContent = "Unirse a la lista de espera";
+      }
+    });
+  </script>
+</body>
+</html>

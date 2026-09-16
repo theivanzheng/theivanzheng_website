@@ -1,0 +1,35 @@
+{
+  "payhipUrl": "",
+  "capturasVideos": [],
+  "comentarios": [],
+  "incluye": [
+    { "icono": "cerebro", "modulo": "Módulo 0", "titulo": "Mindset de creador", "texto": "La mentalidad que necesitas" },
+    { "icono": "ubicacion", "modulo": "Módulo 1", "titulo": "Tu posición", "texto": "Autoridad o documentación: debes escoger" },
+    { "icono": "rayo", "modulo": "Módulo 2", "titulo": "Los 3 jinetes del apocalipsis", "texto": "Elimina muletillas, trabazones y rigidez" },
+    { "icono": "microfono", "modulo": "Módulo 3", "titulo": "Tu voz es actor", "texto": "Aprende a adaptar tu voz al contenido" },
+    { "icono": "bombilla", "modulo": "Módulo 4", "titulo": "Nunca te quedes en blanco", "texto": "La estructura mental para contar historias sin necesitar un guion" },
+    { "icono": "libro", "modulo": "Módulo 5", "titulo": "Storytelling", "texto": "Los pilares de una buena historia" },
+    { "icono": "tijeras", "modulo": "Módulo 6", "titulo": "Edición honesta", "texto": "Edita sin opacar el storytelling" },
+    { "icono": "pausa", "modulo": "Módulo 7", "titulo": "El poder de las pausas", "texto": "Cómo el silencio vende más" },
+    { "icono": "claqueta", "modulo": "Módulo 8", "titulo": "Body language", "texto": "Tu cuerpo también comunica" },
+    { "icono": "infinito", "modulo": "", "titulo": "Para siempre", "texto": "Acceso permanente + actualizaciones" }
+  ],
+  "incluyeEtiquetas": [
+    "9 módulos",
+    "Ejercicios de 4 semanas"
+  ],
+  "noEs": [
+    "No es un curso de edición ni efectos especiales: aquí, más auténtico = mejor",
+    "No es para alguien que no va a crear contenido: necesitas ponerlo en acción para ver resultados",
+    "No es coaching 1:1: si lo necesitas, habla conmigo después",
+    "No te voy a decir sobre qué hablar: te voy a enseñar cómo hacerlo, pero bien"
+  ],
+  "faq": [
+    { "pregunta": "¿Cuándo se abre?", "respuesta": "El 10 de octubre de 2026. Los de la lista de espera entran primero." },
+    { "pregunta": "¿Cuánto acceso tengo?", "respuesta": "De por vida. Pagas una vez y es tuyo para siempre." },
+    { "pregunta": "¿Hay garantía de reembolso?", "respuesta": "Sí, 7 días de reembolso sin preguntas." },
+    { "pregunta": "¿Funciona para cualquier nicho?", "respuesta": "Sí. Fitness, finanzas, educación, lifestyle, cualquier cosa. Es sobre cómo hablar, no sobre qué hablar." },
+    { "pregunta": "¿Incluye coaching 1:1?", "respuesta": "No, pero los early birds (80€) tienen 4 llamadas semanales conmigo durante el primer mes." },
+    { "pregunta": "¿Necesito equipo profesional?", "respuesta": "No. Si yo lo hice con mi voz, tú también puedes." }
+  ]
+}
