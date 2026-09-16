@@ -1067,7 +1067,7 @@
         <div class="contact-box reveal reveal-delay-2">
           <h3>Ponte en contacto</h3>
           <form id="contact-form" class="contact-form" novalidate>
-            <input id="contact-company" name="company" type="text" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
+            <input id="contact-trampa" name="trampa" type="text" autocomplete="new-password" spellcheck="false" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
             <div>
               <label for="contact-email">Correo Electrónico</label>
               <input id="contact-email" type="email" placeholder="tu@email.com" required />
@@ -1214,7 +1214,7 @@
       : [window.location.origin];
 
     const contactForm = document.getElementById("contact-form");
-    const contactCompany = document.getElementById("contact-company");
+    const contactCompany = document.getElementById("contact-trampa");
     const contactEmail = document.getElementById("contact-email");
     const contactSubject = document.getElementById("contact-subject");
     const contactMessageField = document.getElementById("contact-message");
@@ -1297,6 +1297,14 @@
           }
 
           showContactMessage("Mensaje enviado. Te responderé lo antes posible.");
+
+          // Además del mensaje, se le apunta a la newsletter con el formulario público
+          // de Kit, que le envía su email de confirmación. Si falla, el mensaje ya ha salido.
+          fetch("https://app.kit.com/forms/9395152/subscriptions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email_address: email })
+          }).catch(() => {});
           contactForm.reset();
         } catch (error) {
           showContactMessage(error.message || "Error al enviar el mensaje.", true);

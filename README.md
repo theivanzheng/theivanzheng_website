@@ -43,18 +43,23 @@ En `api/`, desplegadas por Vercel:
 - `api/precio.js` — lee el precio del libro del JSON-LD de la ficha de Payhip, para no
   mantenerlo a mano en cada página. Cacheado una hora en el edge, con un valor de
   respaldo escrito en el HTML por si Payhip no responde.
-- `api/yapping-101.js` — recibe la lista de espera de `/yapping-101` y da de alta el
-  contacto en Kit con la etiqueta "Yapping 101". La URL de Payhip de la reserva
-  se configura en `textos/yapping-101.json` (`payhipUrl`), y las capturas del carrusel
-  de TikTok en `comentarios` (`[{ "src": "./Resources/...", "alt": "..." }]`).
-- `api/[...all].js` + `backend/` — formulario de contacto (Express, Supabase, Resend).
-  Además del email, guarda el contacto en Kit con la etiqueta "Contacto" y los campos
-  "Asunto contacto" y "Mensaje contacto". Si Kit falla, el mensaje se envía igual.
-- `api/_lib/kit.js` — alta en Kit por API v4 que usan los dos anteriores. Necesita
-  `KIT_API_KEY` en Vercel y crea las etiquetas y campos personalizados si no existen.
+- `api/[...all].js` + `backend/` — formulario de contacto (Express, Supabase, Resend):
+  te envía el mensaje por email.
 
-El newsletter **no** pasa por este backend: se da de alta contra Kit desde el navegador
-(formulario `9395152`, ver `DESIGN_SYSTEM.md`).
+## Kit
+
+No se usa la API de Kit (el plan gratuito no la incluye). Todo se da de alta desde el
+navegador contra formularios públicos de Kit, que envían su propio email de
+confirmación y llevan su enlace de baja:
+
+- Newsletter de la home y formularios de contacto → formulario `9395152`. En contacto,
+  primero se envía el mensaje y después se apunta a la persona.
+- Lista de espera de `/yapping-101` → el formulario cuyo ID está en
+  `textos/yapping-101.json` (`kitFormId`). Manda también los campos personalizados
+  `seguidores`, `nicho` y `contenido_semanal`, que tienen que existir en Kit.
+
+En `textos/yapping-101.json` también se configuran la URL de Payhip (`payhipUrl`) y las
+capturas de los stacks de fotos (`capturasVideos`, `comentarios`).
 
 ## Desarrollo local
 

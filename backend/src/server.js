@@ -7,7 +7,6 @@ const express = require("express");
 const cors = require("cors");
 const { createClient } = require("@supabase/supabase-js");
 const { Resend } = require("resend");
-const { altaEnKit, hayClave: hayClaveKit } = require("../../api/_lib/kit");
 
 const app = express();
 
@@ -607,22 +606,6 @@ app.post("/api/contact", async (req, res) => {
       to: env.contactToEmail,
       emailId: data?.id || null
     });
-
-    // El email ya ha salido: si Kit falla, se registra pero no se le muestra error al usuario.
-    if (hayClaveKit()) {
-      try {
-        await altaEnKit({
-          email,
-          tag: "Contacto",
-          campos: {
-            "Asunto contacto": subject.slice(0, 200),
-            "Mensaje contacto": message.slice(0, 1000)
-          }
-        });
-      } catch (kitError) {
-        console.error("[contact/kit]", kitError);
-      }
-    }
 
     return res.status(200).json({ ok: true, message: "Mensaje enviado correctamente" });
   } catch (error) {
