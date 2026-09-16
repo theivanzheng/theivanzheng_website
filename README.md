@@ -22,7 +22,6 @@ Si añades una página, nómbrala igual que la URL que quieres. Los rewrites de
 | `ElArteDeDejarIr.html` | `/ElArteDeDejarIr` | Página de venta del libro |
 | `TestParaSoltar.html` | `/TestParaSoltar` | Cuestionario que lleva al libro |
 | `yapping-101.html` | `/yapping-101` | Landing y aplicación del curso Yapping 101 |
-| `servicios.html` | `/servicios` | Servicios |
 | `contacto.html` | `/contacto` | Contacto |
 | `aviso-legal.html`, `politica-privacidad.html`, `politica-cookies.html` | | Legales |
 
@@ -44,12 +43,15 @@ En `api/`, desplegadas por Vercel:
 - `api/precio.js` — lee el precio del libro del JSON-LD de la ficha de Payhip, para no
   mantenerlo a mano en cada página. Cacheado una hora en el edge, con un valor de
   respaldo escrito en el HTML por si Payhip no responde.
-- `api/yapping-101.js` — recibe las aplicaciones de `/yapping-101` y las da de alta en
-  Kit con la etiqueta "Yapping 101" (API v4). Necesita `KIT_API_KEY` en Vercel; crea la
-  etiqueta y los campos personalizados si no existen. La URL de Payhip de la reserva
+- `api/yapping-101.js` — recibe la lista de espera de `/yapping-101` y da de alta el
+  contacto en Kit con la etiqueta "Yapping 101". La URL de Payhip de la reserva
   se configura en `textos/yapping-101.json` (`payhipUrl`), y las capturas del carrusel
   de TikTok en `comentarios` (`[{ "src": "./Resources/...", "alt": "..." }]`).
 - `api/[...all].js` + `backend/` — formulario de contacto (Express, Supabase, Resend).
+  Además del email, guarda el contacto en Kit con la etiqueta "Contacto" y los campos
+  "Asunto contacto" y "Mensaje contacto". Si Kit falla, el mensaje se envía igual.
+- `api/_lib/kit.js` — alta en Kit por API v4 que usan los dos anteriores. Necesita
+  `KIT_API_KEY` en Vercel y crea las etiquetas y campos personalizados si no existen.
 
 El newsletter **no** pasa por este backend: se da de alta contra Kit desde el navegador
 (formulario `9395152`, ver `DESIGN_SYSTEM.md`).
