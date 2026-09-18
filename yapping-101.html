@@ -31,7 +31,9 @@
       --dur-enter: 900ms;
     }
 
-    html { scroll-behavior: smooth; }
+    /* Las fotos giradas del stack sobresalen un poco: se recortan en el borde de la
+       página para que el móvil no amplíe la vista (clip no crea contenedor de scroll) */
+    html { scroll-behavior: smooth; overflow-x: clip; }
 
     body {
       background: var(--black);
@@ -241,12 +243,34 @@
       color: rgba(255, 255, 255, 0.32);
       font-size: 14px;
       letter-spacing: 0.06em;
+      cursor: pointer;
       clip-path: inset(10% 10% 10% 10% round 16px);
       opacity: 0;
       transition: clip-path 1100ms var(--ease-out-expo), opacity 700ms ease;
       transition-delay: 420ms;
     }
     .is-loaded .hero-media { clip-path: inset(0 0 0 0 round 16px); opacity: 1; }
+
+    /* Acción principal nada más llegar: botón a la lista y enlace discreto a la precompra */
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .hero-enlace {
+      font-size: 15px;
+      color: var(--copy-small);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+      padding-bottom: 2px;
+      transition: color var(--dur-state) ease, border-color var(--dur-state) ease;
+    }
+    .hero-enlace:focus-visible { outline: 1px solid var(--white); outline-offset: 4px; }
+    @media (hover: hover) and (pointer: fine) {
+      .hero-enlace:hover { color: var(--white); border-color: var(--white); }
+    }
     .hero-media img,
     .hero-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -390,6 +414,9 @@
        mete debajo del montón; al volver, la última se saca y se pone encima. */
 
     .stack { --ancho: clamp(260px, 74vw, 460px); }
+    /* Comentarios: capturas muy apaisadas, así que el escenario es ancho y bajo */
+    #stack-comentarios { --ancho: min(calc(100% - 32px), 640px); }
+    #stack-comentarios .stack-escenario { aspect-ratio: 2 / 1; }
     .stack-escenario {
       position: relative;
       width: var(--ancho);
@@ -598,6 +625,32 @@
     }
     .early-texto { font-size: 15px; color: var(--copy-small); line-height: 1.6; }
     .precio-panel .btn-primario { width: 100%; max-width: 420px; }
+
+    /* Alternativa para indecisos: mismo tamaño que el principal, sin relleno */
+    .btn-secundario {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 420px;
+      min-height: 54px;
+      margin: 12px auto 0;
+      padding: 0 20px;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform var(--dur-press) var(--ease-out), border-color var(--dur-state) ease, background-color var(--dur-state) ease;
+    }
+    .btn-secundario:active { transform: scale(0.97); }
+    .btn-secundario:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+    @media (hover: hover) and (pointer: fine) {
+      .btn-secundario:hover { border-color: rgba(255, 255, 255, 0.6); background-color: rgba(255, 255, 255, 0.05); }
+    }
     .precio-nota {
       margin-top: 16px;
       font-size: 13px;
@@ -887,7 +940,43 @@
     }
     .form-mensaje:empty { display: none; }
 
-    .form-gracias { text-align: center; padding: 40px 0 24px; }
+    .form-gracias { text-align: center; padding: 12px 0 24px; }
+
+    /* Al enviar solo queda el agradecimiento: fuera título e intro */
+    .form-panel.is-enviado .section-title,
+    .form-panel.is-enviado .form-intro { display: none; }
+
+    /* Check animado: primero se dibuja el círculo y después la marca */
+    .check-exito {
+      display: block;
+      width: 83px;
+      height: 83px;
+      margin: 0 auto 24px;
+      fill: none;
+      stroke: var(--white);
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      animation: check-entrar 500ms var(--ease-out) both;
+    }
+    .check-exito circle {
+      stroke-dasharray: 214;
+      stroke-dashoffset: 214;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      animation: check-trazo 600ms var(--ease-out) 80ms forwards;
+    }
+    .check-exito path {
+      stroke-width: 3.2;
+      stroke-dasharray: 56;
+      stroke-dashoffset: 56;
+      animation: check-trazo 320ms var(--ease-out) 560ms forwards;
+    }
+    @keyframes check-trazo { to { stroke-dashoffset: 0; } }
+    @keyframes check-entrar {
+      from { opacity: 0; transform: scale(0.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
     .form-gracias p {
       font-family: 'Playfair Display', serif;
       font-size: clamp(28px, 4vw, 40px);
@@ -1014,7 +1103,10 @@
       .hero h1 { letter-spacing: 0; margin-bottom: 18px; }
       .hero-bajada { margin-bottom: 36px; }
       .hero-media { border-width: 4px; border-radius: 12px; }
+      .hero-cta { margin-top: 32px; gap: 14px; }
+      .hero-enlace { font-size: 14px; }
       .btn-primario { min-height: 56px; padding: 0 16px; font-size: 17px; border-radius: 10px; width: 100%; white-space: nowrap; }
+      .btn-secundario { min-height: 52px; padding: 0 16px; font-size: 15px; border-radius: 10px; }
 
       .dolor-lista li { padding: 16px 0; gap: 12px; }
       .dolor-piensas { font-size: 16px; }
@@ -1072,12 +1164,13 @@
         transition: opacity 300ms ease !important;
         transition-delay: 0ms !important;
       }
-      .faq-cuerpo, .faq-interior p, .faq-icono, .foto, .btn-primario, .stack-flecha, .check {
+      .faq-cuerpo, .faq-interior p, .faq-icono, .foto, .btn-primario, .btn-secundario, .stack-flecha, .check {
         transition-duration: 0ms !important;
       }
       .check path { transition: none !important; }
       .tachado, .tachado::after, .resaltado { transition: none !important; }
-      .form-gracias:not([hidden]) { animation: none; }
+      .form-gracias:not([hidden]), .check-exito { animation: none; }
+      .check-exito circle, .check-exito path { animation: none; stroke-dashoffset: 0; }
     }
   </style>
 </head>
@@ -1117,9 +1210,18 @@
       </p>
 
       <div class="hero-media">
-        <!-- AGREGAR IMAGEN/VIDEO YAPPEANDO AQUÍ: Iván hablando a cámara con naturalidad -->
-        <!-- Proporción 16:9 (800×450). Ej.: <video src="./Resources/productos/yapping-101.mp4" autoplay muted loop playsinline></video> -->
-        <span aria-hidden="true">800 × 450</span>
+        <video
+          controls
+          preload="none"
+          playsinline
+          poster="./Resources/video/yapping-hero-portada.jpg"
+          src="./Resources/video/yapping-hero-720.mp4"
+          aria-label="Iván Zheng cuenta cómo pasó de 0 a 100.000 seguidores en 100 días hablando a cámara"></video>
+      </div>
+
+      <div class="hero-cta hero-in" style="--i:6">
+        <a class="btn-primario" href="#aplicar">Unirse a la lista de espera</a>
+        <a class="hero-enlace" href="#precio">o reserva tu plaza con la precompra →</a>
       </div>
     </div>
   </section>
@@ -1206,6 +1308,7 @@
             <p class="early-texto">Para los seguidores más fieles que hagan la precompra: 20% de descuento + llamadas semanales conmigo durante un mes para que veas resultados antes.</p>
           </div>
           <a class="btn-primario" id="btn-payhip" href="https://payhip.com/buy?s=1&amp;cart_links%5B%5D=0patU&amp;qty%5B0patU%5D=1" target="_blank" rel="noopener noreferrer">Reservar mi plaza</a>
+          <a class="btn-secundario" href="#aplicar">Todavía no, avísame del lanzamiento</a>
           <p class="precio-nota">Precompra con pago seguro en Payhip. Abre el 10 de octubre. 200 accesos disponibles.</p>
         </div>
       </div>
@@ -1231,9 +1334,9 @@
       </ul>
 
       <div class="col comentarios reveal">
-        <h2 class="section-title">Lo que me dicen en TikTok</h2>
+        <h2 class="section-title">Lo que dicen en redes</h2>
         <!-- Capturas de comentarios: se añaden en textos/yapping-101.json → comentarios -->
-          <div class="stack" id="stack-comentarios" role="region" aria-roledescription="carrusel" aria-label="Comentarios de TikTok sobre cómo habla Iván">
+          <div class="stack" id="stack-comentarios" role="region" aria-roledescription="carrusel" aria-label="Comentarios y mensajes sobre cómo habla Iván">
             <div class="stack-escenario" tabindex="0"></div>
             <div class="stack-controles">
               <button class="stack-flecha" type="button" data-dir="-1" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -1321,6 +1424,10 @@
         </form>
 
         <div class="form-gracias" id="form-gracias" hidden>
+          <svg class="check-exito" viewBox="0 0 76 76" aria-hidden="true">
+            <circle cx="38" cy="38" r="34" />
+            <path d="M21.5 39l12 12L55 27" />
+          </svg>
           <p>Gracias. Te enviaremos un correo en breves</p>
           <span class="form-gracias-nota">Revisa tu bandeja de entrada (y la de spam) y confirma tu email para entrar en la lista.</span>
         </div>
@@ -1694,6 +1801,12 @@
     const botonAplicar = document.getElementById("btn-aplicar");
     const mensaje = document.getElementById("form-mensaje");
     const gracias = document.getElementById("form-gracias");
+
+    const mostrarGracias = () => {
+      form.hidden = true;
+      form.closest(".form-panel").classList.add("is-enviado");
+      gracias.hidden = false;
+    };
     const emailRegex = /^[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,}$/i;
 
     // Formulario público de Kit de la lista de espera (textos/yapping-101.json → kitFormId).
@@ -1755,8 +1868,7 @@
 
       // Campo trampa relleno: es un bot. Se le enseña el agradecimiento sin enviar nada.
       if (datos.trampa) {
-        form.hidden = true;
-        gracias.hidden = false;
+        mostrarGracias();
         return;
       }
 
@@ -1782,8 +1894,7 @@
         });
         if (!response.ok) throw new Error("No se pudo enviar la solicitud. Inténtalo otra vez.");
 
-        form.hidden = true;
-        gracias.hidden = false;
+        mostrarGracias();
       } catch (error) {
         mensaje.textContent = error.message || "No se pudo enviar la aplicación. Inténtalo otra vez.";
       } finally {

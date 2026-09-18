@@ -1,8 +1,22 @@
 {
   "kitFormId": "9924559",
   "payhipUrl": "https://payhip.com/buy?s=1&cart_links%5B%5D=0patU&qty%5B0patU%5D=1",
-  "capturasVideos": [],
-  "comentarios": [],
+  "capturasVideos": [
+    { "src": "./Resources/proof/proof-1.jpg", "alt": "Sin cámaras profesionales: tres vídeos con 973,5K, 1M y 957,3K reproducciones" },
+    { "src": "./Resources/proof/proof-2.jpg", "alt": "Sin aprender guiones: tres vídeos con 892,3K, 928K y 662,3K reproducciones" },
+    { "src": "./Resources/proof/proof-3.jpg", "alt": "Sin editar un solo vídeo: tres vídeos con 527,2K, 508,7K y 427,9K reproducciones" },
+    { "src": "./Resources/proof/proof-4.jpg", "alt": "Solamente, el arte de yappear: 18 vídeos con cientos de miles de reproducciones cada uno" }
+  ],
+  "comentarios": [
+    { "src": "./Resources/comentarios/comentario-1.jpg", "alt": "Comentario: deberías hacer conferencias, increíble lo bien que hablas y lo importante que es lo que dices" },
+    { "src": "./Resources/comentarios/comentario-2.jpg", "alt": "Comentario: amigo, me encanta cómo te expresas y cómo hablas" },
+    { "src": "./Resources/comentarios/comentario-3.jpg", "alt": "Mensaje: admiro tu forma de hablar, la fluidez, incluso la presencia" },
+    { "src": "./Resources/comentarios/comentario-4.jpg", "alt": "Comentario: solo te escuché hablar y ya me enamoré" },
+    { "src": "./Resources/comentarios/comentario-5.jpg", "alt": "Comentario: bro, me encanta tu forma de comunicar, es increíble. ¿Cómo aprendiste a hablar así?" },
+    { "src": "./Resources/comentarios/comentario-6.jpg", "alt": "Comentario: hablar y aconsejar muy bien" },
+    { "src": "./Resources/comentarios/comentario-7.jpg", "alt": "Mensaje: cada vez que te escucho hablar me motiva y me calma" },
+    { "src": "./Resources/comentarios/comentario-8.jpg", "alt": "Mensaje: siento que no hablo mal a cámara, pero tengo que meterle caña a los hooks. ¿Me das tus mejores tips?" }
+  ],
   "incluye": [
     { "icono": "cerebro", "modulo": "Módulo 0", "titulo": "Mindset de creador", "texto": "La mentalidad que necesitas" },
     { "icono": "ubicacion", "modulo": "Módulo 1", "titulo": "Tu posición", "texto": "Autoridad o documentación: debes escoger" },
