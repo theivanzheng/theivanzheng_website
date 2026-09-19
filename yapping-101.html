@@ -534,6 +534,70 @@
     }
     .stack-flecha svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
 
+    /* ---------- Eso es yapping ---------- */
+
+    .definicion p {
+      font-size: clamp(17px, 1.9vw, 21px);
+      line-height: 1.55;
+      color: var(--copy-small);
+      max-width: 620px;
+      margin: 0 auto 18px;
+      text-wrap: balance;
+    }
+    .definicion .definicion-clave {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3vw, 32px);
+      line-height: 1.25;
+      color: var(--white);
+      margin: 26px auto 0;
+    }
+
+    /* ---------- Qué aprendes ---------- */
+
+    .aprendes-lista {
+      list-style: none;
+      text-align: left;
+      margin-bottom: clamp(44px, 5.4vw, 64px);
+    }
+    .aprendes-lista li {
+      padding: 26px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .aprendes-lista li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .aprendes-lista strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.5vw, 28px);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .aprendes-lista span {
+      display: block;
+      position: relative;
+      padding-left: 22px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--gray-mid);
+    }
+    .aprendes-lista span::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 0.62em;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.28);
+    }
+    .incluye-subtitulo {
+      font-size: 13px;
+      color: var(--gray-mid);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
     /* ---------- Qué incluye ---------- */
 
     .incluye-lista {
@@ -757,6 +821,7 @@
 
     .prueba-stats {
       list-style: none;
+      margin: clamp(30px, 4vw, 44px) 0 clamp(34px, 4.4vw, 48px);
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -1142,6 +1207,7 @@
       .verdad-titulo { font-size: clamp(22px, 7.4vw, 30px); line-height: 1.95; }
       .verdad-prueba { font-size: 15px; }
       .verdad-solucion { font-size: 20px; }
+      .aprendes-lista li { padding: 22px 0; }
       .incluye-lista { grid-template-columns: 1fr; gap: 24px; }
       .incluye-icono { width: 42px; height: 42px; }
       .precio-panel { border-radius: 16px; }
@@ -1233,8 +1299,7 @@
       <p class="hero-kicker hero-in" style="--i:0">Yapping 101</p>
       <h1 class="hero-in" style="--i:1">Gané 100.000 seguidores en 100 días.</h1>
       <p class="hero-bajada hero-in" style="--i:2">
-        Sin edición. Sin equipo caro. Solo hablando a cámara.<br>
-        Este es el sistema.
+        Sin edición. Sin equipo caro. Solo <span class="playfair-inline">yappeando</span>.
       </p>
 
       <div class="hero-media">
@@ -1254,19 +1319,6 @@
     </div>
   </section>
 
-  <!-- QUÉ ES EL YAPPING -->
-  <section class="bloque" id="que-es">
-    <div class="container">
-      <div class="col dolor-panel reveal">
-        <h2 class="section-title">¿Qué es el yapping?</h2>
-        <ul class="dolor-lista stagger">
-          <li style="--i:0"><svg class="icono-raya" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16" stroke-width="2" stroke-linecap="round"/></svg><span>Es una tendencia en redes: enciendes la cámara y hablas de forma natural y relajada, sin un guion rígido.</span></li>
-          <li style="--i:1"><svg class="icono-raya" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16" stroke-width="2" stroke-linecap="round"/></svg><span>Cuentas anécdotas, reflexiones o cosas del día a día, como si hablaras con un amigo o mandaras un audio de WhatsApp.</span></li>
-          <li style="--i:2"><svg class="icono-raya" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16" stroke-width="2" stroke-linecap="round"/></svg><span>Lo que manda es la autenticidad y la cercanía, no la edición ni las producciones exageradas.</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
 
   <!-- DOLOR -->
   <section class="bloque" id="dejame-adivinar">
@@ -1293,13 +1345,16 @@
   <section class="bloque" id="la-verdad">
     <div class="container">
       <div class="col verdad-panel reveal">
-        <p class="verdad-kicker">Aquí está la verdad</p>
         <p class="verdad-no">El problema no es <span class="tachado">el algoritmo</span>.</p>
-        <h2 class="verdad-titulo"><span class="resaltado" style="--retraso:0ms">Está en <span class="playfair-inline">cómo hablas</span></span><br><span class="resaltado" style="--retraso:350ms">a cámara.</span></h2>
+        <h2 class="verdad-titulo"><span class="resaltado" style="--retraso:0ms">Es que es imposible</span><br><span class="resaltado" style="--retraso:350ms"><span class="playfair-inline">conectar</span> contigo.</span></h2>
 
         <div class="verdad-pie">
-          <p class="verdad-prueba">Mis seguidores me escriben a diario diciendo “es como si un amigo me estuviera hablando”. No es porque tenga un micrófono de 500€ o una cámara profesional. Es porque aprendí la clave para comunicar.</p>
-          <p class="verdad-solucion">En Yapping 101 te enseño exactamente eso.</p>
+          <p class="verdad-prueba">Un vídeo bonito y editado te lo hace cualquiera. Un poco de CapCut, cuatro tomas en la playa y listo. Consigues visitas, pero no seguidores. ¿Por qué? Porque no han conectado contigo: les gustó tu edición, no tú.</p>
+          <ul class="prueba-stats stagger">
+            <li class="stat" style="--i:0"><span class="stat-num">100k</span><span class="stat-label">seguidores acumulados en mis redes</span></li>
+            <li class="stat" style="--i:1"><span class="stat-num">100</span><span class="stat-label">días hablando a cámara, sin edición</span></li>
+          </ul>
+          <p class="verdad-prueba">No soy un gurú. Solo soy alguien que aprendió a hablar a cámara sin edición, sin equipo caro y sin guiones. En 100 días pasé de 0 a 100.000 seguidores porque la gente no seguía mi contenido: me seguía a mí.</p>
           <!-- Capturas de vídeos: se añaden en textos/yapping-101.json → capturasVideos -->
           <div class="stack" id="stack-videos" role="region" aria-roledescription="carrusel" aria-label="Capturas de vídeos de Iván hablando a cámara">
             <div class="stack-escenario" tabindex="0"></div>
@@ -1315,16 +1370,55 @@
     </div>
   </section>
 
-  <!-- QUÉ INCLUYE -->
+  <!-- ESTO ES YAPPING -->
+  <section class="bloque" id="que-es">
+    <div class="container">
+      <div class="col dolor-panel reveal">
+        <h2 class="section-title">Esto es yapping</h2>
+        <div class="definicion stagger">
+          <p style="--i:0">Encender la cámara y hablar de forma natural, sin guion rígido, como si le hablaras a un amigo. Prima la autenticidad y la cercanía por encima de la edición.</p>
+          <p style="--i:1">En Yapping 101 te enseño a hacerlo bien: sin muletillas, sin quedarte en blanco y sin sonar a presentación de clase. Y lo más importante, adaptado a tu audiencia.</p>
+          <p class="definicion-clave" style="--i:2">Te está conociendo a ti. Y eso genera comunidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRUEBA SOCIAL: comentarios -->
+  <section class="bloque" id="resultados">
+    <div class="container">
+      <div class="col comentarios reveal">
+        <h2 class="section-title">Lo que dicen en redes</h2>
+        <!-- Capturas de comentarios: se añaden en textos/yapping-101.json → comentarios -->
+          <div class="stack" id="stack-comentarios" role="region" aria-roledescription="carrusel" aria-label="Comentarios y mensajes sobre cómo habla Iván">
+            <div class="stack-escenario" tabindex="0"></div>
+            <div class="stack-controles">
+              <button class="stack-flecha" type="button" data-dir="-1" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <p class="stack-contador" aria-live="polite"></p>
+              <button class="stack-flecha" type="button" data-dir="1" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+      </div>
+
+      <div class="col">
+        <p class="carrusel-cierre reveal">Si lo notan en mí, <span class="playfair-inline">lo pueden notar en ti.</span></p>
+      </div>
+    </div>
+  </section>
+  <!-- QUÉ APRENDES + MÓDULOS -->
   <section class="bloque" id="que-incluye">
     <div class="container">
       <div class="col dolor-panel reveal">
-        <h2 class="section-title">Qué incluye</h2>
+        <h2 class="section-title">Qué aprendes</h2>
+        <ul class="aprendes-lista stagger" id="aprendes-lista"></ul>
+
+        <p class="incluye-subtitulo">Cómo está montado</p>
         <ul class="incluye-lista stagger" id="incluye-lista"></ul>
         <p class="incluye-etiquetas" id="incluye-etiquetas"></p>
       </div>
     </div>
   </section>
+
 
   <!-- QUÉ NO ES -->
   <section class="bloque" id="que-no-es">
@@ -1367,32 +1461,6 @@
     </div>
   </section>
 
-  <!-- PRUEBA SOCIAL: cifras + comentarios de TikTok -->
-  <section class="bloque" id="resultados">
-    <div class="container">
-      <ul class="prueba-stats stagger">
-        <li class="stat" style="--i:0"><span class="stat-num">100k</span><span class="stat-label">seguidores acumulados en mis redes</span></li>
-        <li class="stat" style="--i:1"><span class="stat-num">100</span><span class="stat-label">días hablando a cámara, sin edición</span></li>
-      </ul>
-
-      <div class="col comentarios reveal">
-        <h2 class="section-title">Lo que dicen en redes</h2>
-        <!-- Capturas de comentarios: se añaden en textos/yapping-101.json → comentarios -->
-          <div class="stack" id="stack-comentarios" role="region" aria-roledescription="carrusel" aria-label="Comentarios y mensajes sobre cómo habla Iván">
-            <div class="stack-escenario" tabindex="0"></div>
-            <div class="stack-controles">
-              <button class="stack-flecha" type="button" data-dir="-1" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <p class="stack-contador" aria-live="polite"></p>
-              <button class="stack-flecha" type="button" data-dir="1" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-      </div>
-
-      <div class="col">
-        <p class="carrusel-cierre reveal">Si lo notan en mí, <span class="playfair-inline">lo pueden notar en ti.</span></p>
-      </div>
-    </div>
-  </section>
 
   <!-- FORMULARIO DE APLICACIÓN -->
   <section class="bloque bloque-corto aplicar" id="aplicar">
@@ -1803,6 +1871,14 @@
           texto.append(crear("strong", "", item.titulo), crear("span", "incluye-texto", item.texto));
           li.append(icono, texto);
           incluye.append(li);
+        });
+
+        const aprendes = document.getElementById("aprendes-lista");
+        (datos.aprendes || []).forEach((item, i) => {
+          const li = crear("li");
+          li.style.setProperty("--i", i);
+          li.append(crear("strong", "", item.titulo), crear("span", "", item.texto));
+          aprendes.append(li);
         });
 
         const etiquetas = document.getElementById("incluye-etiquetas");

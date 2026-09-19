@@ -17,6 +17,12 @@
     { "src": "./Resources/comentarios/comentario-7.jpg", "alt": "Mensaje: cada vez que te escucho hablar me motiva y me calma" },
     { "src": "./Resources/comentarios/comentario-8.jpg", "alt": "Mensaje: siento que no hablo mal a cámara, pero tengo que meterle caña a los hooks. ¿Me das tus mejores tips?" }
   ],
+  "aprendes": [
+    { "titulo": "Por qué la gente se salta tus vídeos hablados", "texto": "El hook, el delivery y la cadencia: la psicología real de por qué alguien deja de hacer scroll. No es magia, es técnica." },
+    { "titulo": "Cómo hablar a cámara sin sonar a presentación", "texto": "Comunicación natural, control de la voz y una estructura mental para no quedarte nunca en blanco." },
+    { "titulo": "Por qué tus vídeos bonitos no generan comunidad", "texto": "Porque la gente no te conoce. Un vídeo editado no eres tú; yappear sí." },
+    { "titulo": "Cómo construir una comunidad que te siga a ti", "texto": "Cuando yappeas bien, dejan de ser espectadores y pasan a ser amigos." }
+  ],
   "incluye": [
     { "icono": "cerebro", "modulo": "Módulo 0", "titulo": "Mindset de creador", "texto": "La mentalidad que necesitas" },
     { "icono": "ubicacion", "modulo": "Módulo 1", "titulo": "Tu posición", "texto": "Autoridad o documentación: debes escoger" },
