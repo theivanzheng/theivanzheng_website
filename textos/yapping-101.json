@@ -40,11 +40,12 @@
     "No te voy a decir sobre qué hablar: te voy a enseñar cómo hacerlo, pero bien"
   ],
   "faq": [
+    { "pregunta": "¿Qué es exactamente el yapping?", "respuesta": "Encender la cámara y hablar de forma natural, sin guion rígido, como si le hablaras a un amigo. Prima la autenticidad y la cercanía por encima de la edición. En Yapping 101 te enseño a hacerlo bien: sin muletillas, sin quedarte en blanco y sin sonar a presentación de clase. Y lo más importante, adaptado a tu audiencia." },
     { "pregunta": "¿Cuándo se abre?", "respuesta": "El 10 de octubre de 2026. Si quieres asegurarte tu plaza desde ya, puedes hacer la precompra." },
     { "pregunta": "¿Cuánto acceso tengo?", "respuesta": "De por vida. Pagas una vez y es tuyo para siempre." },
     { "pregunta": "¿Hay garantía de reembolso?", "respuesta": "Sí, 7 días de reembolso sin preguntas." },
     { "pregunta": "¿Funciona para cualquier nicho?", "respuesta": "Sí. Fitness, finanzas, educación, lifestyle, cualquier cosa. Es sobre cómo hablar, no sobre qué hablar." },
-    { "pregunta": "¿Incluye coaching 1:1?", "respuesta": "No, pero los early birds (499€) tienen 4 llamadas semanales conmigo durante el primer mes." },
+    { "pregunta": "¿Incluye coaching 1:1?", "respuesta": "No, pero los early birds (79€) tienen 4 llamadas semanales conmigo durante el primer mes." },
     { "pregunta": "¿Necesito equipo profesional?", "respuesta": "No. Si yo lo hice con mi voz, tú también puedes." }
   ]
 }
