@@ -267,6 +267,11 @@
       font-size: 16px;
       color: var(--white);
     }
+    .precio-antes {
+      color: var(--gray-mid);
+      text-decoration: line-through;
+      margin-right: 8px;
+    }
     .producto-link {
       display: inline-flex;
       align-items: center;
@@ -677,7 +682,18 @@
         if (!datos || !datos.precio) return;
         document.querySelectorAll("[data-precio]").forEach((el) => {
           const plantilla = el.dataset.precioPlantilla;
-          el.textContent = plantilla ? plantilla.replace("{precio}", datos.precio) : datos.precio;
+          if (plantilla) {
+            el.textContent = plantilla.replace("{precio}", datos.precio);
+            return;
+          }
+          el.textContent = "";
+          if (datos.precioAntes) {
+            const antes = document.createElement("s");
+            antes.className = "precio-antes";
+            antes.textContent = datos.precioAntes;
+            el.appendChild(antes);
+          }
+          el.appendChild(document.createTextNode(datos.precio));
         });
       })
       .catch(() => {});

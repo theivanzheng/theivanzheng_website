@@ -171,6 +171,48 @@
       line-height: 1.2;
       margin-bottom: 26px;
     }
+    /* Precio anterior tachado, a la izquierda del rebajado. */
+    .precio-antes {
+      color: var(--gray-mid);
+      text-decoration: line-through;
+      margin-right: 10px;
+    }
+    .producto-precio .precio-ahora { color: var(--white); }
+
+    /* Aviso de oferta con cuenta atrás. Sin color: el peso lo da el borde y
+       la caja de puntos fijos para que los números no bailen. */
+    .oferta-aviso {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: -14px 0 24px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--copy-small);
+    }
+    .oferta-aviso[hidden] { display: none; }
+    .oferta-aviso .punto {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--white);
+      flex-shrink: 0;
+      animation: latido 2s ease-in-out infinite;
+    }
+    @keyframes latido {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+    .oferta-aviso .cuenta {
+      font-variant-numeric: tabular-nums;
+      color: var(--white);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .oferta-aviso .punto { animation: none; }
+    }
 
     .btn-comprar {
       display: flex;
@@ -710,6 +752,10 @@
       <div class="producto-col">
         <h1 class="reveal">El Arte de Dejar Ir</h1>
         <p class="producto-precio reveal reveal-delay-1" data-precio>19,99€</p>
+        <p class="oferta-aviso reveal reveal-delay-1" id="oferta-aviso" hidden>
+          <span class="punto" aria-hidden="true"></span>
+          <span>Oferta · termina en <span class="cuenta" id="oferta-cuenta"></span></span>
+        </p>
         <a class="btn-comprar reveal reveal-delay-2"
            href="https://payhip.com/buy?s=1&amp;cart_links%5B%5D=2U0hf&amp;qty%5B2U0hf%5D=1"
            target="_blank" rel="noopener noreferrer">Comprar</a>
@@ -1006,17 +1052,80 @@
       });
 
 
-    /* ---------- Precio: se sincroniza con Payhip vía /api/precio ---------- */
+    /* ---------- Precio y oferta ---------- */
     // El HTML ya trae el precio escrito como respaldo, así que esto solo lo
     // refresca. En local no existe la función serverless y no pasa nada.
+
+    const pintarPrecio = (datos) => {
+      document.querySelectorAll("[data-precio]").forEach((el) => {
+        const plantilla = el.dataset.precioPlantilla;
+        if (plantilla) {
+          // Los botones llevan solo el precio final: un tachado dentro de un
+          // botón es ruido.
+          el.textContent = plantilla.replace("{precio}", datos.precio);
+          return;
+        }
+        el.textContent = "";
+        if (datos.precioAntes) {
+          const antes = document.createElement("s");
+          antes.className = "precio-antes";
+          antes.textContent = datos.precioAntes;
+          el.appendChild(antes);
+        }
+        const ahora = document.createElement("span");
+        ahora.className = "precio-ahora";
+        ahora.textContent = datos.precio;
+        el.appendChild(ahora);
+      });
+    };
+
+    // "1d 23h 45m" mientras queda más de un día; a partir de ahí entran los
+    // segundos, que es cuando de verdad aprietan. Nunca se enseñan unidades
+    // grandes a cero: en el último minuto pone "44s", no "0h 00m 44s".
+    const formatearRestante = (segundos) => {
+      const d = Math.floor(segundos / 86400);
+      const h = Math.floor((segundos % 86400) / 3600);
+      const m = Math.floor((segundos % 3600) / 60);
+      const s = segundos % 60;
+      if (d > 0) return d + "d " + h + "h " + m + "m";
+      if (h > 0) return h + "h " + String(m).padStart(2, "0") + "m " + String(s).padStart(2, "0") + "s";
+      if (m > 0) return m + "m " + String(s).padStart(2, "0") + "s";
+      return s + "s";
+    };
+
+    const arrancarCuentaAtras = (datos) => {
+      const aviso = document.getElementById("oferta-aviso");
+      const cuenta = document.getElementById("oferta-cuenta");
+      if (!aviso || !cuenta || !datos.hasta) return;
+
+      // Se usa el "quedan" del servidor como referencia para no depender del
+      // reloj del visitante, que puede ir descuadrado.
+      const arranque = Date.now();
+      const restantesAlCargar = Number.isFinite(datos.quedan)
+        ? datos.quedan
+        : Math.floor((Date.parse(datos.hasta) - arranque) / 1000);
+
+      const tic = () => {
+        const restan = restantesAlCargar - Math.floor((Date.now() - arranque) / 1000);
+        if (restan <= 0) {
+          aviso.hidden = true;
+          window.clearInterval(reloj);
+          return;
+        }
+        cuenta.textContent = formatearRestante(restan);
+      };
+
+      aviso.hidden = false;
+      tic();
+      const reloj = window.setInterval(tic, 1000);
+    };
+
     fetch("/api/precio")
       .then((response) => (response.ok ? response.json() : null))
       .then((datos) => {
         if (!datos || !datos.precio) return;
-        document.querySelectorAll("[data-precio]").forEach((el) => {
-          const plantilla = el.dataset.precioPlantilla;
-          el.textContent = plantilla ? plantilla.replace("{precio}", datos.precio) : datos.precio;
-        });
+        pintarPrecio(datos);
+        if (datos.fuente === "oferta") arrancarCuentaAtras(datos);
       })
       .catch(() => {});
   </script>

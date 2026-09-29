@@ -353,6 +353,12 @@
       font-size: 14px;
       color: var(--gray-mid);
     }
+    .compra-pie .precio-antes {
+      text-decoration: line-through;
+      opacity: 0.7;
+      margin-right: 7px;
+    }
+    .compra-pie .precio-ahora { color: var(--white); }
 
     .cargando {
       padding: 80px 0;
@@ -394,7 +400,7 @@
       const pedirPrecio = () =>
         fetch("/api/precio")
           .then((r) => (r.ok ? r.json() : null))
-          .then((d) => (d && d.precio) || null)
+          .then((d) => (d && d.precio ? d : null))
           .catch(() => null);
 
       const parrafos = (texto) => String(texto || "")
@@ -609,11 +615,27 @@
 
           const pie = document.createElement("p");
           pie.className = "compra-pie";
-          const pintarPie = (precio) => {
-            pie.textContent = plantilla(cta.pie || "{precio}", { precio: precio });
+          // El precio se inyecta como nodo para poder tachar el anterior.
+          const pintarPie = (datos) => {
+            const marca = "\u0000";
+            const texto = plantilla(cta.pie || "{precio}", { precio: marca });
+            const [antesDelPrecio, despuesDelPrecio] = texto.split(marca);
+            pie.textContent = "";
+            pie.appendChild(document.createTextNode(antesDelPrecio || ""));
+            if (datos.precioAntes) {
+              const antes = document.createElement("s");
+              antes.className = "precio-antes";
+              antes.textContent = datos.precioAntes;
+              pie.appendChild(antes);
+            }
+            const ahora = document.createElement("span");
+            ahora.className = "precio-ahora";
+            ahora.textContent = datos.precio;
+            pie.appendChild(ahora);
+            pie.appendChild(document.createTextNode(despuesDelPrecio || ""));
           };
-          pintarPie(cta.precioRespaldo || "");
-          pedirPrecio().then((precio) => { if (precio) pintarPie(precio); });
+          pintarPie({ precio: cta.precioRespaldo || "" });
+          pedirPrecio().then((datos) => { if (datos) pintarPie(datos); });
 
           compra.append(hojas, boton, pie);
 
