@@ -1900,8 +1900,6 @@
         montarGalerias(datos);
 
         // Mientras no haya URL de Payhip, el botón lleva al formulario.
-        kitFormId = String(datos.kitFormId || "");
-
         if (datos.payhipUrl) {
           const boton = document.getElementById("btn-payhip");
           boton.href = datos.payhipUrl;
@@ -1914,7 +1912,7 @@
         montarGalerias({});
       });
 
-    /* ---------- Formulario de lista de espera → formulario público de Kit ---------- */
+    /* ---------- Formulario de lista de espera → /api/yapping-101 ---------- */
 
     const form = document.getElementById("form-aplicar");
     const botonAplicar = document.getElementById("btn-aplicar");
@@ -1927,10 +1925,6 @@
       gracias.hidden = false;
     };
     const emailRegex = /^[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,}$/i;
-
-    // Formulario público de Kit de la lista de espera (textos/yapping-101.json → kitFormId).
-    // Kit guarda al contacto y le envía su email de confirmación; no hace falta servidor.
-    let kitFormId = "";
 
     const leer = () => ({
       nombre: form.nombre.value.trim(),
@@ -1995,23 +1989,14 @@
       botonAplicar.textContent = "Enviando…";
 
       try {
-        if (!kitFormId) throw new Error("El formulario no está disponible ahora mismo. Inténtalo más tarde.");
-
-        // Las claves de "fields" son las de los campos personalizados creados en Kit.
-        const response = await fetch("https://app.kit.com/forms/" + encodeURIComponent(kitFormId) + "/subscriptions", {
+        // El servidor guarda los datos, da de alta en Kit y avisa por email.
+        const response = await fetch("/api/yapping-101", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email_address: datos.email,
-            first_name: datos.nombre,
-            fields: {
-              seguidores: datos.seguidores,
-              nicho: datos.nicho,
-              contenido_semanal: datos.compromiso === "si" ? "Sí" : "No"
-            }
-          })
+          body: JSON.stringify(datos)
         });
-        if (!response.ok) throw new Error("No se pudo enviar la solicitud. Inténtalo otra vez.");
+        const respuesta = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(respuesta.error || "No se pudo enviar la solicitud. Inténtalo otra vez.");
 
         mostrarGracias();
       } catch (error) {

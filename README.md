@@ -46,6 +46,11 @@ En `api/`, desplegadas por Vercel:
 - `api/[...all].js` + `backend/` — formulario de contacto (Express, Supabase, Resend):
   te envía el mensaje por email.
 
+- `api/yapping-101.js` + `api/_lib/supabase.js` — lista de espera de `/yapping-101`:
+  guarda a la persona en la tabla `yapping_waitlist` de Supabase, la apunta al formulario
+  de Kit y envía un aviso por email (Resend) con la lista completa, de más reciente a más
+  antigua. El aviso va a `WAITLIST_AVISO_EMAIL`, y si no existe, a zhengivan10@gmail.com.
+
 ## Kit
 
 No se usa la API de Kit (el plan gratuito no la incluye). Todo se da de alta desde el
