@@ -226,6 +226,9 @@
     .display em {
       font-family: 'Playfair Display', serif;
       font-style: italic; font-weight: 700; letter-spacing: -0.01em;
+      /* Playfair cursiva pesa más que Inter al mismo cuerpo: se baja para
+         que las dos líneas del titular se lean como una sola. */
+      font-size: 0.88em;
     }
     .lead { font-size: clamp(17px, 1.5vw, 19px); color: var(--copy-small); max-width: 620px; line-height: 1.68; letter-spacing: -0.012em; }
     .head { max-width: 860px; margin-bottom: clamp(44px, 6vw, 76px); }
@@ -534,6 +537,10 @@
       transition: transform .5s var(--ease), background-color .25s, color .25s;
     }
     .faq__list details[open] summary::after { transform: rotate(45deg); background-color: var(--white); color: var(--black); }
+        /* <details> nativo no anima: abre y cierra de golpe. El cuerpo va dentro de
+       un contenedor cuya altura sí se puede transicionar desde el JS. */
+    .js .faq__body { overflow: hidden; height: 0; opacity: 0; transition: height .42s var(--ease), opacity .28s ease; }
+    .js .faq__list details[open] .faq__body { height: auto; opacity: 1; }
     .faq__list details p { color: var(--copy-small); font-size: 16px; line-height: 1.72; padding: 0 50px 28px 0; max-width: 640px; }
 
     /* ── 11 · CONTACTO ── */
@@ -1069,35 +1076,35 @@
     <div class="faq__list">
       <details class="reveal">
         <summary>¿Tengo que explicarte cómo funciona nuestro producto?</summary>
-        <p>No. Me doy de alta, lo uso y vengo con las preguntas ya hechas. Soy ingeniero informático y he construido software, así que no necesito que nadie me traduzca qué es una integración, un plan de precios o un flujo de onboarding.</p>
+        <div class="faq__body"><p>No. Me doy de alta, lo uso y vengo con las preguntas ya hechas. Soy ingeniero informático y he construido software, así que no necesito que nadie me traduzca qué es una integración, un plan de precios o un flujo de onboarding.</p></div>
       </details>
       <details class="reveal">
         <summary>¿Grabas también pantalla y demos, no solo a cámara?</summary>
-        <p>Sí. De hecho es lo que mejor funciona para producto técnico: mi cara para que haya alguien detrás, y la pantalla para que se vea que el producto existe y funciona.</p>
+        <div class="faq__body"><p>Sí. De hecho es lo que mejor funciona para producto técnico: mi cara para que haya alguien detrás, y la pantalla para que se vea que el producto existe y funciona.</p></div>
       </details>
       <details class="reveal">
         <summary>¿Firmas NDA?</summary>
-        <p>Sin problema. Si estáis en fase cerrada o pre-lanzamiento, firmo el acuerdo antes de que me deis acceso a nada.</p>
+        <div class="faq__body"><p>Sin problema. Si estáis en fase cerrada o pre-lanzamiento, firmo el acuerdo antes de que me deis acceso a nada.</p></div>
       </details>
       <details class="reveal">
         <summary>¿Podemos usar el vídeo en anuncios? ¿Durante cuánto tiempo?</summary>
-        <p>Sí, el uso en anuncios se acuerda antes de empezar y queda recogido por escrito: en qué plataformas, durante cuánto tiempo y con qué exclusividad. Para seguir usándolo después del periodo acordado, renovamos.</p>
+        <div class="faq__body"><p>Sí, el uso en anuncios se acuerda antes de empezar y queda recogido por escrito: en qué plataformas, durante cuánto tiempo y con qué exclusividad. Para seguir usándolo después del periodo acordado, renovamos.</p></div>
       </details>
       <details class="reveal">
         <summary>¿Cuántas revisiones entran en el precio?</summary>
-        <p>El Vídeo UGC incluye 2 revisiones. El Pack UGC, 3 por vídeo. El vídeo patrocinado en mis redes, 3. Si hacen falta más, son 50 € cada una, igual que un hook o un CTA adicional.</p>
+        <div class="faq__body"><p>El Vídeo UGC incluye 2 revisiones. El Pack UGC, 3 por vídeo. El vídeo patrocinado en mis redes, 3. Si hacen falta más, son 50 € cada una, igual que un hook o un CTA adicional.</p></div>
       </details>
       <details class="reveal">
         <summary>¿Emites factura?</summary>
-        <p>Sí. Cada proyecto se factura con su IVA correspondiente, así que podéis deducirlo como cualquier otro gasto de marketing.</p>
+        <div class="faq__body"><p>Sí. Cada proyecto se factura con su IVA correspondiente, así que podéis deducirlo como cualquier otro gasto de marketing.</p></div>
       </details>
       <details class="reveal">
         <summary>¿Trabajas también en inglés?</summary>
-        <p>Sí. Grabo y guionizo con la misma soltura en español y en inglés, y tengo piezas en ambos idiomas para los mercados de España, Portugal y Países Bajos. También puedo grabar piezas cortas en chino mandarín.</p>
+        <div class="faq__body"><p>Sí. Grabo y guionizo con la misma soltura en español y en inglés, y tengo piezas en ambos idiomas para los mercados de España, Portugal y Países Bajos. También puedo grabar piezas cortas en chino mandarín.</p></div>
       </details>
       <details class="reveal">
         <summary>¿Cuánto tardas?</summary>
-        <p>Como orientación, una pieza suele llevar alrededor de una semana desde que validamos el guion. Depende de mi disponibilidad y de lo que necesite el proyecto; confirmamos fechas antes de empezar.</p>
+        <div class="faq__body"><p>Como orientación, una pieza suele llevar alrededor de una semana desde que validamos el guion. Depende de mi disponibilidad y de lo que necesite el proyecto; confirmamos fechas antes de empezar.</p></div>
       </details>
     </div>
   </div>
@@ -1435,6 +1442,46 @@
     });
   }
 
+  /* ── Preguntas frecuentes: altura animada al abrir y cerrar ── */
+  function initFaq() {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $$(".faq__list details").forEach(function (d) {
+      var sum = $("summary", d), body = $(".faq__body", d);
+      if (!sum || !body) return;
+
+      sum.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (reduce) { d.open = !d.open; return; }
+        if (d._anim) return;
+        d._anim = true;
+
+        var cerrando = d.open;
+        if (!cerrando) d.open = true;        // abrir primero: hay que poder medirlo
+
+        // Se mide con el alto en auto; medirlo ya colapsado devuelve 0.
+        body.style.height = "";
+        var alto = body.scrollHeight;
+
+        var listo = function () {
+          body.removeEventListener("transitionend", listo);
+          clearTimeout(d._t);
+          if (cerrando) d.open = false;
+          body.style.height = "";            // devuelve el control al CSS
+          d._anim = false;
+        };
+        body.addEventListener("transitionend", listo);
+        d._t = setTimeout(listo, 700);       // por si la transicion no se dispara
+
+        // Sin requestAnimationFrame a proposito: en una pestana en segundo plano
+        // no se ejecuta y la animacion se quedaria a medias. El reflujo forzado
+        // fija el valor de partida y la transicion arranca igual.
+        body.style.height = (cerrando ? alto : 0) + "px";
+        body.offsetHeight;                   // fuerza el reflujo
+        body.style.height = (cerrando ? 0 : alto) + "px";
+      });
+    });
+  }
+
   /* ── Menú móvil (mismo comportamiento que la home) ── */
   function initNav() {
     var nav = $("#site-nav"), toggle = $("#nav-toggle"), menu = $("#nav-mobile-menu");
@@ -1470,6 +1517,7 @@
     safe(initSteps);
     safe(initCounters);
     safe(initSpot);
+    safe(initFaq);
     safe(initYear);
     onScroll();
   }
