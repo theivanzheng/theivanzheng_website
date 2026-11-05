@@ -28,12 +28,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0a0a0a;
-      --white: #ffffff;
-      --gray-mid: #aaaaaa;
-      --border: #2a2a2a;
-      --panel-card: #151515;
-      --copy-small: #d9d9d9;
+      --black: #0a0a0c;
+      --white: #fffdfa;
+      --gray-mid: #8a8681;
+      --border: #2b2a2e;
+      --panel-card: #161518;
+      --copy-small: #c9c5bf;
       --content-width: 1240px;
     }
 
@@ -98,7 +98,7 @@
     }
     nav .nav-mobile-menu { display: none; }
     .nav-scrolled {
-      background: rgba(10, 10, 10, 0.72);
+      background: rgba(10, 10, 12, 0.72);
       backdrop-filter: blur(10px);
       border-bottom: none;
     }
@@ -124,9 +124,10 @@
     .reveal-delay-3 { transition-delay: 0.24s; }
 
     .section-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 42px;
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.035em;
       line-height: 1.1;
       margin-bottom: 32px;
     }
@@ -147,7 +148,7 @@
       border-radius: 24px;
       overflow: hidden;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
     }
     .producto-banner img {
       display: block;
@@ -159,9 +160,10 @@
       padding: 34px 0 0;
     }
     .producto-head h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(38px, 6vw, 64px);
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.04em;
       line-height: 1.02;
       margin-bottom: 6px;
     }
@@ -297,7 +299,7 @@
 
     .valoracion-card {
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 12px;
       padding: 26px 30px 24px;
       display: flex;
@@ -317,9 +319,10 @@
     }
 
     .valoracion-card h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 24px;
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.025em;
       line-height: 1.15;
     }
     .valoracion-texto {
@@ -423,7 +426,7 @@
     }
     .para-quien-card {
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 12px;
       padding: 28px 30px 30px;
     }
@@ -501,7 +504,7 @@
     }
     .cita blockquote {
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 12px;
       padding: 48px 44px;
       text-align: center;
@@ -531,7 +534,7 @@
       align-items: end;
     }
     footer .footer-left {
-      font-size: 24px; color: #ffffff;
+      font-size: 24px; color: #fffdfa;
       grid-column: 1/2; grid-row: 1/2;
     }
     footer .footer-mid {
@@ -541,7 +544,7 @@
     footer .footer-mid a,
     footer .footer-right a {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       text-decoration: none;
     }
     footer .footer-right {
@@ -580,7 +583,7 @@
         left: 0;
         right: 0;
         padding: 14px 18px 16px;
-        background: rgba(10,10,10,0.9);
+        background: rgba(10,10,12,0.9);
         border-top: 1px solid rgba(255,255,255,0.12);
         border-bottom: 1px solid rgba(255,255,255,0.12);
         backdrop-filter: blur(8px);
@@ -596,7 +599,7 @@
         transform: scaleY(1);
       }
       nav.nav-open {
-        background: rgba(10,10,10,0.9);
+        background: rgba(10,10,12,0.9);
         backdrop-filter: blur(8px);
       }
 
@@ -685,11 +688,11 @@
     }
     footer .footer-nav a {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       text-decoration: none;
       transition: color .2s ease;
     }
-    footer .footer-nav a:hover { color: #999999; }
+    footer .footer-nav a:hover { color: #8f8b86; }
 
     @media (max-width: 640px) {
       footer { align-items: flex-start; }

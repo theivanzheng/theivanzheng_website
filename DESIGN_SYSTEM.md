@@ -27,14 +27,14 @@ Documentación completa del patrón de diseño, estructura y componentes utiliza
 
 ```css
 :root {
-  --black: #0a0a0a;                    /* Fondo principal */
-  --white: #ffffff;                    /* Texto primario */
-  --gray-light: #e8e8e8;              /* Borde claro */
-  --gray-mid: #aaaaaa;                /* Texto secundario */
-  --border: #2a2a2a;                  /* Borde oscuro */
-  --card-bg: #111111;                 /* Fondo tarjetas */
-  --panel-card: #151515;              /* Fondo paneles */
-  --copy-small: #d9d9d9;              /* Texto secundario (párrafos) */
+  --black: #0a0a0c;                    /* Fondo principal */
+  --white: #fffdfa;                    /* Texto primario */
+  --gray-light: #e2ded8;              /* Borde claro */
+  --gray-mid: #8a8681;                /* Texto secundario */
+  --border: #2b2a2e;                  /* Borde oscuro */
+  --card-bg: #121114;                 /* Fondo tarjetas */
+  --panel-card: #161518;              /* Fondo paneles */
+  --copy-small: #c9c5bf;              /* Texto secundario (párrafos) */
 }
 ```
 
@@ -42,13 +42,13 @@ Documentación completa del patrón de diseño, estructura y componentes utiliza
 
 | Elemento | Color | Hex | RGB | Uso |
 |----------|-------|-----|-----|-----|
-| Fondo página | Negro | `#0a0a0a` | 10, 10, 10 | Body background |
-| Texto primario | Blanco | `#ffffff` | 255, 255, 255 | Títulos, navegación |
-| Texto secundario | Gris clarito | `#d9d9d9` | 217, 217, 217 | Párrafos, descripciones |
-| Borde claro | Gris muy claro | `#e8e8e8` | 232, 232, 232 | Bordes finos |
-| Borde oscuro | Gris oscuro | `#2a2a2a` | 42, 42, 42 | Bordes paneles |
-| Panel de contenido | Gris muy oscuro | `#151515` | 21, 21, 21 | Fondo secciones |
-| Hover estados | Gris medio | `#aaaaaa` | 170, 170, 170 | Enlaces hover |
+| Fondo página | Negro | `#0a0a0c` | 10, 10, 12 | Body background |
+| Texto primario | Blanco | `#fffdfa` | 255, 255, 255 | Títulos, navegación |
+| Texto secundario | Gris clarito | `#c9c5bf` | 201, 197, 191 | Párrafos, descripciones |
+| Borde claro | Gris muy claro | `#e2ded8` | 226, 222, 216 | Bordes finos |
+| Borde oscuro | Gris oscuro | `#2b2a2e` | 43, 42, 46 | Bordes paneles |
+| Panel de contenido | Gris muy oscuro | `#161518` | 22, 21, 24 | Fondo secciones |
+| Hover estados | Gris medio | `#8a8681` | 138, 134, 129 | Enlaces hover |
 
 ### Esquema Monocromático
 
@@ -415,7 +415,7 @@ nav .nav-center {
   gap: 72px;
   align-items: center;
   background: var(--panel-card);
-  border: 1px solid #2b2b2b;
+  border: 1px solid #2c2b30;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -526,8 +526,8 @@ Hay tres tipos de stacks de tarjetas: `cards-stack`, `cards-stack-nada`, `cards-
   top: 92px;
   left: 72px;
   transform: rotate(-12deg);
-  background: #ffffff;
-  border-color: #111111;
+  background: #fffdfa;
+  border-color: #121114;
   border-radius: 28px;
 }
 
@@ -538,8 +538,8 @@ Hay tres tipos de stacks de tarjetas: `cards-stack`, `cards-stack-nada`, `cards-
   top: 8px;
   left: 248px;
   transform: rotate(12deg);
-  background: #ffffff;
-  border-color: #111111;
+  background: #fffdfa;
+  border-color: #121114;
   border-radius: 30px;
 }
 
@@ -652,8 +652,8 @@ Hay tres tipos de stacks de tarjetas: `cards-stack`, `cards-stack-nada`, `cards-
   top: 98px;
   left: 0;
   transform: rotate(0deg);
-  background: #ffffff;
-  border-color: #111111;
+  background: #fffdfa;
+  border-color: #121114;
   border-radius: 24px;
 }
 
@@ -807,7 +807,7 @@ revealItems.forEach((item) => {
 .nl-box input[type="email"] {
   width: 100%;
   background: transparent;
-  border: 1.5px solid #d9d9d9;
+  border: 1.5px solid #c9c5bf;
   border-radius: 14px;
   color: var(--white);
   font-family: 'Inter', sans-serif;
@@ -829,14 +829,14 @@ revealItems.forEach((item) => {
 }
 
 .nl-box .checkbox-row input {
-  accent-color: #ffffff;
+  accent-color: #fffdfa;
   width: 18px;
   height: 18px;
 }
 
 .nl-box .checkbox-row label {
   font-size: 14px;
-  color: #d9d9d9;
+  color: #c9c5bf;
 }
 
 .nl-box button {
@@ -864,7 +864,7 @@ revealItems.forEach((item) => {
 .nl-message {
   margin-top: 12px;
   font-size: 14px;
-  color: #d9d9d9;
+  color: #c9c5bf;
   min-height: 20px;
 }
 ```
@@ -1416,7 +1416,7 @@ nav.nav-open .nav-mobile-menu {
   gap: 58px;
   align-items: center;
   background: var(--panel-card);
-  border: 1px solid #2b2b2b;
+  border: 1px solid #2c2b30;
   border-radius: 24px;
   overflow: hidden;
 }

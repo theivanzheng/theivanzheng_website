@@ -28,15 +28,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0a0a0a;
-      --white: #ffffff;
-      --gray-light: #e8e8e8;
-      --gray-mid: #aaaaaa;
-      --border: #2a2a2a;
-      --card-bg: #111111;
+      --black: #0a0a0c;
+      --white: #fffdfa;
+      --gray-light: #e2ded8;
+      --gray-mid: #8a8681;
+      --border: #2b2a2e;
+      --card-bg: #121114;
       --content-width: 1240px;
-      --panel-card: #151515;
-      --copy-small: #d9d9d9;
+      --panel-card: #161518;
+      --copy-small: #c9c5bf;
     }
 
     html { scroll-behavior: smooth; }
@@ -106,7 +106,7 @@
     }
 
     .nav-scrolled {
-      background: rgba(10, 10, 10, 0.72);
+      background: rgba(10, 10, 12, 0.72);
       backdrop-filter: blur(10px);
       border-bottom: none;
     }
@@ -129,7 +129,7 @@
       right: 0;
       bottom: 0;
       height: 34vh;
-      background: linear-gradient(to bottom, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.65) 52%, var(--black) 100%);
+      background: linear-gradient(to bottom, rgba(10, 10, 12, 0) 0%, rgba(10, 10, 12, 0.65) 52%, var(--black) 100%);
       z-index: 1;
       pointer-events: none;
     }
@@ -207,10 +207,10 @@
 
     .section-label {
       text-align: center;
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 54px;
-      font-weight: 400;
-      letter-spacing: 0;
+      font-weight: 600;
+      letter-spacing: -0.035em;
       color: var(--white);
       margin-bottom: 52px;
     }
@@ -239,8 +239,9 @@
       color: var(--white);
       text-decoration: none;
       font-size: 28px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 400;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.03em;
       min-height: 112px;
       padding: 10px;
       border: none;
@@ -282,7 +283,7 @@
       gap: 58px;
       align-items: center;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 24px;
       overflow: hidden;
     }
@@ -351,16 +352,16 @@
       width: 320px; height: 438px;
       top: 92px; left: 72px;
       transform: rotate(-12deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 28px;
     }
     .sobre-mi .card-item:nth-child(3) {
       width: 372px; height: 510px;
       top: 8px; left: 248px;
       transform: rotate(12deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 30px;
     }
 
@@ -370,7 +371,7 @@
       bottom: 24px; left: 20px; right: 20px;
       padding: 12px 0;
       font-size: 13px;
-      color: #8a8a8a;
+      color: #85817c;
       font-style: italic;
     }
 
@@ -433,7 +434,7 @@
       gap: 58px;
       align-items: center;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 24px;
       overflow: hidden;
     }
@@ -471,24 +472,24 @@
       width: 286px; height: 394px;
       top: 134px; left: 10px;
       transform: rotate(-23deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 28px;
     }
     .cards-stack-nada .card-item:nth-child(2) {
       width: 328px; height: 456px;
       top: 18px; left: 184px;
       transform: rotate(-10deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 28px;
     }
     .cards-stack-nada .card-item:nth-child(3) {
       width: 366px; height: 510px;
       top: 36px; left: 326px;
       transform: rotate(22deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 30px;
     }
 
@@ -511,7 +512,7 @@
       gap: 62px;
       align-items: center;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 24px;
       overflow: hidden;
     }
@@ -543,16 +544,16 @@
       width: 268px; height: 356px;
       top: 52px; left: 4px;
       transform: rotate(-19deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 28px;
     }
     .cards-stack-nl .card-item:nth-child(2) {
       width: 284px; height: 380px;
       top: 34px; left: 138px;
       transform: rotate(22deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 28px;
     }
 
@@ -587,7 +588,7 @@
     .nl-box input[type="email"] {
       width: min(100%, 700px);
       background: transparent;
-      border: 1.5px solid #d9d9d9;
+      border: 1.5px solid #c9c5bf;
       border-radius: 14px;
       color: var(--white);
       font-family: 'Inter', sans-serif;
@@ -596,7 +597,7 @@
       margin-bottom: 14px;
       outline: none;
     }
-    .nl-box input[type="email"]::placeholder { color: #bdbdbd; }
+    .nl-box input[type="email"]::placeholder { color: #b8b4ae; }
     .nl-box .checkbox-row {
       display: flex;
       align-items: center;
@@ -604,13 +605,13 @@
       margin-bottom: 18px;
     }
     .nl-box .checkbox-row input {
-      accent-color: #ffffff;
+      accent-color: #fffdfa;
       width: 18px;
       height: 18px;
     }
     .nl-box .checkbox-row label {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
     }
     .nl-box button {
       background: var(--white);
@@ -633,7 +634,7 @@
     .nl-message {
       margin-top: 12px;
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       min-height: 20px;
     }
 
@@ -641,7 +642,7 @@
     .arrow-connector {
       text-align: center;
       padding: 54px 0 0;
-      color: #ffffff;
+      color: #fffdfa;
       font-size: 76px;
       line-height: 1;
     }
@@ -663,7 +664,7 @@
       gap: 72px;
       align-items: center;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 10px;
       position: relative;
       overflow: hidden;
@@ -673,9 +674,10 @@
     .proyecto-item:last-child { margin-bottom: 0; }
 
     .proyecto-item h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 40px;
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.035em;
       margin-bottom: 22px;
     }
     .proyecto-item p {
@@ -696,7 +698,7 @@
       display: block;
       position: relative;
       font-size: 20px;
-      color: #8a8a8a;
+      color: #85817c;
       text-align: center;
       padding: 0;
       transform: rotate(-21deg) translateZ(0);
@@ -921,7 +923,7 @@
         right: 0;
         padding: 14px 18px 16px;
         border-radius: 0;
-        background: rgba(10, 10, 10, 0.8);
+        background: rgba(10, 10, 12, 0.8);
         border-top: 1px solid rgba(255, 255, 255, 0.14);
         border-bottom: 1px solid rgba(255, 255, 255, 0.14);
         border-left: none;
@@ -941,7 +943,7 @@
       }
 
       nav.nav-open {
-        background: rgba(10, 10, 10, 0.8);
+        background: rgba(10, 10, 12, 0.8);
         backdrop-filter: blur(8px);
       }
 
@@ -1357,7 +1359,7 @@
       gap: 62px;
       align-items: center;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 24px;
     }
 
@@ -1372,8 +1374,8 @@
       width: 382px; height: 286px;
       top: 98px; left: 0;
       transform: rotate(0deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 24px;
     }
     .cards-stack-contact .card-item:nth-child(2) {
@@ -1393,7 +1395,7 @@
     .contact-form { display: flex; flex-direction: column; gap: 10px; }
     .contact-form label {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       margin-bottom: 4px;
       display: block;
     }
@@ -1401,7 +1403,7 @@
     .contact-form textarea {
       width: min(100%, 760px);
       background: transparent;
-      border: 1.5px solid #d9d9d9;
+      border: 1.5px solid #c9c5bf;
       border-radius: 14px;
       color: var(--white);
       font-family: 'Inter', sans-serif;
@@ -1411,7 +1413,7 @@
       resize: none;
     }
     .contact-form input::placeholder,
-    .contact-form textarea::placeholder { color: #d9d9d9; opacity: 0.78; }
+    .contact-form textarea::placeholder { color: #c9c5bf; opacity: 0.78; }
     .contact-form textarea { min-height: 144px; }
     .contact-form button {
       align-self: flex-start;
@@ -1431,7 +1433,7 @@
     .contact-message {
       margin-top: 10px;
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       min-height: 20px;
     }
 
@@ -1527,7 +1529,7 @@
     }
     footer .footer-left {
       font-size: 24px;
-      color: #ffffff;
+      color: #fffdfa;
       grid-column: 1 / 2;
       grid-row: 1 / 2;
     }
@@ -1540,11 +1542,11 @@
     }
     footer .footer-mid a {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       text-decoration: none;
       transition: color .2s;
     }
-    footer .footer-mid a:hover { color: #999; }
+    footer .footer-mid a:hover { color: #8f8b86; }
     footer .footer-right {
       display: flex;
       gap: 48px;
@@ -1555,12 +1557,12 @@
     }
     footer .footer-right a {
       font-size: 14px;
-      color: #ffffff;
+      color: #fffdfa;
       text-decoration: none;
       letter-spacing: 0.08em;
       transition: color .2s;
     }
-    footer .footer-right a:hover { color: #999; }
+    footer .footer-right a:hover { color: #8f8b86; }
 
     /* Final mobile override: force 3 footer rows */
     @media (max-width: 640px) {
@@ -1646,11 +1648,11 @@
     }
     footer .footer-nav a {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       text-decoration: none;
       transition: color .2s ease;
     }
-    footer .footer-nav a:hover { color: #999999; }
+    footer .footer-nav a:hover { color: #8f8b86; }
 
     @media (max-width: 640px) {
       footer { align-items: flex-start; }
@@ -1890,7 +1892,7 @@
         <h3>@theivanzheng</h3>
         <p>
           Es el espacio donde Iván empieza a experimentar con la creación de contenido. En 2026, el proyecto crece de 0 a 60.000 seguidores en apenas 60 días, marcando el inicio de su presencia online.
-          <br><br>Desde ahí, comparte contenido sobre mejora personal, productividad, fitness y mentalidad, principalmente en TikTok e Instagram, donde acumula cerca de 100.000 seguidores.
+          <br><br>Desde ahí, comparte contenido sobre mejora personal, productividad, fitness y mentalidad, principalmente en TikTok, Instagram y YouTube, donde acumula más de 200.000 seguidores.
           <br><br>Más allá de los números, este proyecto se convierte en el laboratorio donde prueba, aprende y aplica todo lo relacionado con contenido, comunicación y crecimiento digital.
         </p>
       </div>
@@ -2149,7 +2151,7 @@
         return;
       }
       newsletterMessage.textContent = text;
-      newsletterMessage.style.color = isError ? "#ff9f9f" : "#d9d9d9";
+      newsletterMessage.style.color = isError ? "#ff9f9f" : "#c9c5bf";
     };
 
     const showContactMessage = (text, isError = false) => {
@@ -2157,7 +2159,7 @@
         return;
       }
       contactResponse.textContent = text;
-      contactResponse.style.color = isError ? "#ff9f9f" : "#d9d9d9";
+      contactResponse.style.color = isError ? "#ff9f9f" : "#c9c5bf";
     };
 
     const parseJsonSafe = async (response) => {

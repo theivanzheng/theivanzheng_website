@@ -28,12 +28,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0a0a0a;
-      --white: #ffffff;
-      --gray-mid: #aaaaaa;
-      --border: #2a2a2a;
-      --panel-card: #151515;
-      --copy-small: #d9d9d9;
+      --black: #0a0a0c;
+      --white: #fffdfa;
+      --gray-mid: #8a8681;
+      --border: #2b2a2e;
+      --panel-card: #161518;
+      --copy-small: #c9c5bf;
       --content-width: 1240px;
     }
 
@@ -98,7 +98,7 @@
     }
     nav .nav-mobile-menu { display: none; }
     .nav-scrolled {
-      background: rgba(10, 10, 10, 0.72);
+      background: rgba(10, 10, 12, 0.72);
       backdrop-filter: blur(10px);
       border-bottom: none;
     }
@@ -124,9 +124,10 @@
     .reveal-delay-3 { transition-delay: 0.24s; }
 
     .section-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 42px;
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.035em;
       line-height: 1.1;
       margin-bottom: 32px;
     }
@@ -136,9 +137,10 @@
       text-align: center;
     }
     .hero-proyectos h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(54px, 8vw, 94px);
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.045em;
       line-height: 1;
       margin-bottom: 26px;
     }
@@ -276,9 +278,10 @@
       filter: grayscale(1);
     }
     .project-preview-card h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 28px;
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.03em;
       line-height: 1.1;
       margin-bottom: 8px;
     }
@@ -304,7 +307,7 @@
       gap: 72px;
       align-items: center;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 10px;
       padding: 34px 40px;
       scroll-margin-top: 90px;
@@ -315,9 +318,10 @@
       overflow: hidden;
     }
     .project-row h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 40px;
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.035em;
       line-height: 1.05;
       margin-bottom: 18px;
     }
@@ -330,7 +334,7 @@
       width: 208px;
       height: 208px;
       border-radius: 28px;
-      background: #0a0a0a;
+      background: #0a0a0c;
       transform: rotate(-19deg);
       overflow: hidden;
       flex-shrink: 0;
@@ -350,7 +354,7 @@
     }
     .award-card {
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 12px;
       overflow: hidden;
       scroll-margin-top: 90px;
@@ -358,7 +362,7 @@
     .award-card-visual {
       width: 100%;
       aspect-ratio: 1.7 / 0.82;
-      background: #e7e7e7;
+      background: #e1ddd7;
       overflow: hidden;
     }
     .award-card-visual img {
@@ -378,9 +382,10 @@
       margin-bottom: 10px;
     }
     .award-card h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 28px;
-      font-weight: 400;
+      font-weight: 600;
+      letter-spacing: -0.03em;
       line-height: 1.05;
       margin-bottom: 0;
     }
@@ -446,7 +451,7 @@
       gap: 62px;
       align-items: center;
       background: var(--panel-card);
-      border: 1px solid #2b2b2b;
+      border: 1px solid #2c2b30;
       border-radius: 24px;
     }
     .cards-stack-contact {
@@ -461,8 +466,8 @@
       top: 98px;
       left: 0;
       transform: rotate(0deg);
-      background: #ffffff;
-      border-color: #111111;
+      background: #fffdfa;
+      border-color: #121114;
       border-radius: 24px;
     }
     .cards-stack-contact .card-item:nth-child(2),
@@ -490,7 +495,7 @@
     .contact-form { display: flex; flex-direction: column; gap: 10px; }
     .contact-form label {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       margin-bottom: 4px;
       display: block;
     }
@@ -498,7 +503,7 @@
     .contact-form textarea {
       width: min(100%, 760px);
       background: transparent;
-      border: 1.5px solid #d9d9d9;
+      border: 1.5px solid #c9c5bf;
       border-radius: 14px;
       color: var(--white);
       font-family: 'Inter', sans-serif;
@@ -524,7 +529,7 @@
     .contact-message {
       margin-top: 10px;
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       min-height: 20px;
     }
 
@@ -537,7 +542,7 @@
       align-items: end;
     }
     footer .footer-left {
-      font-size: 24px; color: #ffffff;
+      font-size: 24px; color: #fffdfa;
       grid-column: 1/2; grid-row: 1/2;
     }
     footer .footer-mid {
@@ -547,7 +552,7 @@
     footer .footer-mid a,
     footer .footer-right a {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       text-decoration: none;
     }
     footer .footer-right {
@@ -609,7 +614,7 @@
         left: 0;
         right: 0;
         padding: 14px 18px 16px;
-        background: rgba(10,10,10,0.9);
+        background: rgba(10,10,12,0.9);
         border-top: 1px solid rgba(255,255,255,0.12);
         border-bottom: 1px solid rgba(255,255,255,0.12);
         backdrop-filter: blur(8px);
@@ -625,7 +630,7 @@
         transform: scaleY(1);
       }
       nav.nav-open {
-        background: rgba(10,10,10,0.9);
+        background: rgba(10,10,12,0.9);
         backdrop-filter: blur(8px);
       }
 
@@ -785,11 +790,11 @@
     }
     footer .footer-nav a {
       font-size: 14px;
-      color: #d9d9d9;
+      color: #c9c5bf;
       text-decoration: none;
       transition: color .2s ease;
     }
-    footer .footer-nav a:hover { color: #999999; }
+    footer .footer-nav a:hover { color: #8f8b86; }
 
     @media (max-width: 640px) {
       footer { align-items: flex-start; }
@@ -1244,7 +1249,7 @@
         return;
       }
       contactResponse.textContent = text;
-      contactResponse.style.color = isError ? "#ff9f9f" : "#d9d9d9";
+      contactResponse.style.color = isError ? "#ff9f9f" : "#c9c5bf";
     };
 
     const parseJsonSafe = async (response) => {
