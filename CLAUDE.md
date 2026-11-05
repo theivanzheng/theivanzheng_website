@@ -6,9 +6,14 @@ Guía para continuar el desarrollo de este portfolio con Claude Code. Léela ent
 
 ## Qué es este proyecto
 
-Portfolio personal de **Ivan Zheng** — freelancer de ingeniería informática, desarrollo web y consultoría digital. La web es un **single HTML file** (`theivanzheng.html`) con CSS inline y JS al final del body. Sin frameworks, sin build tools, sin compilación.
+Portfolio personal de **Ivan Zheng** — freelancer de ingeniería informática, desarrollo web y consultoría digital. Cada página es un **archivo HTML independiente** con su CSS inline en el `<head>`
+y su JS al final del `<body>`. Sin frameworks, sin build tools, sin compilación.
+La home es `index.html`. Hay 13 páginas: home, proyectos, productos, contacto,
+ugc, yapping-101, las dos del libro, las legales y la de confirmación.
 
-El objetivo inmediato es construir **`proyectos.html`**: una página independiente que muestra los proyectos de Ivan con más detalle que la sección de la home.
+**`ugc.html` es la única página sin indexar**: lleva `noindex` y no se enlaza
+desde el menú, porque las piezas de Ironhack se pueden enseñar a clientes pero
+no publicar abiertamente. No la añadas a la navegación.
 
 ---
 
@@ -16,8 +21,8 @@ El objetivo inmediato es construir **`proyectos.html`**: una página independien
 
 1. **Vanilla únicamente.** Cero frameworks (React, Vue, Angular), cero bundlers (Webpack, Vite), cero TypeScript. HTML + CSS + JS puro.
 2. **CSS inline en `<style>`** dentro del `<head>`. No hojas externas nuevas salvo Google Fonts.
-3. **JS al final del `<body>`**, en un `<script>` inline. No archivos `.js` externos salvo `content-loader.js`.
-4. **Diseño oscuro monocromático.** Fondo #0a0a0a, sin colores vivos, sin gradientes de color (solo grises/negros).
+3. **JS al final del `<body>`**, en un `<script>` inline. Sin archivos `.js` externos.
+4. **Diseño oscuro monocromático.** Fondo `var(--black)`, sin colores vivos, sin gradientes de color (solo grises/negros). Ver la regla de temperatura más abajo.
 5. **Todo en español.** Textos, labels, mensajes de error — siempre en español.
 6. **Consistencia visual total.** Cualquier nueva sección debe parecer diseñada el mismo día que las demás.
 
@@ -29,32 +34,63 @@ El objetivo inmediato es construir **`proyectos.html`**: una página independien
 
 ```css
 :root {
-  --black: #0a0a0a;          /* Fondo general de la página */
-  --white: #ffffff;           /* Texto principal y títulos */
-  --copy-small: #d9d9d9;     /* Párrafos, texto secundario */
-  --gray-light: #e8e8e8;     /* Bordes finos / elementos claros */
-  --gray-mid: #aaaaaa;       /* Hover en iconos, texto terciario */
-  --border: #2a2a2a;         /* Bordes oscuros de paneles */
-  --card-bg: #111111;        /* Fondo de tarjetas */
-  --panel-card: #151515;     /* Fondo de secciones/paneles */
+  /* Superficies FRÍAS (azul un punto por encima de rojo y verde) */
+  --black: #0a0a0c;          /* Fondo general de la página */
+  --card-bg: #121114;        /* Fondo de tarjetas */
+  --panel-card: #161518;     /* Fondo de secciones/paneles */
+  --border: #2b2a2e;         /* Bordes oscuros de paneles */
+
+  /* Textos CÁLIDOS (rojo por encima de verde y azul) */
+  --white: #fffdfa;          /* Texto principal y títulos */
+  --copy-small: #c9c5bf;     /* Párrafos, texto secundario */
+  --gray-mid: #8a8681;       /* Texto terciario, hover en iconos */
+  --gray-light: #e2ded8;     /* Bordes finos / elementos claros */
+
   --content-width: 1240px;   /* Max-width del contenido */
 }
 ```
 
-**Nunca** usar colores fuera de esta paleta. Si hace falta un tono intermedio, usar `rgba(255,255,255, X)` o `rgba(10,10,10, X)`.
+**Regla de temperatura: ningún color puede tener R = G = B.** Los grises
+matemáticamente neutros hacen que la web parezca una pantalla; el desfase de
+temperatura la hace parecer un objeto. Las superficies tiran a frío y los textos
+a cálido, que es la relación tinta-papel invertida para fondo oscuro.
+
+Los tres niveles de texto están separados por 1,69× y 2,10× de contraste, que es
+lo que sustituye al color de acento que esta web no tiene. Si acercas esos
+valores, la jerarquía desaparece. Los tres pasan WCAG AA sobre el fondo
+(19,5:1 · 11,5:1 · 5,5:1).
+
+**Nunca** usar colores fuera de esta paleta. Si hace falta un tono intermedio, usar `rgba(255,255,255, X)` o `rgba(10,10,12, X)`.
 
 ### Tipografía
 
 ```css
-/* TÍTULOS de sección y nombres de proyectos */
+/* TITULARES: Inter en negrita y apretada. La sans hace el trabajo pesado. */
+font-family: 'Inter', sans-serif;
+font-weight: 600;
+letter-spacing: -0.035em;   /* más grande = más apretado: -0.03 a -0.05em */
+
+/* ACENTO: Playfair cursiva, SOLO en una o dos palabras dentro del titular */
 font-family: 'Playfair Display', serif;
-font-weight: 400;
-letter-spacing: 0.08em;
+font-style: italic;
+font-weight: 700;
 
 /* TODO LO DEMÁS: cuerpo, labels, botones, nav */
 font-family: 'Inter', sans-serif;
 font-weight: 400;
 ```
+
+**La serif es la especia, no el plato.** Un titular entero en Playfair 400 no
+tiene contraste interno: todo pesa lo mismo y nada destaca. El patrón es sans
+600 apretada con la cursiva saltando en las palabras que importan.
+
+**El tracking negativo es solo para caja baja.** Las MAYÚSCULAS necesitan
+espaciado abierto: el logo «IVAN ZHENG» (`0.06em`–`0.08em`), los kickers y las
+etiquetas en versales (`0.14em`–`0.18em`) se quedan como están.
+
+**Siguen en Playfair**, porque ahí la serif es identidad o acento, no titular:
+el logo de la nav, el hero «IVAN ZHENG» de la home, `.playfair-inline`, los
+numerales `01`–`05`, las citas y los énfasis en línea de las páginas de venta.
 
 Escalas a recordar:
 - Hero H1: `clamp(52px, 10vw, 110px)`
@@ -88,7 +124,7 @@ section { padding: 104px 0; }   /* tablet/mobile: 68px 0 */
 .inner {
   padding: 46px 52px 42px;
   background: var(--panel-card);
-  border: 1px solid #2b2b2b;
+  border: 1px solid var(--border);
   border-radius: 24px;
 }
 ```
@@ -201,7 +237,7 @@ Patrón de inputs:
 input[type="email"], input[type="text"], textarea {
   width: 100%;
   background: transparent;
-  border: 1.5px solid #d9d9d9;
+  border: 1.5px solid var(--copy-small);
   border-radius: 14px;
   color: var(--white);
   font-family: 'Inter', sans-serif;
@@ -215,18 +251,20 @@ Botón de envío: `background: var(--white); color: var(--black)`.
 
 ## Sistema de Contenidos JSON
 
-Los textos NO están en el HTML sino en `/textos/*.json`. El archivo `content-loader.js` los carga e inyecta.
+⚠️ **`content-loader.js` no existe en la raíz del proyecto.** Esta sección
+describe un sistema que no está montado, o que se movió y no se documentó.
+Verifícalo antes de apoyarte en él.
+
+Lo que sí hay en `/textos/` son los JSON que leen algunas páginas por su cuenta:
 
 ```
-textos/proyectos.json  →  títulos y descripciones de cada proyecto
-textos/sobre-mi.json   →  texto de Sobre Mí
-textos/newsletter.json →  copy del formulario newsletter
+textos/proyectos-page.json   →  proyectos
+textos/yapping-101.json      →  Yapping 101
+textos/quiz-para-soltar.json →  el test
+textos/valoraciones-arte-dejar-ir.json
 ```
 
-**Al editar contenido:** modificar el JSON, no el HTML.
-**Al crear nueva sección:** crear su JSON + agregar método `inject[Sección]()` en `content-loader.js`.
-
-Los `\n\n` se convierten en `<p>` y los `\n` simples en `<br>`.
+El resto de páginas, `ugc.html` incluida, llevan el texto en el propio HTML.
 
 ---
 
@@ -267,11 +305,16 @@ Sin video. Fondo negro con texto centrado:
   text-align: center;
 }
 .hero-inner h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Inter', sans-serif;
   font-size: clamp(48px, 8vw, 96px);
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: -0.04em;
   margin-bottom: 24px;
+}
+.hero-inner h1 em {   /* el acento, una o dos palabras */
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 700;
 }
 .hero-inner-desc {
   font-size: 18px;
@@ -328,7 +371,7 @@ Una cuadrícula 3 columnas desktop / 2 tablet / 1 mobile con una tarjeta por pro
 }
 .proyecto-card:hover {
   transform: translateY(-4px);
-  border-color: #444444;
+  border-color: #46444a;
 }
 
 .proyecto-card-img {
@@ -427,7 +470,7 @@ Cada proyecto tiene su propia sección expandida debajo del grid. Misma estructu
 
 .proyecto-detalle-inner {
   background: var(--panel-card);
-  border: 1px solid #2b2b2b;
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 52px 60px;
   display: grid;
@@ -472,9 +515,9 @@ Cada proyecto tiene su propia sección expandida debajo del grid. Misma estructu
 }
 .stat { display: flex; flex-direction: column; gap: 4px; }
 .stat-num {
-  font-family: 'Playfair Display', serif;
   font-size: 40px;
-  font-weight: 400;
+  font-weight: 600;
+  letter-spacing: -0.04em;
   color: var(--white);
   line-height: 1;
 }
@@ -555,8 +598,9 @@ SVG horizontales de cada proyecto. Usar siempre con `object-fit: contain` y altu
 
 ## Checklist antes de terminar cualquier nueva sección
 
-- [ ] Fondo `var(--black)`, paneles `var(--panel-card)`, bordes `#2b2b2b`
-- [ ] Títulos en Playfair Display, cuerpo en Inter
+- [ ] Fondo `var(--black)`, paneles `var(--panel-card)`, bordes `var(--border)`
+- [ ] Titulares en Inter 600 con tracking negativo; Playfair cursiva **solo** en el acento
+- [ ] Ningún color con R = G = B
 - [ ] Clases `.reveal` y `.reveal-delay-X` en todos los elementos animados
 - [ ] Media queries para 640px y 1024px
 - [ ] `loading="lazy" decoding="async"` en todas las imágenes
@@ -570,8 +614,8 @@ SVG horizontales de cada proyecto. Usar siempre con `object-fit: contain` y altu
 
 ```bash
 python3 -m http.server 8000
-# Abrir: http://localhost:8000/theivanzheng.html
-# Proyectos: http://localhost:8000/proyectos.html
+# Abrir: http://localhost:8000/index.html
+# UGC:    http://localhost:8000/ugc.html
 ```
 
 ---
@@ -580,11 +624,11 @@ python3 -m http.server 8000
 
 - `backend/src/server.js` — lógica de email/Supabase/Resend
 - `api/newsletter/` — serverless functions de producción
-- `content-loader.js` — solo modificar para añadir secciones nuevas, nunca refactorizar
+- `api/` — serverless functions de producción (newsletter, precio, yapping)
 
 ## Archivos seguros para editar libremente
 
-- `theivanzheng.html` — página principal
-- `proyectos.html` — página de proyectos (en construcción)
+- `index.html` — página principal
+- `proyectos.html`, `productos.html`, `contacto.html`, `ugc.html`
 - `textos/*.json` — contenidos
 - `Resources/` — añadir imágenes/logos
