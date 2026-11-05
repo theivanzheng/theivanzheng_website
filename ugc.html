@@ -134,7 +134,9 @@
     .js .has-hero.is-docked #site-nav { opacity: 1; pointer-events: auto; }
 
     /* ── PORTADA ── */
-    .ugc-hero { position: relative; height: 100vh; background: var(--black); }
+    /* padding: 0 obligatorio: .ugc-hero es un <section> y heredaría los 104px,
+       que empujan el bloque pegajoso hacia abajo y dejan una banda negra arriba. */
+    .ugc-hero { position: relative; height: 100vh; padding: 0; background: var(--black); }
     .js .ugc-hero { height: 300vh; }
     .ugc-hero__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
     .ugc-hero__media { position: absolute; inset: 0; overflow: hidden; }
@@ -1207,7 +1209,7 @@
     var brand = $("#ugcBrand"), tagline = $("#ugcTagline"), fade = $("#ugcFade");
     var cue = $("#ugcCue"), bar = $("#ugcBar"), shade = $("#ugcShade");
     var next = $("#quien-soy");   // la sección que sube para tapar el hero
-    var P_END = 0.78;             // en qué punto del recorrido el fundido ya cubre del todo
+    var P_END = 0.54;             // en qué punto del recorrido el fundido ya cubre del todo
     var m = {};
 
     function measure() {
@@ -1222,10 +1224,10 @@
       m.endY = m.barH / 2 - (m.dockFs * 0.85) / 2;
       tagline.style.top = Math.round(m.startY + m.H + Math.max(36, fs * 0.22 + 26, window.innerHeight * 0.05)) + "px";
       m.total = hero.offsetHeight - window.innerHeight;
-      // Pasado P_END el fundido ya lo cubre todo y el resto del hero era scroll
-      // en negro sin nada. La sección siguiente sube para comérselo, que es lo
-      // que hace la franja de marcas en la web de Ángel.
-      if (next) next.style.marginTop = Math.round(-(1 - P_END) * m.total - 0.15 * window.innerHeight) + "px";
+      // La sección siguiente sube para comerse el tramo en negro. El tirón es
+      // justo una pantalla menos la barra: así entra por abajo cuando el fundido
+      // acaba de cubrir y llega arriba justo cuando el hero termina.
+      if (next) next.style.marginTop = Math.round(m.barH - window.innerHeight) + "px";
     }
 
     var wasDocked = null;
@@ -1233,9 +1235,11 @@
       var total = hero.offsetHeight - window.innerHeight;
       var p = clamp(-hero.getBoundingClientRect().top / Math.max(total, 1), 0, 1);
 
-      var a = ss(0.03, 0.17, p);   // aparecen logo y frase
-      var b = ss(0.22, 0.33, p);   // la frase se va antes de que el logo suba
-      var d = ss(0.37, 0.66, p);   // el logo sube y se encoge
+      // El relevo con la sección siguiente necesita casi una pantalla de
+      // recorrido, así que la intro se concentra en la primera mitad.
+      var a = ss(0.04, 0.16, p);   // aparecen logo y frase
+      var b = ss(0.20, 0.30, p);   // la frase se va antes de que el logo suba
+      var d = ss(0.30, 0.48, p);   // el logo sube y se encoge
       var vh = window.innerHeight;
       var solid = Math.max(0, 1.8 * m.total * (P_END - p));
       var f = 1 - ss(0, 0.6 * vh, solid);
@@ -1250,7 +1254,7 @@
       fade.style.transform = "translateY(" + Math.min(solid - 0.6 * vh, 2 * vh).toFixed(1) + "px)";
       cue.style.opacity = (1 - ss(0, 0.05, p)).toFixed(3);
       if (shade) shade.style.opacity = (0.5 + 0.5 * a).toFixed(3);
-      bar.style.opacity = ss(0.7, 0.8, p).toFixed(3);
+      bar.style.opacity = ss(0.46, 0.54, p).toFixed(3);
 
       var docked = d >= 0.995;
       if (docked !== wasDocked) {
