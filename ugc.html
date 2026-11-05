@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>UGC Portafolio — Iván Zheng</title>
+  <meta name="description" content="Contenido UGC para empresas de tecnología, software y startups. Ingeniero informático y creador de contenido con más de 200.000 seguidores." />
+
+  <!-- PÁGINA NO LISTADA · Las piezas de Ironhack se pueden enseñar a clientes pero no publicar
+       abiertamente, así que esta página no se indexa y no se enlaza desde el resto de la web.
+       NO añadas robots.txt con Disallow: impediría que Google llegara a leer este noindex. -->
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./Resources/favicon/favicon-32.png" />
+  <link rel="apple-touch-icon" href="./Resources/favicon/apple-touch-icon.png" />
+
+  <!-- Vista previa al compartir el enlace -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Iván Zheng" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:url" content="https://theivanzheng.com/ugc.html" />
+  <meta property="og:title" content="UGC Portafolio — Iván Zheng" />
+  <meta property="og:description" content="Contenido UGC para empresas de tecnología, software y startups." />
+  <meta property="og:image" content="https://theivanzheng.com/Resources/og/sitio.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Superficies frías, texto cálido: en una web oscura el «papel» es el texto. */
+      --black: #0a0a0c;
+      --card-bg: #121114;
+      --panel-card: #161518;
+      --border: #2b2a2e;
+      --white: #fffdfa;
+      --copy-small: #c9c5bf;
+      --gray-mid: #8a8681;
+      --gray-light: #e2ded8;
+      --content-width: 1240px;
+
+      --bar-h: 64px;
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      --brand-big: clamp(56px, 12.5vw, 184px);
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.no-scroll { overflow: hidden; }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; }
+    ::selection { background: var(--white); color: var(--black); }
+    :focus-visible { outline: 1px solid var(--white); outline-offset: 3px; border-radius: 4px; }
+
+    .skip { position: absolute; left: -9999px; top: 8px; z-index: 300; background: var(--white); color: var(--black); padding: 10px 16px; border-radius: 10px; }
+    .skip:focus { left: 8px; }
+
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 56px;
+    }
+
+    .playfair-inline { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; }
+
+    /* ── NAV (misma que la home) ── */
+    #site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: var(--bar-h);
+    }
+    #site-nav .nav-left { display: flex; gap: 32px; }
+    #site-nav .nav-right { display: flex; gap: 32px; }
+    #site-nav a {
+      color: var(--white); text-decoration: none;
+      font-size: 15px; font-weight: 400;
+      opacity: 0.85;
+      transition: opacity .2s;
+    }
+    #site-nav a:hover { opacity: 1; }
+    #site-nav a[aria-current="page"] { opacity: 1; }
+
+    #site-nav .nav-toggle {
+      display: none;
+      background: transparent; border: 0; padding: 8px 4px; cursor: pointer;
+      flex-direction: column; justify-content: center; gap: 5px;
+    }
+    #site-nav .nav-toggle span {
+      display: block; width: 20px; height: 1px; border-radius: 999px; background: var(--white);
+      transition: transform .3s var(--ease);
+    }
+    #site-nav.nav-open .nav-toggle span:first-child { transform: translateY(3px) rotate(45deg); }
+    #site-nav.nav-open .nav-toggle span:last-child { transform: translateY(-3px) rotate(-45deg); }
+    #site-nav .nav-mobile-menu { display: none; }
+
+    /* Barra fija que aparece cuando el logo termina de acoplarse */
+    .ugc-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--bar-h); z-index: 90;
+      background: rgba(10, 10, 12, 0.72);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* ── EL LOGO QUE SE CONVIERTE EN CABECERA ── */
+    .ugc-brand {
+      position: fixed; top: 18px; left: 50%; z-index: 110;
+      transform: translateX(-50%); transform-origin: 50% 0;
+      font-family: 'Playfair Display', serif;
+      font-weight: 400; font-size: 24px; line-height: .85; letter-spacing: 0.06em;
+      white-space: nowrap; color: var(--white);
+      will-change: transform, opacity;
+    }
+    .js .has-hero .ugc-brand { top: 0; font-size: var(--brand-big); opacity: 0; }
+    .js .has-hero #site-nav { opacity: 0; pointer-events: none; transition: opacity .45s var(--ease); }
+    .js .has-hero.is-docked #site-nav { opacity: 1; pointer-events: auto; }
+
+    /* ── PORTADA ── */
+    .ugc-hero { position: relative; height: 100vh; background: var(--black); }
+    .js .ugc-hero { height: 300vh; }
+    .ugc-hero__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+    .ugc-hero__media { position: absolute; inset: 0; overflow: hidden; }
+
+    .ugc-hero__media > video, .ugc-hero__media > img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: 50% 45%;
+    }
+
+    /* Sube por encima del hero para comerse el tramo en negro. Sin fondo propio:
+       así emerge del mismo fundido en vez de entrar como un bloque opaco. */
+    #quien-soy { position: relative; z-index: 2; }
+    .ugc-hero__shade {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(10,10,12,.62), rgba(10,10,12,.42) 40%, rgba(10,10,12,.82));
+    }
+    .ugc-hero__fade {
+      position: absolute; left: 0; right: 0; top: 0; height: 200%;
+      background: linear-gradient(180deg, rgba(10,10,12,0) 0%, rgba(10,10,12,.85) 18%, var(--black) 30%, var(--black) 100%);
+      transform: translateY(100%); pointer-events: none; will-change: transform;
+    }
+
+    .ugc-tagline {
+      position: absolute; left: 0; right: 0; top: 62%;
+      display: flex; justify-content: center; align-items: baseline; gap: .3em;
+      flex-wrap: wrap; padding: 0 18px;
+      font-size: clamp(20px, 3vw, 40px); font-weight: 300; letter-spacing: 0.01em; color: var(--white);
+      text-shadow: 0 2px 24px rgba(0,0,0,.5);
+      will-change: opacity, transform;
+    }
+    .rot { display: inline-grid; text-align: left; }
+    .rot__w {
+      grid-area: 1 / 1;
+      font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; letter-spacing: 0;
+      color: var(--white);
+      opacity: 0; transform: translateY(.45em); filter: blur(6px);
+      transition: opacity .7s var(--ease), transform .8s var(--ease), filter .7s var(--ease);
+    }
+    .rot__w.is-on { opacity: 1; transform: none; filter: none; }
+    .rot__w.is-out { opacity: 0; transform: translateY(-.45em); filter: blur(6px); }
+
+    .ugc-cue {
+      position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+    }
+    .ugc-cue::after {
+      content: ""; width: 1px; height: 36px;
+      background: linear-gradient(rgba(255,255,255,.8), transparent);
+      animation: cue 2s var(--ease) infinite; transform-origin: top;
+    }
+    @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+    html:not(.js) .ugc-tagline { top: 56%; }
+
+    /* ── SECCIONES ── */
+    section { padding: 104px 0; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition-delay: var(--d, 0s);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { --d: 0.08s; }
+    .reveal-delay-2 { --d: 0.16s; }
+    .reveal-delay-3 { --d: 0.24s; }
+
+    .kicker {
+      position: relative; display: inline-flex; align-items: center;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gray-mid); margin-bottom: 22px; padding-left: 32px;
+    }
+    .kicker::before {
+      content: ""; position: absolute; left: 0; top: 50%;
+      width: 22px; height: 1px; background: currentColor;
+    }
+
+    .display {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600; font-size: clamp(38px, 5.4vw, 72px);
+      line-height: 1.02; letter-spacing: -0.035em;
+    }
+    .display em {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-weight: 700; letter-spacing: -0.01em;
+    }
+    .lead { font-size: clamp(17px, 1.5vw, 19px); color: var(--copy-small); max-width: 620px; line-height: 1.68; letter-spacing: -0.012em; }
+    .head { max-width: 860px; margin-bottom: clamp(44px, 6vw, 76px); }
+    .head .display { margin-bottom: 22px; }
+    .head--row { max-width: var(--content-width); display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; }
+    .head--row .display { margin-bottom: 0; }
+
+    /* ── BOTONES ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      height: 52px; padding: 0 28px; border-radius: 999px; border: 0; cursor: pointer;
+      background: var(--white); color: var(--black);
+      font-size: 15px; font-weight: 500;
+      transition: opacity .2s ease, transform .4s var(--ease);
+    }
+    .btn:hover { opacity: .88; }
+    .btn .arr { display: inline-block; transition: transform .4s var(--ease); }
+    .btn:hover .arr { transform: translateX(4px); }
+    .btn--ghost { background: transparent; color: var(--white); box-shadow: inset 0 0 0 1px var(--border); }
+    .btn--ghost:hover { background: rgba(255,255,255,.05); opacity: 1; }
+
+    /* ── 3 · POSICIONAMIENTO ── */
+    .pos { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(40px, 7vw, 100px); align-items: stretch; }
+    .pos__side { display: flex; flex-direction: column; min-width: 0; }
+    .pos__media {
+      position: relative; flex: 1 1 auto; min-height: 420px;
+      border-radius: 24px; overflow: hidden;
+      background: var(--card-bg); border: 1px solid var(--border);
+    }
+    .pos__media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .pos__links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+    .pos__links a {
+      display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 46px; padding: 0 12px;
+      border-radius: 999px; background: var(--card-bg); border: 1px solid var(--border); color: var(--copy-small);
+      font-size: 14px; transition: color .25s ease, border-color .25s ease, background .25s ease;
+    }
+    .pos__links a:hover { color: var(--white); border-color: #46444a; background: rgba(255,255,255,.04); }
+    .pos__links a span { font-size: 12px; transition: transform .25s var(--ease); }
+    .pos__links a:hover span { transform: translate(2px, -2px); }
+    .pos__copy .display { margin-bottom: 28px; }
+    .pos__copy p { color: var(--copy-small); font-size: 17px; line-height: 1.75; margin-bottom: 18px; max-width: 34em; }
+    .pos__copy p:last-child { margin-bottom: 0; }
+
+    /* ── 4 · ENFOQUE ── */
+    .enfoque { height: 150vh; position: relative; margin-bottom: -10vh; padding: 0; }
+    .enfoque__sticky { position: sticky; top: calc((100vh - 78vh) / 2); height: 78vh; display: flex; flex-direction: column; justify-content: center; }
+    .enfoque__text {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(27px, 4.3vw, 60px); font-weight: 600; line-height: 1.14; letter-spacing: -0.035em;
+      max-width: 1100px;
+    }
+    .js .enfoque__text .w { color: rgba(255, 255, 255, .17); transition: color .25s linear; }
+    .js .enfoque__text .w.on { color: var(--copy-small); }
+    .js .enfoque__text .w.accent { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; letter-spacing: -0.01em; }
+    .js .enfoque__text .w.accent.on { color: var(--white); }
+
+    /* ── 5 · VÍDEOS ── */
+    .rail {
+      display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 8px 56px 24px; scroll-padding: 0 56px;
+      scrollbar-width: none; cursor: grab;
+    }
+    .rail::-webkit-scrollbar { display: none; }
+    .rail.is-drag { cursor: grabbing; scroll-snap-type: none; }
+    .rail.is-drag * { pointer-events: none; }
+    @media (min-width: 1240px) {
+      .rail { padding-left: calc((100vw - var(--content-width)) / 2 + 56px); scroll-padding-left: calc((100vw - var(--content-width)) / 2 + 56px); }
+    }
+    .rail .work { flex: none; width: clamp(198px, 21vw, 282px); scroll-snap-align: start; }
+    .rail__ctrl { display: flex; gap: 10px; }
+    .round {
+      width: 50px; height: 50px; border-radius: 50%;
+      border: 1px solid var(--border); background: transparent; color: var(--white);
+      cursor: pointer; font-size: 17px;
+      transition: background .25s ease, color .25s ease, border-color .25s ease, transform .3s var(--ease);
+    }
+    .round:hover { background: var(--white); color: var(--black); border-color: var(--white); }
+    .round:active { transform: scale(.94); }
+
+    .work { cursor: pointer; outline: none; }
+    .work__cover {
+      position: relative; aspect-ratio: 9 / 16; border-radius: 20px; overflow: hidden;
+      background: var(--card-bg); border: 1px solid var(--border);
+    }
+    .work__cover > img, .work__cover > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease); }
+    .work:hover .work__cover > img { transform: scale(1.045); }
+    .work__ph {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      color: #5d5a56; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      background:
+        repeating-linear-gradient(135deg, rgba(255,255,255,.02) 0 1px, transparent 1px 16px),
+        linear-gradient(165deg, #18171b, #0e0e12);
+    }
+    .work__cover::after {
+      content: ""; position: absolute; inset: 0; margin: auto;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: rgba(255,255,255,.22) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='white'/%3E%3C/svg%3E") 50% 50% / 24px no-repeat;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.4);
+      opacity: 0; transform: scale(.8);
+      transition: opacity .35s var(--ease), transform .45s var(--ease), background-color .25s;
+    }
+    .work:hover .work__cover::after, .work:focus-visible .work__cover::after { opacity: 1; transform: none; background-color: rgba(255,255,255,.4); }
+    .work:focus-visible .work__cover { outline: 1px solid var(--white); outline-offset: 3px; }
+    .work__dur {
+      position: absolute; right: 10px; bottom: 10px; z-index: 2;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+      color: var(--white); padding: 4px 9px; border-radius: 999px;
+      background: rgba(10, 10, 12, 0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    .work__meta { padding: 16px 2px 0; }
+    .work__brand { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 6px; }
+    .work__title { font-size: 17px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.3; }
+    .work__info { display: none; }
+    .works__more { margin-top: 32px; }
+
+    /* ── Ventana del vídeo ── */
+    .modal {
+      position: fixed; inset: 0; z-index: 200; overflow-y: auto; overscroll-behavior: contain;
+      background: rgba(6, 6, 6, .9);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      opacity: 0; visibility: hidden;
+      transition: opacity .45s var(--ease), visibility 0s .45s;
+    }
+    .modal.is-open { opacity: 1; visibility: visible; transition: opacity .45s var(--ease); }
+    .modal__inner {
+      min-height: 100%; display: flex; flex-direction: column; align-items: center;
+      padding: 84px 20px 60px;
+      transform: translateY(24px) scale(.98); transition: transform .7s var(--ease);
+    }
+    .modal.is-open .modal__inner { transform: none; }
+    .modal__media { display: flex; justify-content: center; width: 100%; }
+    .modal__media video {
+      width: auto; height: auto; max-width: min(100%, 900px); max-height: 74vh;
+      border-radius: 18px; background: #000; box-shadow: 0 40px 100px -20px rgba(0,0,0,.8);
+    }
+    .modal__ph {
+      border-radius: 18px; overflow: hidden; box-shadow: 0 40px 100px -20px rgba(0,0,0,.8);
+      display: flex; align-items: center; justify-content: center;
+      color: #5d5a56; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      background:
+        repeating-linear-gradient(135deg, rgba(255,255,255,.02) 0 1px, transparent 1px 16px),
+        linear-gradient(165deg, #18171b, #0e0e12);
+    }
+    .modal__ph--vertical { height: min(74vh, 740px); aspect-ratio: 9 / 16; max-width: 100%; }
+    .modal__ph--horizontal { width: min(100%, 900px); aspect-ratio: 16 / 9; }
+    .modal__head { width: 100%; max-width: 720px; margin-top: 30px; }
+    .modal__brand { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-mid); }
+    .modal__title { font-size: clamp(24px, 3vw, 36px); font-weight: 600; letter-spacing: -0.035em; margin-top: 8px; }
+    .modal__info { width: 100%; max-width: 720px; margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); color: var(--copy-small); }
+    .modal__info:empty { display: none; }
+    .modal__info p { font-size: 16px; line-height: 1.7; }
+    .modal__info p + p { margin-top: 14px; }
+    .modal__info strong { color: var(--white); font-weight: 600; }
+    .modal__close {
+      position: fixed; top: 20px; right: 20px; z-index: 2;
+      width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer;
+      background: rgba(255,255,255,.1); color: #fff; font-size: 0; padding: 0;
+      transition: background .25s, transform .4s var(--ease);
+    }
+    .modal__close::before, .modal__close::after {
+      content: ""; position: absolute; left: 50%; top: 50%;
+      width: 17px; height: 1.5px; border-radius: 2px; background: currentColor;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .modal__close::after { transform: translate(-50%, -50%) rotate(-45deg); }
+    .modal__close:hover { background: rgba(255,255,255,.2); transform: rotate(90deg); }
+
+    /* ── 6 · NÚMEROS ── */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .statbox { padding: clamp(34px, 4.6vw, 56px) clamp(20px, 3.4vw, 48px); border-left: 1px solid var(--border); }
+    .statbox:first-child { border-left: 0; padding-left: 0; }
+    .stat {
+      display: block;
+      font-size: clamp(46px, 5.2vw, 78px); font-weight: 600; letter-spacing: -0.05em; line-height: .95;
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .stat__plus { color: var(--gray-mid); }
+    .statbox p { color: var(--copy-small); font-size: clamp(15px, 1.3vw, 17px); margin-top: 14px; line-height: 1.6; }
+
+    /* ── 7 · QUÉ HAGO ── */
+    .svc { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .svc__card {
+      --mx: 50%; --my: 50%;
+      position: relative; overflow: hidden;
+      background: var(--panel-card); border: 1px solid var(--border); border-radius: 24px;
+      padding: clamp(28px, 3.2vw, 42px);
+      display: flex; flex-direction: column; gap: 12px;
+      transition: border-color .8s ease-in-out, box-shadow .8s ease-in-out;
+    }
+    .spot::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      background: radial-gradient(420px circle at var(--mx) var(--my), rgba(255,255,255,.055), transparent 45%);
+      opacity: 0; transition: opacity .8s ease-in-out;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .svc__card:hover, .plan:hover { border-color: #46444a; box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 0 40px -6px rgba(255,255,255,.07); }
+      .spot:hover::before { opacity: 1; }
+    }
+    .svc__n { font-family: 'Playfair Display', serif; font-style: italic; font-size: 26px; color: var(--gray-mid); line-height: 1; }
+    .svc__title { font-size: clamp(28px, 2.8vw, 38px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; }
+    .svc__card p { color: var(--copy-small); font-size: 16px; line-height: 1.7; }
+    .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .tags li { font-size: 12px; padding: 6px 13px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid var(--border); color: var(--gray-mid); }
+
+    /* ── 8 · PROCESO ── */
+    .proc { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(40px, 7vw, 100px); }
+    .proc__sticky { position: sticky; top: calc(var(--bar-h) + 40px); }
+    .proc__steps { position: relative; padding-left: 46px; }
+    .proc__list { list-style: none; display: grid; gap: clamp(44px, 5.4vw, 66px); }
+    .proc__line { position: absolute; left: 6px; top: 19px; bottom: 10px; width: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .proc__line i { display: block; width: 100%; height: 0; background: var(--white); }
+    .step { position: relative; }
+    .step::before {
+      content: ""; position: absolute; left: -46px; top: 12px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--black); border: 2px solid var(--white);
+    }
+    .step__n { font-family: 'Playfair Display', serif; font-style: italic; font-size: 38px; line-height: 1; color: var(--gray-mid); display: block; margin-bottom: 10px; }
+    .step h3 { font-size: clamp(20px, 2vw, 25px); font-weight: 500; letter-spacing: -0.025em; margin-bottom: 10px; line-height: 1.25; }
+    .step p { color: var(--copy-small); font-size: 16px; line-height: 1.7; max-width: 540px; }
+    .step--key h3 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(23px, 2.3vw, 30px); }
+    .step--key::before { background: var(--white); }
+
+    /* ── 9 · TARIFAS ── */
+    .tarifas { background: #0d0c0f; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+    .plans--duo { grid-template-columns: repeat(2, 1fr); margin-top: 16px; }
+    .plans-sub {
+      font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gray-mid); margin: clamp(38px, 4.4vw, 56px) 0 16px;
+    }
+    .plans-sub:first-of-type { margin-top: 0; }
+    .plan {
+      --mx: 50%; --my: 50%;
+      position: relative; overflow: hidden;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
+      padding: clamp(28px, 3.2vw, 40px) clamp(24px, 2.8vw, 36px);
+      display: flex; flex-direction: column;
+      transition: border-color .8s ease-in-out, box-shadow .8s ease-in-out;
+    }
+    .plan__name { font-size: clamp(19px, 1.8vw, 24px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 20px; }
+    .plan__price { font-size: 14px; color: var(--gray-mid); margin-bottom: 24px; }
+    .plan__price small {
+      display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gray-mid); margin-bottom: 8px;
+    }
+    .plan__price span {
+      font-size: clamp(40px, 4.2vw, 56px); font-weight: 600; letter-spacing: -0.045em; line-height: 1;
+      color: var(--white); margin-right: 6px;
+    }
+    .plan__list {
+      list-style: none; padding-top: 24px; border-top: 1px solid var(--border);
+      display: grid; gap: 13px; font-size: 15px; line-height: 1.55; color: var(--copy-small);
+    }
+    .plan__list li { display: flex; gap: 12px; align-items: flex-start; }
+    .plan__list li::before {
+      content: ""; width: 17px; height: 17px; margin-top: 3px; flex: none; border-radius: 50%;
+      background: rgba(255,255,255,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/11px no-repeat;
+    }
+    .plans__note { text-align: center; max-width: 700px; margin: 34px auto 0; font-size: 14px; line-height: 1.65; color: var(--gray-mid); }
+
+    .plan__dur { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-mid); margin: -12px 0 20px; }
+    .plan__price .plan__to { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--gray-mid); margin-right: 0; }
+
+    /* Packs */
+    .packs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .pack {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px;
+      padding: 22px 26px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+      transition: border-color .4s ease;
+    }
+    .pack:hover { border-color: #46444a; }
+    .pack__n { font-size: 15px; color: var(--copy-small); }
+    .pack__off { font-size: 26px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: var(--white); white-space: nowrap; }
+    .pack__off--soft { font-size: 15px; font-family: 'Inter', sans-serif; color: var(--gray-mid); }
+
+    /* Tablas de extras y licencias */
+    .rates { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); margin-top: clamp(44px, 5vw, 68px); }
+    .rates__title { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 16px; }
+    .rate {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 20px;
+      padding: 14px 0; border-top: 1px solid var(--border); font-size: 15px; line-height: 1.5;
+    }
+    .rate:last-of-type { border-bottom: 1px solid var(--border); }
+    .rate__name { color: var(--copy-small); }
+    .rate__val { color: var(--white); font-weight: 500; white-space: nowrap; }
+    .rate__val--soft { color: var(--gray-mid); font-weight: 400; }
+    .rates__note { font-size: 13px; color: var(--gray-mid); margin-top: 14px; line-height: 1.6; }
+
+    /* ── 10 · FAQ ── */
+    .faq { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(40px, 7vw, 100px); }
+    .faq__sticky { position: sticky; top: calc(var(--bar-h) + 40px); }
+    .faq__list details { border-bottom: 1px solid var(--border); }
+    .faq__list details:first-child { border-top: 1px solid var(--border); }
+    .faq__list summary {
+      list-style: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      padding: 26px 0; font-size: clamp(17px, 1.6vw, 20px); font-weight: 400; letter-spacing: -0.02em;
+    }
+    .faq__list summary::-webkit-details-marker { display: none; }
+    .faq__list summary::after {
+      content: ""; flex: none; width: 34px; height: 34px; border-radius: 50%; color: var(--white);
+      background-color: rgba(255,255,255,.06);
+      background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+      background-size: 13px 1.5px, 1.5px 13px; background-position: center; background-repeat: no-repeat;
+      transition: transform .5s var(--ease), background-color .25s, color .25s;
+    }
+    .faq__list details[open] summary::after { transform: rotate(45deg); background-color: var(--white); color: var(--black); }
+    .faq__list details p { color: var(--copy-small); font-size: 16px; line-height: 1.72; padding: 0 50px 28px 0; max-width: 640px; }
+
+    /* ── 11 · CONTACTO ── */
+    .cta { text-align: center; }
+    .cta .display { margin-bottom: 22px; }
+    .cta .lead { margin: 0 auto 36px; }
+    .cta__actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .cta__mail { display: inline-block; margin-top: 28px; font-size: 15px; color: var(--gray-mid); }
+    .cta__mail a { border-bottom: 1px solid rgba(255,255,255,.25); padding-bottom: 2px; transition: border-color .2s, color .2s; }
+    .cta__mail a:hover { color: var(--white); border-color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 56px 40px;
+      display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto auto;
+      row-gap: 26px; align-items: end;
+      border-top: 1px solid var(--border);
+    }
+    footer .footer-left { font-size: 24px; color: var(--white); grid-column: 1 / 2; grid-row: 1 / 2; }
+    footer .footer-nav { display: flex; gap: 24px; flex-wrap: wrap; grid-column: 1 / 3; grid-row: 2 / 3; }
+    footer .footer-nav a { font-size: 14px; color: var(--copy-small); transition: color .2s; }
+    footer .footer-nav a:hover { color: #999999; }
+    footer .footer-mid { display: flex; gap: 24px; flex-wrap: wrap; grid-column: 1 / 2; grid-row: 3 / 4; }
+    footer .footer-mid a { font-size: 14px; color: var(--copy-small); transition: color .2s; }
+    footer .footer-mid a:hover { color: #999999; }
+    footer .footer-right { display: flex; gap: 48px; flex-wrap: wrap; grid-column: 2 / 3; grid-row: 3 / 4; align-self: end; }
+    footer .footer-right a { font-size: 14px; color: var(--white); letter-spacing: 0.08em; transition: color .2s; }
+    footer .footer-right a:hover { color: #999999; }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (max-width: 1024px) {
+      .container { padding: 0 24px; }
+      #site-nav { padding: 0 24px; }
+      footer { padding: 28px 24px 40px; }
+      .rail { padding-left: 24px; padding-right: 24px; scroll-padding: 0 24px; }
+      section { padding: 68px 0; }
+      .pos, .proc, .faq, .svc { grid-template-columns: 1fr; }
+      .proc__sticky, .faq__sticky { position: static; }
+      .pos__media { flex: none; aspect-ratio: 4 / 5; min-height: 0; }
+      .plans, .plans--duo, .packs { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
+      .rates { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
+      .head--row { flex-direction: column; align-items: flex-start; }
+      .js .ugc-hero { height: 240vh; }
+    }
+
+    @media (max-width: 640px) {
+      #site-nav { padding: 0 14px; height: 54px; }
+      :root { --bar-h: 54px; }
+      #site-nav .nav-left, #site-nav .nav-right { display: none; }
+      #site-nav .nav-toggle { display: flex; margin-left: auto; }
+      #site-nav .nav-mobile-menu {
+        display: flex; flex-direction: column; gap: 8px;
+        position: absolute; top: 54px; left: 0; right: 0;
+        padding: 14px 18px 16px;
+        background: rgba(10, 10, 12, 0.86);
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        opacity: 0; pointer-events: none;
+        transform-origin: top center; transform: scaleY(0.2);
+        transition: opacity 0.22s ease, transform 0.24s ease;
+      }
+      #site-nav.nav-open .nav-mobile-menu { opacity: 1; pointer-events: auto; transform: scaleY(1); }
+      #site-nav.nav-open { background: rgba(10, 10, 12, 0.86); backdrop-filter: blur(8px); }
+      #site-nav .nav-mobile-menu a { font-size: 14px; opacity: 1; padding: 6px 0; }
+
+      .container { padding: 0 18px; }
+      footer { padding: 24px 18px 36px; }
+      .rail { padding-left: 18px; padding-right: 18px; scroll-padding: 0 18px; }
+      .rail .work { width: 62vw; }
+      .rail__ctrl { display: none; }
+
+      .ugc-brand { top: 15px; font-size: 20px; letter-spacing: 0.04em; }
+
+      .stats { grid-template-columns: 1fr; }
+      .statbox { border-left: 0; padding: 28px 0; }
+      .statbox + .statbox { border-top: 1px solid var(--border); }
+      .proc__steps { padding-left: 34px; }
+      .step::before { left: -34px; }
+      .faq__list details p { padding-right: 20px; }
+      .modal__inner { padding: 72px 16px 48px; }
+      .modal__ph--vertical { height: min(66vh, 600px); }
+
+      footer { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+      footer .footer-right { gap: 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ugc-hero__media > video { display: none; }
+      .ugc-cue::after { animation: none; }
+      .reveal { transition-duration: .2s; }
+    }
+  </style>
+</head>
+<body class="has-hero">
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<!-- Barra fija que aparece al acoplarse el logo -->
+<div class="ugc-bar" id="ugcBar" aria-hidden="true"></div>
+
+<!-- El logo: es el MISMO elemento en la portada y en la cabecera -->
+<a href="/" class="ugc-brand" id="ugcBrand" aria-label="Iván Zheng — ir al inicio">IVAN ZHENG</a>
+
+<!-- NAV -->
+<nav id="site-nav">
+  <div class="nav-left">
+    <a href="index.html#sobre-mi">Sobre Mí</a>
+    <a href="proyectos.html">Proyectos</a>
+  </div>
+  <div class="nav-right">
+    <a href="ugc.html" aria-current="page">UGC</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+  <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
+    <span></span><span></span>
+  </button>
+  <div id="nav-mobile-menu" class="nav-mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="index.html#sobre-mi">Sobre Mí</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="productos.html">Productos</a>
+    <a href="ugc.html" aria-current="page">UGC</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ============ 1 · PORTADA ============
+     Vídeo de fondo compartido con la home: hero-bg.mp4, 1600x900 sin audio, 1,1 MB. Sale de
+     Resources/hero_v1.mp4 (13,5 MB a 19,9 Mbps, prácticamente sin comprimir) a CRF 26.
+     El poster se ve mientras carga, y es lo único que queda con movimiento reducido.
+     Para mover el encuadre: object-position en .ugc-hero__media > video. -->
+<section class="ugc-hero" id="top">
+  <div class="ugc-hero__sticky">
+    <div class="ugc-hero__media">
+      <video src="./Resources/hero-bg.mp4" poster="./Resources/hero-bg.jpg"
+             autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    </div>
+    <div class="ugc-hero__shade" id="ugcShade" aria-hidden="true"></div>
+    <p class="ugc-tagline" id="ugcTagline">
+      Contenido UGC para
+      <span class="rot" aria-live="polite">
+        <span class="rot__w is-on">software</span>
+        <span class="rot__w">SaaS</span>
+        <span class="rot__w">startups</span>
+      </span>
+    </p>
+    <div class="ugc-hero__fade" id="ugcFade" aria-hidden="true"></div>
+    <p class="ugc-cue" id="ugcCue" aria-hidden="true">Desliza</p>
+  </div>
+</section>
+
+<!-- ============ 2 · FRANJA DE MARCAS ============
+     PENDIENTE: faltan los logos de las marcas tech. Cuando los tengas, crea
+     ./Resources/ugc/logos/ con los SVG y descomenta este bloque.
+     Necesita MÍNIMO 8 logos para que la franja no se vea pobre; los duplicados
+     (aria-hidden) son obligatorios para que el bucle no corte.
+
+<section class="brands" aria-label="Marcas con las que he trabajado">
+  <div class="marquee">
+    <div class="marquee__track">
+      <span class="brand-logo"><img src="./Resources/ugc/logos/marca-1.svg" alt="Marca 1" style="--h:26px"></span>
+      ... (resto de logos)
+      <span class="brand-logo" aria-hidden="true"><img src="./Resources/ugc/logos/marca-1.svg" alt="" style="--h:26px"></span>
+      ... (mismos logos duplicados, en el mismo orden)
+    </div>
+  </div>
+</section>
+-->
+
+<!-- ============ 3 · POSICIONAMIENTO ============ -->
+<section id="quien-soy">
+  <div class="container pos">
+    <div class="pos__side">
+      <div class="pos__media reveal">
+        <img src="./Resources/cards/sobre-mi-2.jpg" alt="Iván Zheng" loading="lazy" decoding="async">
+      </div>
+      <nav class="pos__links reveal reveal-delay-1" aria-label="Redes y correo">
+        <a href="https://www.instagram.com/theivanzheng/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+        <a href="https://www.tiktok.com/@theivanzheng" target="_blank" rel="noopener noreferrer">TikTok <span aria-hidden="true">↗</span></a>
+        <a href="mailto:info@theivanzheng.com">Correo <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+    <div class="pos__copy">
+      <p class="kicker reveal">Quién soy</p>
+      <h2 class="display reveal">Soy ingeniero informático.<br><em>Y hago contenido.</em></h2>
+      <p class="reveal">La mayoría de creadores necesitan que les expliques tu producto. Yo me doy de alta, lo uso y te digo qué no se entiende.</p>
+      <p class="reveal">Estudié Ingeniería Informática. Monté un SaaS de fidelización que usan más de cien negocios. Otro para peluquerías, que acabó siendo adquirido. Una herramienta de finanzas.</p>
+      <p class="reveal">Sé lo que es un onboarding, un churn y un free trial. Por eso no tienes que traducirme nada.</p>
+      <p class="reveal">Grabo en español y en inglés, así que la misma campaña te sirve para varios mercados sin cambiar de creador.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 · ENFOQUE ============
+     Las palabras de data-accents se encienden en blanco y en Playfair cursiva.
+     Están elegidas para marcar el arco de la frase:
+       comprado → el hueco · decide → el momento · ocupo → quién lo resuelve
+     Si cambias el texto, revisa que cada palabra acentuada aparezca UNA sola vez:
+     el JS las enciende todas, y una repetida se ilumina dos veces. -->
+<section class="enfoque" id="enfoque">
+  <div class="enfoque__sticky container">
+    <p class="kicker">Enfoque</p>
+    <p class="enfoque__text" id="enfoqueText" data-accents="comprado|decide|ocupo">Tienes un producto muy bueno. Lo sabes tú, lo sabe tu equipo y lo sé yo. El que no lo sabe es el que todavía no te ha comprado. Y lo decide en 30 segundos. De esos 30 segundos me ocupo yo.</p>
+  </div>
+</section>
+
+<!-- ============ 5 · LOS VÍDEOS ============
+     Vídeos recodificados a H.264 (los originales venían en HEVC, que no reproducen
+     ni Chrome en Windows/Android ni Firefox). Están en ./Resources/ugc/ y las
+     portadas en ./Resources/ugc/portadas/.
+     Las cinco piezas son de Ironhack (España, Portugal y Países Bajos). -->
+<section id="videos">
+  <div class="container head head--row">
+    <div>
+      <p class="kicker reveal">Trabajos</p>
+      <h2 class="display reveal">Lo que he <em>grabado</em>.</h2>
+      <p class="lead reveal">Piezas para captación en España, Portugal y Países Bajos, en español y en inglés.</p>
+    </div>
+    <div class="rail__ctrl reveal">
+      <button class="round" type="button" data-rail="prev" aria-label="Anterior">←</button>
+      <button class="round" type="button" data-rail="next" aria-label="Siguiente">→</button>
+    </div>
+  </div>
+  <div class="rail" id="rail" aria-label="Vídeos UGC">
+
+    <article class="work" tabindex="0" role="button"
+             data-video="./Resources/ugc/es-ironhack-isa.mp4"
+             data-format="vertical"
+             data-title="Ironhack — Estudia ahora, paga cuando trabajes"
+             data-cat="UGC · Formación tech · España"
+             aria-label="Ver vídeo: Estudia ahora, paga cuando trabajes">
+      <div class="work__cover">
+        <img src="./Resources/ugc/portadas/es-ironhack-isa.jpg" alt="Estudia ahora, paga cuando trabajes" loading="lazy" decoding="async">
+        <span class="work__dur">0:47</span>
+      </div>
+      <div class="work__meta">
+        <span class="work__brand">Ironhack</span>
+        <h3 class="work__title">Estudia ahora, paga cuando trabajes</h3>
+      </div>
+      <div class="work__info">
+        <p>Pieza sobre el acuerdo de pago diferido de Ironhack: no pagas la formación hasta que consigues empleo en el sector tech. Abrí con un hook de incredulidad, «me estás diciendo que…», para que el espectador se hiciera la misma pregunta que el anuncio responde.</p>
+        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+      </div>
+    </article>
+
+    <article class="work" tabindex="0" role="button"
+             data-video="./Resources/ugc/es-ironhack-becas.mp4"
+             data-format="vertical"
+             data-title="Ironhack — Hasta 3.000 € en becas para formarte en tech"
+             data-cat="UGC · Campaña de urgencia · España"
+             aria-label="Ver vídeo: Hasta 3.000 € en becas para formarte en tech">
+      <div class="work__cover">
+        <img src="./Resources/ugc/portadas/es-ironhack-becas.jpg" alt="Hasta 3.000 € en becas para formarte en tech" loading="lazy" decoding="async">
+        <span class="work__dur">0:38</span>
+      </div>
+      <div class="work__meta">
+        <span class="work__brand">Ironhack</span>
+        <h3 class="work__title">Hasta 3.000 € en becas para formarte en tech</h3>
+      </div>
+      <div class="work__info">
+        <p>Pieza de campaña con fecha límite. El mensaje es una cifra y un plazo, así que el vídeo se construye para que ambos queden claros en los tres primeros segundos y se repitan al cierre.</p>
+        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+      </div>
+    </article>
+
+    <article class="work" tabindex="0" role="button"
+             data-video="./Resources/ugc/nl-if-you-lose-your-job.mp4"
+             data-format="vertical"
+             data-title="Ironhack — If you lose your job in the Netherlands"
+             data-cat="Ironhack · UGC · Inglés · Países Bajos"
+             aria-label="Ver vídeo: If you lose your job in the Netherlands">
+      <div class="work__cover">
+        <img src="./Resources/ugc/portadas/nl-if-you-lose-your-job.jpg" alt="If you lose your job in the Netherlands" loading="lazy" decoding="async">
+        <span class="work__dur">0:52</span>
+      </div>
+      <div class="work__meta">
+        <span class="work__brand">Ironhack</span>
+        <h3 class="work__title">If you lose your job in the Netherlands</h3>
+      </div>
+      <div class="work__info">
+        <p>Pieza en inglés para el mercado neerlandés. Para explicar una prestación por desempleo usé atrezo sobre la mesa: tarjetas de 1.000 € que convierten una cifra abstracta en algo que se ve y se cuenta.</p>
+        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+      </div>
+    </article>
+
+    <article class="work" tabindex="0" role="button"
+             data-video="./Resources/ugc/pt-i-quit-my-job.mp4"
+             data-format="vertical"
+             data-title="Ironhack — I quit my job to start a better one in tech"
+             data-cat="Ironhack · UGC · Inglés · Portugal"
+             aria-label="Ver vídeo: I quit my job to start a better one in tech">
+      <div class="work__cover">
+        <img src="./Resources/ugc/portadas/pt-i-quit-my-job.jpg" alt="I quit my job to start a better one in tech" loading="lazy" decoding="async">
+        <span class="work__dur">0:45</span>
+      </div>
+      <div class="work__meta">
+        <span class="work__brand">Ironhack</span>
+        <h3 class="work__title">I quit my job to start a better one in tech</h3>
+      </div>
+      <div class="work__info">
+        <p>Formato directo a cámara con un unboxing como hilo conductor. La historia es dejar un trabajo para reorientar la carrera al sector tech, contada en primera persona.</p>
+        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+      </div>
+    </article>
+
+    <article class="work" tabindex="0" role="button"
+             data-video="./Resources/ugc/es-lo-que-buscan-las-empresas.mp4"
+             data-format="vertical"
+             data-title="Ironhack — Esto es lo que realmente buscan las empresas"
+             data-cat="Ironhack · UGC · España"
+             aria-label="Ver vídeo: Esto es lo que realmente buscan las empresas">
+      <div class="work__cover">
+        <img src="./Resources/ugc/portadas/es-lo-que-buscan-las-empresas.jpg" alt="Esto es lo que realmente buscan las empresas" loading="lazy" decoding="async">
+        <span class="work__dur">0:46</span>
+      </div>
+      <div class="work__meta">
+        <span class="work__brand">Ironhack</span>
+        <h3 class="work__title">Esto es lo que realmente buscan las empresas</h3>
+      </div>
+      <div class="work__info">
+        <p>Pieza de contraste: lo que la gente cree que piden las empresas frente a lo que piden de verdad. El objeto en mano sirve de ancla visual para sostener la atención mientras se explica.</p>
+        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ 6 · NÚMEROS ============
+     CIFRAS A MANO · última actualización: 03/11/2026
+     Para cambiar una cifra: data-to (el número), data-dec (decimales)
+     y el texto que se ve sin animación. Los tres sitios tienen que coincidir.
+
+     Las visualizaciones llevan ventana temporal pegada («últimos 28 días»),
+     así que son las que caducan: revísalas cada pocos meses. Los seguidores
+     son posicionamiento, no métrica, y aguantan mucho más. -->
+<section id="numeros" style="padding-top: 0;">
+  <div class="container">
+    <p class="kicker reveal">Mis números</p>
+    <div class="stats">
+      <div class="statbox reveal">
+        <span class="stat"><span class="stat__plus">+</span><span class="count" data-to="200000">200.000</span></span>
+        <p>Seguidores entre Instagram, TikTok y YouTube.</p>
+      </div>
+      <div class="statbox reveal">
+        <span class="stat"><span class="stat__plus">+</span><span class="count" data-to="9.3" data-dec="1">9,3</span>&nbsp;M</span>
+        <p>Visualizaciones en los últimos 28 días.</p>
+      </div>
+      <div class="statbox reveal">
+        <span class="stat"><span class="stat__plus">+</span><span class="count" data-to="100">100</span></span>
+        <p>Negocios usando un software que construí yo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 · QUÉ HAGO ============ -->
+<section id="servicios">
+  <div class="container">
+    <div class="head">
+      <p class="kicker reveal">Qué hago</p>
+      <h2 class="display reveal">Cuatro formas de <em>contar tu producto</em>.</h2>
+      <p class="lead reveal">Todas parten del mismo punto: entender qué vendes, a quién y por qué alguien debería pagarte.</p>
+    </div>
+    <div class="svc">
+
+      <article class="svc__card spot reveal">
+        <span class="svc__n">01</span>
+        <h3 class="svc__title">Demo de producto</h3>
+        <p>Tu software en pantalla y yo explicándolo a cámara. Para que se entienda en treinta segundos lo que tu landing tarda tres scrolls en contar.</p>
+        <ul class="tags"><li>Grabación de pantalla</li><li>Guion técnico</li><li>Subtítulos</li></ul>
+      </article>
+
+      <article class="svc__card spot reveal">
+        <span class="svc__n">02</span>
+        <h3 class="svc__title">UGC problema-solución</h3>
+        <p>El formato que funciona en anuncios. Un problema real, tu producto como respuesta, sin que parezca un anuncio.</p>
+        <ul class="tags"><li>Naturalidad</li><li>Interpretación</li><li>Meta y TikTok Ads</li></ul>
+      </article>
+
+      <article class="svc__card spot reveal">
+        <span class="svc__n">03</span>
+        <h3 class="svc__title">Pack de variaciones</h3>
+        <p>El mismo vídeo con varias aperturas distintas. Para que no quemes creatividad testeando qué hook aguanta mejor el CPA.</p>
+        <ul class="tags"><li>Hooks alternativos</li><li>Listo para testear</li><li>Formato vertical</li></ul>
+      </article>
+
+      <article class="svc__card spot reveal">
+        <span class="svc__n">04</span>
+        <h3 class="svc__title">Vídeo en mis redes</h3>
+        <p>Más de doscientos mil seguidores que ya están interesados en tecnología, negocio y productos digitales. Tu marca, contada con mi voz.</p>
+        <ul class="tags"><li>Instagram</li><li>TikTok</li><li>Libertad creativa</li></ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · PROCESO ============ -->
+<section id="proceso">
+  <div class="container proc">
+    <div class="proc__head">
+      <div class="proc__sticky">
+        <p class="kicker reveal">Proceso</p>
+        <h2 class="display reveal">Cómo <em>trabajamos</em>.</h2>
+      </div>
+    </div>
+    <div class="proc__steps" id="steps">
+      <span class="proc__line" aria-hidden="true"><i id="stepsFill"></i></span>
+      <ol class="proc__list">
+        <li class="step reveal">
+          <span class="step__n">01</span>
+          <h3>Cuéntame qué vendes y a quién</h3>
+          <p>Qué hace tu producto, quién lo paga y qué objetivo tienes con el contenido. Con eso valoro el encargo.</p>
+        </li>
+        <li class="step step--key reveal">
+          <span class="step__n">02</span>
+          <h3>Me doy de alta y uso tu producto</h3>
+          <p>Entro, lo pruebo y lo rompo un poco. Salgo de ahí sabiendo qué parte engancha, cuál no se entiende y qué merece estar en el vídeo. Este paso no te lo va a hacer nadie más.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step__n">03</span>
+          <h3>Guion y ángulos</h3>
+          <p>Te propongo el enfoque y las aperturas antes de grabar nada. Lo validas tú.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step__n">04</span>
+          <h3>Grabo y edito</h3>
+          <p>Me encargo de todo: cámara, pantalla, montaje, subtítulos y sonido.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step__n">05</span>
+          <h3>Entrego, con sus variaciones</h3>
+          <p>Te paso los archivos finales en los formatos que necesites, listos para subir o para meter en campaña.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 · TARIFAS ============
+     La tarifa base depende de la DURACIÓN. Packs, extras y licencias se calculan sobre ella. -->
+<section class="tarifas" id="tarifas">
+  <div class="container">
+    <div class="head">
+      <p class="kicker reveal">Tarifas</p>
+      <h2 class="display reveal">Precios <em>de partida</em>.</h2>
+      <p class="lead reveal">La tarifa base depende de la duración del vídeo. Sobre ella se calculan los packs, los extras y la licencia de uso.</p>
+    </div>
+
+    <p class="plans-sub reveal">Tarifa base por duración</p>
+    <div class="plans">
+
+      <article class="plan spot reveal">
+        <h3 class="plan__name">Vídeo corto</h3>
+        <p class="plan__dur">15 – 30 segundos</p>
+        <p class="plan__price"><small>Desde</small><span>200 €</span><span class="plan__to">a 300 € + IVA</span></p>
+        <ul class="plan__list">
+          <li>Alta y prueba real de tu producto.</li>
+          <li>Investigación de marca, público y competencia.</li>
+          <li>Guion y propuesta creativa.</li>
+          <li>Grabación y edición.</li>
+          <li>1 hook, 1 CTA y 1 revisión incluidos.</li>
+        </ul>
+      </article>
+
+      <article class="plan spot reveal">
+        <h3 class="plan__name">Vídeo medio</h3>
+        <p class="plan__dur">30 – 60 segundos</p>
+        <p class="plan__price"><small>Desde</small><span>250 €</span><span class="plan__to">a 400 € + IVA</span></p>
+        <ul class="plan__list">
+          <li>Alta y prueba real de tu producto.</li>
+          <li>Investigación de marca, público y competencia.</li>
+          <li>Guion y propuesta creativa.</li>
+          <li>Grabación y edición.</li>
+          <li>1 hook, 1 CTA y 1 revisión incluidos.</li>
+        </ul>
+      </article>
+
+      <article class="plan spot reveal">
+        <h3 class="plan__name">Vídeo largo</h3>
+        <p class="plan__dur">Más de 60 segundos</p>
+        <p class="plan__price"><small>Desde</small><span>350 €</span><span class="plan__to">a 500 € + IVA</span></p>
+        <ul class="plan__list">
+          <li>Alta y prueba real de tu producto.</li>
+          <li>Investigación de marca, público y competencia.</li>
+          <li>Guion y propuesta creativa.</li>
+          <li>Grabación y edición.</li>
+          <li>1 hook, 1 CTA y 1 revisión incluidos.</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <p class="plans-sub reveal">Packs</p>
+    <div class="plans plans--duo">
+
+      <article class="plan spot reveal">
+        <h3 class="plan__name">Pack UGC</h3>
+        <p class="plan__dur">3 vídeos · 15 – 60 segundos</p>
+        <p class="plan__price"><small>Desde</small><span>795 €</span><span class="plan__to">+ IVA</span></p>
+        <ul class="plan__list">
+          <li>3 vídeos para tu marca (15–60s).</li>
+          <li>Investigación de marca, público, contenido, competencia y referencias.</li>
+          <li>Propuesta creativa y guion.</li>
+          <li>Grabación y edición.</li>
+          <li>2 revisiones por vídeo.</li>
+        </ul>
+      </article>
+
+      <article class="plan spot reveal">
+        <h3 class="plan__name">Vídeo patrocinado en mis redes</h3>
+        <p class="plan__dur">Más de 200.000 seguidores</p>
+        <p class="plan__price"><small>Desde</small><span>900 €</span><span class="plan__to">+ IVA</span></p>
+        <ul class="plan__list">
+          <li>1 vídeo patrocinado en mi Instagram/TikTok.</li>
+          <li>Propuesta y guion con libertad creativa, adaptados a mi estilo y audiencia.</li>
+          <li>Grabación y edición.</li>
+          <li>Integración de los mensajes clave de tu marca.</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <p class="plans-sub reveal">Extras y licencias</p>
+    <div class="rates" style="margin-top: 0;">
+      <div class="reveal">
+        <p class="rates__title">Extras</p>
+        <div class="rate"><span class="rate__name">Hook adicional</span><span class="rate__val">+50 €</span></div>
+        <div class="rate"><span class="rate__name">CTA adicional</span><span class="rate__val">+50 €</span></div>
+        <div class="rate"><span class="rate__name">Revisión adicional</span><span class="rate__val">+50 €</span></div>
+        <div class="rate"><span class="rate__name">Contenido RAW</span><span class="rate__val">+50 %</span></div>
+        <div class="rate"><span class="rate__name">Entrega exprés</span><span class="rate__val rate__val--soft">A consultar</span></div>
+        <p class="rates__note">El suplemento de contenido RAW se calcula sobre la tarifa base del vídeo.</p>
+      </div>
+
+      <div class="reveal">
+        <p class="rates__title">Derechos y uso</p>
+        <div class="rate"><span class="rate__name">Uso en anuncios (por mes)</span><span class="rate__val">+30 %</span></div>
+        <div class="rate"><span class="rate__name">Derechos ilimitados</span><span class="rate__val rate__val--soft">A consultar</span></div>
+        <div class="rate"><span class="rate__name">Exclusividad</span><span class="rate__val rate__val--soft">A consultar</span></div>
+        <p class="rates__note">El suplemento por uso en anuncios se calcula sobre la tarifa base del contenido, por cada mes de campaña contratado. Los derechos ilimitados y la exclusividad se valoran caso por caso según el alcance, la duración y el sector.</p>
+      </div>
+    </div>
+
+    <p class="plans__note reveal">A partir de 5 vídeos, −15 % sobre el total. Dentro de cada horquilla, el precio final depende de la complejidad del producto, los plazos y los requisitos creativos.</p>
+  </div>
+</section>
+
+<!-- ============ 10 · PREGUNTAS FRECUENTES ============ -->
+<section id="faq">
+  <div class="container faq">
+    <div class="faq__head">
+      <div class="faq__sticky">
+        <p class="kicker reveal">Preguntas frecuentes</p>
+        <h2 class="display reveal">Lo que siempre <em>me preguntan</em>.</h2>
+      </div>
+    </div>
+    <div class="faq__list">
+      <details class="reveal">
+        <summary>¿Tengo que explicarte cómo funciona nuestro producto?</summary>
+        <p>No. Me doy de alta, lo uso y vengo con las preguntas ya hechas. Soy ingeniero informático y he construido software, así que no necesito que nadie me traduzca qué es una integración, un plan de precios o un flujo de onboarding.</p>
+      </details>
+      <details class="reveal">
+        <summary>¿Grabas también pantalla y demos, no solo a cámara?</summary>
+        <p>Sí. De hecho es lo que mejor funciona para producto técnico: mi cara para que haya alguien detrás, y la pantalla para que se vea que el producto existe y funciona.</p>
+      </details>
+      <details class="reveal">
+        <summary>¿Firmas NDA?</summary>
+        <p>Sin problema. Si estáis en fase cerrada o pre-lanzamiento, firmo el acuerdo antes de que me deis acceso a nada.</p>
+      </details>
+      <details class="reveal">
+        <summary>¿Podemos usar el vídeo en anuncios? ¿Durante cuánto tiempo?</summary>
+        <p>Sí, el uso en anuncios se acuerda antes de empezar y queda recogido por escrito: en qué plataformas, durante cuánto tiempo y con qué exclusividad. Para seguir usándolo después del periodo acordado, renovamos.</p>
+      </details>
+      <details class="reveal">
+        <summary>¿Cuántas variaciones entran en el precio?</summary>
+        <p>Depende del formato. El pack de variaciones incluye un vídeo base más cuatro aperturas distintas; los demás formatos incluyen dos revisiones por pieza. Si necesitáis más, lo presupuestamos aparte.</p>
+      </details>
+      <details class="reveal">
+        <summary>¿Emites factura?</summary>
+        <p>Sí. Cada proyecto se factura con su IVA correspondiente, así que podéis deducirlo como cualquier otro gasto de marketing.</p>
+      </details>
+      <details class="reveal">
+        <summary>¿Trabajas también en inglés?</summary>
+        <p>Sí. Grabo y guionizo con la misma soltura en español y en inglés, y tengo piezas en ambos idiomas para los mercados de España, Portugal y Países Bajos. También puedo grabar piezas cortas en chino mandarín.</p>
+      </details>
+      <details class="reveal">
+        <summary>¿Cuánto tardas?</summary>
+        <p>Como orientación, una pieza suele llevar alrededor de una semana desde que validamos el guion. Depende de mi disponibilidad y de lo que necesite el proyecto; confirmamos fechas antes de empezar.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · CONTACTO ============ -->
+<section id="contacto">
+  <div class="container cta">
+    <p class="kicker reveal" style="margin-left: 32px;">Contacto</p>
+    <h2 class="display reveal">¿Tienes un producto que <em>merece explicarse mejor</em>?</h2>
+    <p class="lead reveal">Cuéntame qué vendes y te preparo una propuesta.</p>
+    <div class="cta__actions reveal reveal-delay-1">
+      <a class="btn" href="contacto.html">Escríbeme <span class="arr">→</span></a>
+      <a class="btn btn--ghost" href="proyectos.html">Ver mis proyectos <span class="arr">→</span></a>
+    </div>
+    <p class="cta__mail reveal reveal-delay-2">O directamente a <a href="mailto:info@theivanzheng.com">info@theivanzheng.com</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-left">© <span id="year">2026</span> Iván Zheng</div>
+  <div class="footer-nav">
+    <a href="index.html#sobre-mi">Sobre Mí</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="productos.html">Productos</a>
+    <a href="ugc.html">UGC</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+  <div class="footer-mid">
+    <a href="aviso-legal.html">Aviso legal</a>
+    <a href="politica-privacidad.html">Politica de privacidad</a>
+    <a href="politica-cookies.html">Politica de cookies</a>
+  </div>
+  <div class="footer-right">
+    <a href="https://www.instagram.com/theivanzheng/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+    <a href="https://www.tiktok.com/@theivanzheng" target="_blank" rel="noopener noreferrer">TIKTOK</a>
+    <a href="https://www.linkedin.com/in/theivanzheng" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var body = document.body;
+  var fine = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+  var lerp = function (a, b, t) { return a + (b - a) * t; };
+  var ss = function (e0, e1, x) { var t = clamp((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
+  var isMobile = function () { return window.innerWidth <= 640; };
+
+  function safe(fn) { try { fn(); } catch (e) { if (window.console) console.warn("[ugc]", e); } }
+
+  /* ── Un solo bucle de scroll compartido ── */
+  var scrollFns = [], resizeFns = [], ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      for (var i = 0; i < scrollFns.length; i++) safe(scrollFns[i]);
+    });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", function () { resizeFns.forEach(safe); onScroll(); });
+
+  /* ── Portada: el logo aparece, sube, se encoge y se convierte en la cabecera ── */
+  function initHero() {
+    var hero = $("#top.ugc-hero");
+    if (!hero || !body.classList.contains("has-hero")) { body.classList.add("is-docked"); return; }
+    var brand = $("#ugcBrand"), tagline = $("#ugcTagline"), fade = $("#ugcFade");
+    var cue = $("#ugcCue"), bar = $("#ugcBar"), shade = $("#ugcShade");
+    var next = $("#quien-soy");   // la sección que sube para tapar el hero
+    var P_END = 0.78;             // en qué punto del recorrido el fundido ya cubre del todo
+    var m = {};
+
+    function measure() {
+      brand.style.transform = "none";
+      var fs = parseFloat(getComputedStyle(brand).fontSize) || 160;
+      var mobile = isMobile();
+      m.H = fs * 0.85;
+      m.dockFs = mobile ? 20 : 24;
+      m.s = m.dockFs / fs;
+      m.barH = mobile ? 54 : 64;
+      m.startY = window.innerHeight * 0.42 - m.H / 2;
+      m.endY = m.barH / 2 - (m.dockFs * 0.85) / 2;
+      tagline.style.top = Math.round(m.startY + m.H + Math.max(36, fs * 0.22 + 26, window.innerHeight * 0.05)) + "px";
+      m.total = hero.offsetHeight - window.innerHeight;
+      // Pasado P_END el fundido ya lo cubre todo y el resto del hero era scroll
+      // en negro sin nada. La sección siguiente sube para comérselo, que es lo
+      // que hace la franja de marcas en la web de Ángel.
+      if (next) next.style.marginTop = Math.round(-(1 - P_END) * m.total - 0.15 * window.innerHeight) + "px";
+    }
+
+    var wasDocked = null;
+    function update() {
+      var total = hero.offsetHeight - window.innerHeight;
+      var p = clamp(-hero.getBoundingClientRect().top / Math.max(total, 1), 0, 1);
+
+      var a = ss(0.03, 0.17, p);   // aparecen logo y frase
+      var b = ss(0.22, 0.33, p);   // la frase se va antes de que el logo suba
+      var d = ss(0.37, 0.66, p);   // el logo sube y se encoge
+      var vh = window.innerHeight;
+      var solid = Math.max(0, 1.8 * m.total * (P_END - p));
+      var f = 1 - ss(0, 0.6 * vh, solid);
+
+      var sc = lerp(1, m.s, d), y = lerp(m.startY, m.endY, d);
+      brand.style.transform = "translate(-50%," + y.toFixed(1) + "px) scale(" + sc.toFixed(4) + ")";
+      brand.style.opacity = a.toFixed(3);
+      brand.style.pointerEvents = a > 0.5 ? "auto" : "none";
+
+      tagline.style.opacity = (a * (1 - b)).toFixed(3);
+      tagline.style.transform = "translateY(" + ((1 - a) * 18 - b * 12).toFixed(1) + "px)";
+      fade.style.transform = "translateY(" + Math.min(solid - 0.6 * vh, 2 * vh).toFixed(1) + "px)";
+      cue.style.opacity = (1 - ss(0, 0.05, p)).toFixed(3);
+      if (shade) shade.style.opacity = (0.5 + 0.5 * a).toFixed(3);
+      bar.style.opacity = ss(0.7, 0.8, p).toFixed(3);
+
+      var docked = d >= 0.995;
+      if (docked !== wasDocked) {
+        wasDocked = docked;
+        body.classList.toggle("is-docked", docked);
+      }
+    }
+
+    measure(); update();
+    scrollFns.push(update);
+    resizeFns.push(function () { measure(); wasDocked = null; update(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); update(); });
+  }
+
+  /* ── La última palabra de la portada va cambiando ── */
+  function initRotator() {
+    var words = $$(".rot__w");
+    if (words.length < 2) return;
+    var i = 0;
+    setInterval(function () {
+      if (document.hidden) return;
+      var cur = words[i];
+      i = (i + 1) % words.length;
+      var next = words[i];
+      cur.classList.remove("is-on"); cur.classList.add("is-out");
+      next.classList.remove("is-out"); next.classList.add("is-on");
+      setTimeout(function () { cur.classList.remove("is-out"); }, 800);
+    }, 2600);
+  }
+
+  /* ── Aparición al entrar en pantalla ── */
+  function initReveal() {
+    var els = $$(".reveal");
+    // cascada automática dentro de los grupos
+    $$(".svc, .plans, .stats, .proc__list, .faq__list, .pos__links").forEach(function (g) {
+      $$(".reveal", g).forEach(function (el, i) { el.style.setProperty("--d", (i * 0.07).toFixed(2) + "s"); });
+    });
+    var show = function (el) { el.classList.add("is-visible"); };
+    if (!("IntersectionObserver" in window)) { els.forEach(show); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: "0px 0px -4% 0px" });
+    els.forEach(function (el) { io.observe(el); });
+    // salvavidas: que nunca quede nada invisible
+    setTimeout(function () {
+      els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top < window.innerHeight && r.bottom > 0) show(el); });
+    }, 1800);
+    setTimeout(function () { els.forEach(show); }, 6000);
+  }
+
+  /* ── Enfoque: las palabras se encienden al hacer scroll ── */
+  function initEnfoque() {
+    var p = $("#enfoqueText"), sec = $(".enfoque");
+    if (!p || !sec) return;
+    var accents = (p.getAttribute("data-accents") || "").toLowerCase().split("|");
+    var limpia = function (w) { return w.toLowerCase().replace(/^[¿¡«"(]+|[.,;:!?»")]+$/g, ""); };
+    var esc = function (w) { return w.replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
+    p.innerHTML = p.textContent.trim().split(/\s+/).map(function (w) {
+      return '<span class="' + (accents.indexOf(limpia(w)) > -1 ? "w accent" : "w") + '">' + esc(w) + "</span>";
+    }).join(" ");
+    var spans = $$(".w", p);
+    scrollFns.push(function () {
+      var r = sec.getBoundingClientRect();
+      var prog = clamp((window.innerHeight * 0.3 - r.top) / Math.max(r.height - window.innerHeight * 0.7, 1), 0, 1);
+      var n = Math.round(prog * spans.length);
+      for (var i = 0; i < spans.length; i++) spans[i].classList.toggle("on", i < n);
+    });
+  }
+
+  /* ── Carrusel: flechas + arrastrar ── */
+  function initRail() {
+    var rail = $("#rail");
+    if (!rail) return;
+    var step = function () { var c = $(".work", rail); return c ? c.offsetWidth + 18 : 300; };
+    $$("[data-rail]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        rail.scrollBy({ left: (b.getAttribute("data-rail") === "next" ? 1 : -1) * step(), behavior: "smooth" });
+      });
+    });
+    if (!fine) return;
+    var down = false, sx = 0, sl = 0;
+    rail.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      down = true; rail._dragged = false; sx = e.clientX; sl = rail.scrollLeft;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 5) { rail.classList.add("is-drag"); rail._dragged = true; }
+      if (rail._dragged) rail.scrollLeft = sl - dx;
+    });
+    window.addEventListener("pointerup", function () { if (!down) return; down = false; rail.classList.remove("is-drag"); });
+  }
+
+  /* ── Ventana del vídeo ── */
+  function initWorks() {
+    var works = $$(".work");
+    if (!works.length) return;
+    var modal = document.createElement("div");
+    modal.className = "modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "Vídeo");
+    modal.innerHTML =
+      '<button class="modal__close" type="button" aria-label="Cerrar">x</button>' +
+      '<div class="modal__inner"><div class="modal__media"></div>' +
+      '<div class="modal__head"><p class="modal__brand"></p><h3 class="modal__title"></h3></div>' +
+      '<div class="modal__info"></div></div>';
+    document.body.appendChild(modal);
+    var media = $(".modal__media", modal), last = null;
+
+    function open(w) {
+      last = document.activeElement;
+      var src = (w.getAttribute("data-video") || "").trim();
+      var fmt = w.getAttribute("data-format") === "horizontal" ? "horizontal" : "vertical";
+      if (src) {
+        media.innerHTML = '<video controls autoplay playsinline preload="auto"></video>';
+        var v = $("video", media), cover = $(".work__cover img", w);
+        if (cover) v.poster = cover.getAttribute("src");
+        v.src = src;
+        var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      } else {
+        media.innerHTML = '<div class="modal__ph modal__ph--' + fmt + '">Vídeo pendiente · ' + fmt + '</div>';
+      }
+      var brandTxt = ($(".work__brand", w) || {}).textContent || "";
+      var cat = w.getAttribute("data-cat");
+      $(".modal__brand", modal).textContent = brandTxt + (cat ? " · " + cat : "");
+      var fullTitle = w.getAttribute("data-title") || ($(".work__title", w) || {}).textContent || "";
+      $(".modal__title", modal).textContent = fullTitle.indexOf(" — ") > -1 ? fullTitle.split(" — ").slice(1).join(" — ") : fullTitle;
+      var info = $(".work__info", w);
+      $(".modal__info", modal).innerHTML = info ? info.innerHTML : "";
+      modal.scrollTop = 0;
+      modal.classList.add("is-open");
+      body.classList.add("no-scroll");
+      $(".modal__close", modal).focus();
+    }
+    function close() {
+      modal.classList.remove("is-open");
+      body.classList.remove("no-scroll");
+      var v = $("video", media); if (v) v.pause();
+      setTimeout(function () { if (!modal.classList.contains("is-open")) media.innerHTML = ""; }, 450);
+      if (last) last.focus();
+    }
+    $(".modal__close", modal).addEventListener("click", close);
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal || e.target.classList.contains("modal__inner")) close();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) close();
+    });
+
+    works.forEach(function (w) {
+      w.addEventListener("click", function () {
+        var rail = w.closest(".rail");
+        if (rail && rail._dragged) return;
+        open(w);
+      });
+      w.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(w); }
+      });
+    });
+  }
+
+  /* ── Línea de progreso del proceso ── */
+  function initSteps() {
+    var box = $("#steps"), fill = $("#stepsFill");
+    if (!box || !fill) return;
+    scrollFns.push(function () {
+      var r = box.getBoundingClientRect(), vh = window.innerHeight;
+      var bar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
+      var start = bar + 40;
+      var p = clamp((start - r.top) / Math.max(start - vh * 0.6 + r.height, 1), 0, 1);
+      fill.style.height = (p * 100).toFixed(1) + "%";
+    });
+  }
+
+  /* ── Cifras: cuentan hasta su valor al aparecer ── */
+  function initCounters() {
+    var els = $$(".count");
+    if (!els.length || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function run(el) {
+      var to = parseFloat(el.getAttribute("data-to")) || 0;
+      var dec = parseInt(el.getAttribute("data-dec") || "0", 10);
+      var t0 = performance.now(), dur = 1600;
+      var fmt = function (v) {
+        var s = v.toFixed(dec).split(".");
+        s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return s.join(",");
+      };
+      (function stepFn(t) {
+        var p = clamp((t - t0) / dur, 0, 1), e = 1 - Math.pow(1 - p, 4);
+        el.textContent = fmt(to * e);
+        if (p < 1) requestAnimationFrame(stepFn);
+      })(t0);
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+    }, { threshold: 0.3 });
+    els.forEach(function (el) { el.textContent = (el.getAttribute("data-dec") ? "0,0" : "0"); io.observe(el); });
+  }
+
+  /* ── Foco de luz que sigue al ratón ── */
+  function initSpot() {
+    if (!fine) return;
+    $$(".svc__card, .plan").forEach(function (el) {
+      el.addEventListener("mousemove", function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        el.style.setProperty("--my", (e.clientY - r.top) + "px");
+      });
+    });
+  }
+
+  /* ── Menú móvil (mismo comportamiento que la home) ── */
+  function initNav() {
+    var nav = $("#site-nav"), toggle = $("#nav-toggle"), menu = $("#nav-mobile-menu");
+    if (!nav || !toggle || !menu) return;
+    var closeNav = function () {
+      nav.classList.remove("nav-open");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var isOpen = nav.classList.toggle("nav-open");
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    $$("a", menu).forEach(function (a) { a.addEventListener("click", closeNav); });
+    document.addEventListener("click", function (e) { if (!nav.contains(e.target)) closeNav(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeNav(); });
+    window.addEventListener("resize", function () { if (window.innerWidth > 640) closeNav(); });
+  }
+
+  function initYear() {
+    var y = $("#year");
+    if (y) y.textContent = new Date().getFullYear();
+  }
+
+  function boot() {
+    safe(initNav);
+    safe(initHero);
+    safe(initRotator);
+    safe(initReveal);
+    safe(initEnfoque);
+    safe(initRail);
+    safe(initWorks);
+    safe(initSteps);
+    safe(initCounters);
+    safe(initSpot);
+    safe(initYear);
+    onScroll();
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+</script>
+</body>
+</html>
