@@ -255,7 +255,10 @@
       border-radius: 24px; overflow: hidden;
       background: var(--card-bg); border: 1px solid var(--border);
     }
-    .pos__media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .pos__media > img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: 58% 40%;   /* foto cuadrada en hueco alto: encuadra su cara */
+    }
     .pos__links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
     .pos__links a {
       display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 46px; padding: 0 12px;
@@ -711,7 +714,7 @@
   <div class="container pos">
     <div class="pos__side">
       <div class="pos__media reveal">
-        <img src="./Resources/cards/sobre-mi-2.jpg" alt="Iván Zheng" loading="lazy" decoding="async">
+        <img src="./Resources/ugc/quien-soy.jpg" alt="Iván Zheng trabajando con el portátil" loading="lazy" decoding="async">
       </div>
       <nav class="pos__links reveal reveal-delay-1" aria-label="Redes y correo">
         <a href="https://www.instagram.com/theivanzheng/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
@@ -722,10 +725,9 @@
     <div class="pos__copy">
       <p class="kicker reveal">Quién soy</p>
       <h2 class="display reveal">Soy ingeniero informático.<br><em>Y hago contenido.</em></h2>
-      <p class="reveal">La mayoría de creadores necesitan que les expliques tu producto. Yo me doy de alta, lo uso y te digo qué no se entiende.</p>
-      <p class="reveal">Estudié Ingeniería Informática. Monté un SaaS de fidelización que usan más de cien negocios. Otro para peluquerías, que acabó siendo adquirido. Una herramienta de finanzas.</p>
-      <p class="reveal">Sé lo que es un onboarding, un churn y un free trial. Por eso no tienes que traducirme nada.</p>
-      <p class="reveal">Grabo en español y en inglés, así que la misma campaña te sirve para varios mercados sin cambiar de creador.</p>
+      <p class="reveal">Vídeos para marcas de tecnología: demos de producto, UGC para anuncios y contenido patrocinado en mis redes.</p>
+      <p class="reveal">Vengo de construir software, no de grabarlo. Monté un SaaS de fidelización que usan más de cien negocios y otro para peluquerías que acabó vendido a L'Oréal. Así que, además de crear contenido, me muevo con soltura en el mundo de la tecnología.</p>
+      <p class="reveal">Grabo en español y en inglés, y piezas cortas en chino mandarín. Un creador para todos tus mercados.</p>
     </div>
   </div>
 </section>
