@@ -127,7 +127,7 @@
       font-family: 'Playfair Display', serif;
       font-weight: 400; font-size: 24px; line-height: .85; letter-spacing: 0.06em;
       white-space: nowrap; color: var(--white);
-      will-change: transform, opacity;
+      will-change: transform, opacity, filter;
     }
     .js .has-hero .ugc-brand { top: 0; font-size: var(--brand-big); opacity: 0; }
     .js .has-hero #site-nav { opacity: 0; pointer-events: none; transition: opacity .45s var(--ease); }
@@ -137,7 +137,7 @@
     /* padding: 0 obligatorio: .ugc-hero es un <section> y heredaría los 104px,
        que empujan el bloque pegajoso hacia abajo y dejan una banda negra arriba. */
     .ugc-hero { position: relative; height: 100vh; padding: 0; background: var(--black); }
-    .js .ugc-hero { height: 300vh; }
+    .js .ugc-hero { height: 250vh; }
     .ugc-hero__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
     .ugc-hero__media { position: absolute; inset: 0; overflow: hidden; }
 
@@ -586,7 +586,7 @@
       .plan__name { min-height: 0; }
       .rates { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
       .head--row { flex-direction: column; align-items: flex-start; }
-      .js .ugc-hero { height: 240vh; }
+      .js .ugc-hero { height: 200vh; }
     }
 
     @media (max-width: 640px) {
@@ -731,7 +731,7 @@
     </div>
     <div class="pos__copy">
       <p class="kicker reveal">Quién soy</p>
-      <h2 class="display reveal">Soy ingeniero informático.<br><em>Y hago contenido.</em></h2>
+      <h2 class="display reveal">Soy ingeniero informático.<br><em>&amp; hago contenido.</em></h2>
       <p class="reveal">Vídeos para marcas de tecnología: demos de producto, UGC para anuncios y contenido patrocinado en mis redes.</p>
       <p class="reveal">Vengo de construir software, no de grabarlo. Monté un SaaS de fidelización que usan más de cien negocios y otro para peluquerías que acabó vendido a L'Oréal. Así que, además de crear contenido, me muevo con soltura en el mundo de la tecnología.</p>
       <p class="reveal">Grabo en español y en inglés, y piezas cortas en chino mandarín. Un creador para todos tus mercados.</p>
@@ -1182,7 +1182,8 @@
     var brand = $("#ugcBrand"), tagline = $("#ugcTagline"), fade = $("#ugcFade");
     var cue = $("#ugcCue"), bar = $("#ugcBar"), shade = $("#ugcShade");
     var next = $("#quien-soy");   // la sección que sube para tapar el hero
-    var P_END = 0.54;             // en qué punto del recorrido el fundido ya cubre del todo
+    var intro = 0;                // 0 a 1: el nombre entra difuminado al cargar
+    var P_END = 0.52;             // en qué punto del recorrido el fundido ya cubre del todo
     var m = {};
 
     function measure() {
@@ -1197,10 +1198,14 @@
       m.endY = m.barH / 2 - (m.dockFs * 0.85) / 2;
       tagline.style.top = Math.round(m.startY + m.H + Math.max(36, fs * 0.22 + 26, window.innerHeight * 0.05)) + "px";
       m.total = hero.offsetHeight - window.innerHeight;
-      // La sección siguiente sube para comerse el tramo en negro. El tirón es
-      // justo una pantalla menos la barra: así entra por abajo cuando el fundido
-      // acaba de cubrir y llega arriba justo cuando el hero termina.
-      if (next) next.style.marginTop = Math.round(m.barH - window.innerHeight) + "px";
+      // La sección siguiente sube para comerse el tramo en negro. El tirón se
+      // calcula para que su primera línea de contenido entre por abajo en el
+      // instante en que el fundido acaba de cubrir: ni antes, cuando todavía se
+      // ve el vídeo, ni una pantalla después, que era el hueco que quedaba.
+      if (next) {
+        var pad = parseFloat(getComputedStyle(next).paddingTop) || 0;
+        next.style.marginTop = Math.round(P_END * m.total + window.innerHeight - pad - hero.offsetHeight) + "px";
+      }
     }
 
     var wasDocked = null;
@@ -1210,24 +1215,27 @@
 
       // El relevo con la sección siguiente necesita casi una pantalla de
       // recorrido, así que la intro se concentra en la primera mitad.
-      var a = ss(0.04, 0.16, p);   // aparecen logo y frase
-      var b = ss(0.20, 0.30, p);   // la frase se va antes de que el logo suba
-      var d = ss(0.30, 0.48, p);   // el logo sube y se encoge
+      var a = ss(0.05, 0.18, p);   // aparecen logo y frase
+      var vis = Math.max(intro, a);   // intro al cargar o aparicion por scroll
+      var b = ss(0.22, 0.32, p);   // la frase se va antes de que el logo suba
+      var d = ss(0.32, 0.50, p);   // el logo sube y se encoge
       var vh = window.innerHeight;
       var solid = Math.max(0, 1.8 * m.total * (P_END - p));
       var f = 1 - ss(0, 0.6 * vh, solid);
 
       var sc = lerp(1, m.s, d), y = lerp(m.startY, m.endY, d);
       brand.style.transform = "translate(-50%," + y.toFixed(1) + "px) scale(" + sc.toFixed(4) + ")";
-      brand.style.opacity = a.toFixed(3);
+      brand.style.opacity = vis.toFixed(3);
+      var desenfoque = (1 - vis) * 18;
+      brand.style.filter = desenfoque > 0.2 ? "blur(" + desenfoque.toFixed(2) + "px)" : "";
       brand.style.pointerEvents = a > 0.5 ? "auto" : "none";
 
-      tagline.style.opacity = (a * (1 - b)).toFixed(3);
+      tagline.style.opacity = (vis * (1 - b)).toFixed(3);
       tagline.style.transform = "translateY(" + ((1 - a) * 18 - b * 12).toFixed(1) + "px)";
       fade.style.transform = "translateY(" + Math.min(solid - 0.6 * vh, 2 * vh).toFixed(1) + "px)";
       cue.style.opacity = (1 - ss(0, 0.05, p)).toFixed(3);
       if (shade) shade.style.opacity = (0.5 + 0.5 * a).toFixed(3);
-      bar.style.opacity = ss(0.46, 0.54, p).toFixed(3);
+      bar.style.opacity = ss(0.44, 0.52, p).toFixed(3);
 
       var docked = d >= 0.995;
       if (docked !== wasDocked) {
@@ -1237,6 +1245,21 @@
     }
 
     measure(); update();
+
+    // Al abrir o refrescar, el nombre aparece solo al cabo de un segundo,
+    // pasando de desenfocado a nitido. Si mientras tanto ya se ha hecho
+    // scroll, manda el valor mas alto de los dos y no da un salto.
+    setTimeout(function () {
+      var t0 = null, dur = 950;
+      (function paso(t) {
+        if (t0 === null) t0 = t;
+        var k = clamp((t - t0) / dur, 0, 1);
+        intro = 1 - Math.pow(1 - k, 3);
+        update();
+        if (k < 1) requestAnimationFrame(paso);
+      })(performance.now());
+    }, 1000);
+
     scrollFns.push(update);
     resizeFns.push(function () { measure(); wasDocked = null; update(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); update(); });
