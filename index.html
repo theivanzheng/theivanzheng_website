@@ -1699,9 +1699,12 @@
 
   <!-- HERO: video background + texto invertido -->
   <section class="hero" id="inicio">
-    <!-- Reemplaza la ruta del video según tu carpeta -->
-    <video class="hero-video" autoplay muted loop playsinline>
-      <source src="./Resources/hero_v1.mp4" type="video/mp4" />
+    <!-- Fondo: hero-bg.mp4, 1600x900 sin pista de audio, 1,1 MB.
+         El master sin comprimir es Resources/hero_v1.mp4 (13,5 MB a 19,9 Mbps):
+         se queda en el repo como original, pero ya no lo descarga ningún visitante.
+         El poster se ve mientras el vídeo carga, en vez de un rectángulo negro. -->
+    <video class="hero-video" poster="./Resources/hero-bg.jpg" autoplay muted loop playsinline preload="auto">
+      <source src="./Resources/hero-bg.mp4" type="video/mp4" />
     </video>
     <div class="hero-content">
       <h1>IVAN ZHENG</h1>
