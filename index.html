@@ -1669,19 +1669,75 @@
         margin-top: 20px;
       }
     }
+  
+    /* ── Nav desplegable: el nombre abre una píldora con todos los enlaces ── */
+    #site-nav .nav-center {
+      display: flex; align-items: center; gap: 14px;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    #site-nav .nav-hint {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: transparent; border: 0; padding: 4px 9px; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-mid);
+      border-radius: 999px; line-height: 1;
+      transition: color .3s ease, background .3s ease;
+    }
+    #site-nav .nav-hint i {
+      width: 6px; height: 6px; flex: none;
+      border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+      transform: translateY(-2px) rotate(45deg);
+      transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+    }
+    #site-nav .nav-hint:hover,
+    #site-nav.menu-open .nav-hint { color: var(--white); background: rgba(255, 255, 255, .06); }
+    #site-nav.menu-open .nav-hint i { transform: translateY(1px) rotate(-135deg); }
+
+    #site-nav .nav-menu {
+      position: absolute; top: calc(100% + 8px); left: 50%;
+      transform: translate(-50%, -8px);
+      display: flex; gap: 2px; padding: 6px;
+      border-radius: 999px;
+      background: rgba(18, 17, 20, .92); border: 1px solid var(--border);
+      backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+      box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .6);
+      opacity: 0; visibility: hidden;
+      transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1), visibility 0s .3s;
+    }
+    /* puente invisible: deja bajar el ratón del botón a la píldora sin que se cierre */
+    #site-nav .nav-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -18px; height: 18px; }
+    #site-nav.menu-open .nav-menu {
+      opacity: 1; visibility: visible; transform: translate(-50%, 0);
+      transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1), visibility 0s;
+    }
+    #site-nav .nav-menu a {
+      font-size: 14px; color: var(--copy-small); padding: 8px 15px;
+      border-radius: 999px; white-space: nowrap; opacity: 1;
+      transition: color .3s ease, background .3s ease;
+    }
+    #site-nav .nav-menu a:hover,
+    #site-nav .nav-menu a[aria-current="page"] { color: var(--white); background: rgba(255, 255, 255, .07); }
+
+    @media (max-width: 640px) {
+      #site-nav .nav-center { position: static; transform: none; margin-right: auto; }
+      #site-nav .nav-hint, #site-nav .nav-menu { display: none; }
+    }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
   <nav id="site-nav">
-    <div class="nav-left">
+    <div class="nav-center">
+      <a href="#inicio">IVAN ZHENG</a>
+      <button class="nav-hint" id="navHint" type="button" aria-expanded="false" aria-controls="navMenu">Menú <i aria-hidden="true"></i></button>
+    </div>
+    <div class="nav-menu" id="navMenu">
+      <a href="#inicio">Inicio</a>
       <a href="#sobre-mi">Sobre Mí</a>
       <a href="proyectos.html">Proyectos</a>
-    </div>
-    <div class="nav-center"><a href="/">IVAN ZHENG</a></div>
-    <div class="nav-right">
       <a href="productos.html">Productos</a>
+      <a href="ugc.html">UGC</a>
       <a href="contacto.html">Contacto</a>
     </div>
     <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
@@ -1693,6 +1749,7 @@
       <a href="#sobre-mi">Sobre Mí</a>
       <a href="proyectos.html">Proyectos</a>
       <a href="productos.html">Productos</a>
+      <a href="ugc.html">UGC</a>
       <a href="contacto.html">Contacto</a>
     </div>
   </nav>
@@ -2297,5 +2354,36 @@
     }
   </script>
 
+<script>
+/* Menú de la nav: se abre al pasar el ratón por el nombre y también con clic.
+   El retardo al cerrar evita que parpadee al bajar el cursor hacia la píldora. */
+(function () {
+  var nav = document.getElementById("site-nav");
+  var hint = document.getElementById("navHint");
+  var menu = document.getElementById("navMenu");
+  if (!nav || !hint || !menu) return;
+  var fino = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var t = null;
+  function abrir() { clearTimeout(t); nav.classList.add("menu-open"); hint.setAttribute("aria-expanded", "true"); }
+  function cerrar() { clearTimeout(t); nav.classList.remove("menu-open"); hint.setAttribute("aria-expanded", "false"); }
+  function luego() { clearTimeout(t); t = setTimeout(cerrar, 220); }
+
+  [nav.querySelector(".nav-center"), menu].forEach(function (el) {
+    if (!el) return;
+    el.addEventListener("mouseenter", function () { if (fino) abrir(); });
+    el.addEventListener("mouseleave", function () { if (fino) luego(); });
+  });
+  hint.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (nav.classList.contains("menu-open")) { cerrar(); } else { abrir(); }
+  });
+  menu.addEventListener("focusin", abrir);
+  menu.addEventListener("focusout", function (e) { if (!menu.contains(e.relatedTarget)) luego(); });
+  Array.prototype.forEach.call(menu.querySelectorAll("a"), function (a) {
+    a.addEventListener("click", cerrar);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") cerrar(); });
+})();
+</script>
 </body>
 </html>

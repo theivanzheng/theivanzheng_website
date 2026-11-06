@@ -98,6 +98,8 @@
     #site-nav a[aria-current="page"] { opacity: 1; }
 
     /* Conmutador de idioma */
+    /* La nav ya solo lleva el botón de idioma: que se quede a la derecha. */
+    #site-nav .nav-right { margin-left: auto; }
     #site-nav .lang {
       background: transparent; border: 1px solid var(--border); color: var(--white);
       font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
@@ -105,6 +107,55 @@
       transition: border-color .25s ease, background .25s ease;
     }
     #site-nav .lang:hover { border-color: #46444a; background: rgba(255,255,255,.05); }
+
+    /* ── Nav desplegable ──────────────────────────────────────────────
+       Aquí el nombre no vive dentro de la nav: es el elemento que se
+       encoge desde la portada. Así que el botón «Menú» va fijo y el JS
+       lo coloca a su derecha, y solo aparece cuando el nombre ya está
+       acoplado en la barra. */
+    .nav-hint {
+      position: fixed; z-index: 105; top: 0; left: 0;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: transparent; border: 0; padding: 4px 9px; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-mid);
+      border-radius: 999px; line-height: 1;
+      transition: color .3s ease, background .3s ease, opacity .4s var(--ease);
+    }
+    .nav-hint i {
+      width: 6px; height: 6px; flex: none;
+      border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+      transform: translateY(-2px) rotate(45deg);
+      transition: transform .4s var(--ease);
+    }
+    .nav-hint:hover, .menu-open .nav-hint { color: var(--white); background: rgba(255,255,255,.06); }
+    .menu-open .nav-hint i { transform: translateY(1px) rotate(-135deg); }
+    .js .has-hero .nav-hint { opacity: 0; pointer-events: none; }
+    .js .has-hero.is-docked .nav-hint { opacity: 1; pointer-events: auto; }
+
+    .nav-menu {
+      position: fixed; z-index: 95; top: calc(var(--bar-h) + 8px); left: 50%;
+      transform: translate(-50%, -8px);
+      display: flex; gap: 2px; padding: 6px;
+      border-radius: 999px;
+      background: rgba(18, 17, 20, .92); border: 1px solid var(--border);
+      backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+      box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .6);
+      opacity: 0; visibility: hidden;
+      transition: opacity .3s ease, transform .45s var(--ease), visibility 0s .3s;
+    }
+    .nav-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -18px; height: 18px; }
+    .menu-open .nav-menu {
+      opacity: 1; visibility: visible; transform: translate(-50%, 0);
+      transition: opacity .3s ease, transform .45s var(--ease), visibility 0s;
+    }
+    .nav-menu a {
+      font-size: 14px; color: var(--copy-small); padding: 8px 15px;
+      border-radius: 999px; white-space: nowrap;
+      transition: color .3s ease, background .3s ease;
+    }
+    .nav-menu a:hover,
+    .nav-menu a[aria-current="page"] { color: var(--white); background: rgba(255,255,255,.07); }
 
     #site-nav .nav-toggle {
       display: none;
@@ -601,11 +652,14 @@
     @media (max-width: 640px) {
       #site-nav { padding: 0 14px; height: 54px; }
       :root { --bar-h: 54px; }
+      .nav-hint, .nav-menu { display: none; }
       #site-nav .nav-left { display: none; }
-      #site-nav .nav-right { display: flex; gap: 0; margin-left: auto; }
+      /* El nombre va centrado y fijo: el idioma y la hamburguesa, al extremo. */
+      #site-nav { justify-content: flex-end; }
+      #site-nav .nav-right { display: flex; gap: 0; margin-left: 0; }
       #site-nav .nav-right a { display: none; }
-      #site-nav .nav-toggle { margin-left: 12px; }
-      #site-nav .nav-toggle { display: flex; margin-left: auto; }
+      /* margin-left: auto aquí empujaba el idioma al extremo opuesto. */
+      #site-nav .nav-toggle { display: flex; margin-left: 12px; }
       #site-nav .nav-mobile-menu {
         display: flex; flex-direction: column; gap: 8px;
         position: absolute; top: 54px; left: 0; right: 0;
@@ -660,15 +714,21 @@
 <!-- El logo: es el MISMO elemento en la portada y en la cabecera -->
 <a href="/" class="ugc-brand" id="ugcBrand" aria-label="Iván Zheng" data-en-aria="Iván Zheng — back to home">IVAN ZHENG</a>
 
+<!-- El botón «Menú» lo coloca el JS a la derecha del nombre -->
+<button class="nav-hint" id="navHint" type="button" aria-expanded="false" aria-controls="navMenu" data-en="Menu">Menú <i aria-hidden="true"></i></button>
+
+<div class="nav-menu" id="navMenu">
+  <a href="index.html" data-en="Home">Inicio</a>
+  <a href="index.html#sobre-mi" data-en="About">Sobre Mí</a>
+  <a href="proyectos.html" data-en="Projects">Proyectos</a>
+  <a href="productos.html" data-en="Products">Productos</a>
+  <a href="ugc.html" aria-current="page">UGC</a>
+  <a href="contacto.html" data-en="Contact">Contacto</a>
+</div>
+
 <!-- NAV -->
 <nav id="site-nav">
-  <div class="nav-left">
-    <a href="index.html#sobre-mi" data-en="About">Sobre Mí</a>
-    <a href="proyectos.html" data-en="Projects">Proyectos</a>
-  </div>
   <div class="nav-right">
-    <a href="ugc.html" aria-current="page">UGC</a>
-    <a href="contacto.html" data-en="Contact">Contacto</a>
     <button class="lang" id="langBtn" type="button" aria-label="Switch to English">EN</button>
   </div>
   <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" data-en-aria="Open menu" aria-expanded="false" aria-controls="nav-mobile-menu">
@@ -1173,6 +1233,7 @@
   var ss = function (e0, e1, x) { var t = clamp((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
   var isMobile = function () { return window.innerWidth <= 640; };
   var LANG = "es";
+  var menuApi = { colocar: function () {}, cerrar: function () {} };
 
   function safe(fn) { try { fn(); } catch (e) { if (window.console) console.warn("[ugc]", e); } }
 
@@ -1255,6 +1316,7 @@
       if (docked !== wasDocked) {
         wasDocked = docked;
         body.classList.toggle("is-docked", docked);
+        if (docked) menuApi.colocar(); else menuApi.cerrar();
       }
     }
 
@@ -1538,6 +1600,41 @@
     });
   }
 
+  /* ── Menú de la nav: se abre al pasar el ratón por el nombre ── */
+  function initMenu() {
+    var hint = $("#navHint"), menu = $("#navMenu"), marca = $("#ugcBrand");
+    if (!hint || !menu || !marca) return;
+    var t = null;
+    function abrir() { clearTimeout(t); body.classList.add("menu-open"); hint.setAttribute("aria-expanded", "true"); }
+    function cerrar() { clearTimeout(t); body.classList.remove("menu-open"); hint.setAttribute("aria-expanded", "false"); }
+    function luego() { clearTimeout(t); t = setTimeout(cerrar, 220); }
+
+    [marca, hint, menu].forEach(function (el) {
+      el.addEventListener("mouseenter", function () { if (fine && body.classList.contains("is-docked")) abrir(); });
+      el.addEventListener("mouseleave", function () { if (fine) luego(); });
+    });
+    hint.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (body.classList.contains("menu-open")) { cerrar(); } else { abrir(); }
+    });
+    menu.addEventListener("focusin", abrir);
+    menu.addEventListener("focusout", function (e) { if (!menu.contains(e.relatedTarget)) luego(); });
+    $$("a", menu).forEach(function (a) { a.addEventListener("click", cerrar); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") cerrar(); });
+
+    // El nombre se mueve y se encoge con el scroll, así que el botón se
+    // recoloca a su derecha cada vez que se vuelve a medir.
+    menuApi.colocar = function () {
+      var r = marca.getBoundingClientRect();
+      if (!r.width) return;
+      hint.style.left = Math.round(r.right + 14) + "px";
+      hint.style.top = Math.round(r.top + r.height / 2 - hint.offsetHeight / 2) + "px";
+    };
+    menuApi.cerrar = cerrar;
+    menuApi.colocar();
+    resizeFns.push(menuApi.colocar);
+  }
+
   /* ── Idioma: español por defecto, inglés con el botón o con ?lang=en ── */
   function aplicarIdioma(l) {
     LANG = l;
@@ -1635,6 +1732,7 @@
     safe(initCounters);
     safe(initSpot);
     safe(initFaq);
+    safe(initMenu);
     safe(initYear);
     safe(initLang);   // al final: el resto ya está montado y solo hay que traducirlo
     onScroll();
