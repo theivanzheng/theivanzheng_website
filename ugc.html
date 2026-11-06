@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>UGC Portafolio — Iván Zheng</title>
-  <meta name="description" content="Contenido UGC para empresas de tecnología, software y startups. Ingeniero informático y creador de contenido con más de 200.000 seguidores." />
+  <title data-en="UGC Portfolio — Iván Zheng">UGC Portafolio — Iván Zheng</title>
+  <meta name="description" data-en="UGC content for tech, software and startup companies. Software engineer and content creator with over 200,000 followers." content="Contenido UGC para empresas de tecnología, software y startups. Ingeniero informático y creador de contenido con más de 200.000 seguidores." />
 
   <!-- PÁGINA NO LISTADA · Las piezas de Ironhack se pueden enseñar a clientes pero no publicar
        abiertamente, así que esta página no se indexa y no se enlaza desde el resto de la web.
@@ -96,6 +96,15 @@
     }
     #site-nav a:hover { opacity: 1; }
     #site-nav a[aria-current="page"] { opacity: 1; }
+
+    /* Conmutador de idioma */
+    #site-nav .lang {
+      background: transparent; border: 1px solid var(--border); color: var(--white);
+      font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+      padding: 5px 11px; border-radius: 999px; cursor: pointer; line-height: 1;
+      transition: border-color .25s ease, background .25s ease;
+    }
+    #site-nav .lang:hover { border-color: #46444a; background: rgba(255,255,255,.05); }
 
     #site-nav .nav-toggle {
       display: none;
@@ -592,7 +601,10 @@
     @media (max-width: 640px) {
       #site-nav { padding: 0 14px; height: 54px; }
       :root { --bar-h: 54px; }
-      #site-nav .nav-left, #site-nav .nav-right { display: none; }
+      #site-nav .nav-left { display: none; }
+      #site-nav .nav-right { display: flex; gap: 0; margin-left: auto; }
+      #site-nav .nav-right a { display: none; }
+      #site-nav .nav-toggle { margin-left: 12px; }
       #site-nav .nav-toggle { display: flex; margin-left: auto; }
       #site-nav .nav-mobile-menu {
         display: flex; flex-direction: column; gap: 8px;
@@ -640,34 +652,35 @@
 </head>
 <body class="has-hero">
 
-<a class="skip" href="#main">Saltar al contenido</a>
+<a class="skip" href="#main" data-en="Skip to content">Saltar al contenido</a>
 
 <!-- Barra fija que aparece al acoplarse el logo -->
 <div class="ugc-bar" id="ugcBar" aria-hidden="true"></div>
 
 <!-- El logo: es el MISMO elemento en la portada y en la cabecera -->
-<a href="/" class="ugc-brand" id="ugcBrand" aria-label="Iván Zheng — ir al inicio">IVAN ZHENG</a>
+<a href="/" class="ugc-brand" id="ugcBrand" aria-label="Iván Zheng" data-en-aria="Iván Zheng — back to home">IVAN ZHENG</a>
 
 <!-- NAV -->
 <nav id="site-nav">
   <div class="nav-left">
-    <a href="index.html#sobre-mi">Sobre Mí</a>
-    <a href="proyectos.html">Proyectos</a>
+    <a href="index.html#sobre-mi" data-en="About">Sobre Mí</a>
+    <a href="proyectos.html" data-en="Projects">Proyectos</a>
   </div>
   <div class="nav-right">
     <a href="ugc.html" aria-current="page">UGC</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="contacto.html" data-en="Contact">Contacto</a>
+    <button class="lang" id="langBtn" type="button" aria-label="Switch to English">EN</button>
   </div>
-  <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-menu">
+  <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menu" data-en-aria="Open menu" aria-expanded="false" aria-controls="nav-mobile-menu">
     <span></span><span></span>
   </button>
   <div id="nav-mobile-menu" class="nav-mobile-menu">
-    <a href="index.html">Inicio</a>
-    <a href="index.html#sobre-mi">Sobre Mí</a>
-    <a href="proyectos.html">Proyectos</a>
-    <a href="productos.html">Productos</a>
+    <a href="index.html" data-en="Home">Inicio</a>
+    <a href="index.html#sobre-mi" data-en="About">Sobre Mí</a>
+    <a href="proyectos.html" data-en="Projects">Proyectos</a>
+    <a href="productos.html" data-en="Products">Productos</a>
     <a href="ugc.html" aria-current="page">UGC</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="contacto.html" data-en="Contact">Contacto</a>
   </div>
 </nav>
 
@@ -686,7 +699,7 @@
     </div>
     <div class="ugc-hero__shade" id="ugcShade" aria-hidden="true"></div>
     <p class="ugc-tagline" id="ugcTagline">
-      Contenido UGC para
+      <span data-en="UGC content for">Contenido UGC para</span>
       <span class="rot" aria-live="polite">
         <span class="rot__w is-on">software</span>
         <span class="rot__w">SaaS</span>
@@ -694,7 +707,7 @@
       </span>
     </p>
     <div class="ugc-hero__fade" id="ugcFade" aria-hidden="true"></div>
-    <p class="ugc-cue" id="ugcCue" aria-hidden="true">Desliza</p>
+    <p class="ugc-cue" id="ugcCue" aria-hidden="true" data-en="Scroll">Desliza</p>
   </div>
 </section>
 
@@ -721,20 +734,20 @@
   <div class="container pos">
     <div class="pos__side">
       <div class="pos__media reveal">
-        <img src="./Resources/ugc/quien-soy.jpg" alt="Iván Zheng trabajando con el portátil" loading="lazy" decoding="async">
+        <img src="./Resources/ugc/quien-soy.jpg" alt="Iván Zheng trabajando con el portátil" data-en-alt="Iván Zheng working at his laptop" loading="lazy" decoding="async">
       </div>
-      <nav class="pos__links reveal reveal-delay-1" aria-label="Redes y correo">
+      <nav class="pos__links reveal reveal-delay-1" aria-label="Redes y correo" data-en-aria="Social and email">
         <a href="https://www.instagram.com/theivanzheng/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
         <a href="https://www.tiktok.com/@theivanzheng" target="_blank" rel="noopener noreferrer">TikTok <span aria-hidden="true">↗</span></a>
-        <a href="mailto:info@theivanzheng.com">Correo <span aria-hidden="true">↗</span></a>
+        <a href="mailto:info@theivanzheng.com" data-en-html="Email <span aria-hidden=&quot;true&quot;>↗</span>">Correo <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
     <div class="pos__copy">
-      <p class="kicker reveal">Quién soy</p>
-      <h2 class="display reveal">Soy ingeniero informático.<br><em>&amp; hago contenido.</em></h2>
-      <p class="reveal">Vídeos para marcas de tecnología: demos de producto, UGC para anuncios y contenido patrocinado en mis redes.</p>
-      <p class="reveal">Vengo de construir software, no de grabarlo. Monté un SaaS de fidelización que usan más de cien negocios y otro para peluquerías que acabó vendido a L'Oréal. Así que, además de crear contenido, me muevo con soltura en el mundo de la tecnología.</p>
-      <p class="reveal">Grabo en español y en inglés, y piezas cortas en chino mandarín. Un creador para todos tus mercados.</p>
+      <p class="kicker reveal" data-en="Who I am">Quién soy</p>
+      <h2 class="display reveal" data-en-html="I'm a software engineer.<br><em>&amp; I make content.</em>">Soy ingeniero informático.<br><em>&amp; hago contenido.</em></h2>
+      <p class="reveal" data-en="Videos for tech brands: product demos, UGC for ads and sponsored content on my own channels.">Vídeos para marcas de tecnología: demos de producto, UGC para anuncios y contenido patrocinado en mis redes.</p>
+      <p class="reveal" data-en="I come from building software, not filming it. I built a loyalty SaaS used by over a hundred businesses, and another one for hair salons that was acquired by L'Oréal. So on top of making content, I know my way around tech.">Vengo de construir software, no de grabarlo. Monté un SaaS de fidelización que usan más de cien negocios y otro para peluquerías que acabó vendido a L'Oréal. Así que, además de crear contenido, me muevo con soltura en el mundo de la tecnología.</p>
+      <p class="reveal" data-en="I shoot in Spanish and English, and short pieces in Mandarin. One creator for all your markets.">Grabo en español y en inglés, y piezas cortas en chino mandarín. Un creador para todos tus mercados.</p>
     </div>
   </div>
 </section>
@@ -747,8 +760,8 @@
      el JS las enciende todas, y una repetida se ilumina dos veces. -->
 <section class="enfoque" id="enfoque">
   <div class="enfoque__sticky container">
-    <p class="kicker">Enfoque</p>
-    <p class="enfoque__text" id="enfoqueText" data-accents="comprado|decide|ocupo">Tienes un producto muy bueno. Lo sabes tú, lo sabe tu equipo y lo sé yo. El que no lo sabe es el que todavía no te ha comprado. Y lo decide en 30 segundos. De esos 30 segundos me ocupo yo.</p>
+    <p class="kicker" data-en="Approach">Enfoque</p>
+    <p class="enfoque__text" id="enfoqueText" data-accents="comprado|decide|ocupo" data-accents-en="bought|decide|job" data-en="You have a very good product. You know it, your team knows it and I know it. The one who does not know it is the one who has not bought yet. And they decide in 30 seconds. Those 30 seconds are my job.">Tienes un producto muy bueno. Lo sabes tú, lo sabe tu equipo y lo sé yo. El que no lo sabe es el que todavía no te ha comprado. Y lo decide en 30 segundos. De esos 30 segundos me ocupo yo.</p>
   </div>
 </section>
 
@@ -760,114 +773,114 @@
 <section id="videos">
   <div class="container head head--row">
     <div>
-      <p class="kicker reveal">Trabajos</p>
-      <h2 class="display reveal">Lo que he <em>grabado</em>.</h2>
-      <p class="lead reveal">Piezas para captación en España, Portugal y Países Bajos, en español y en inglés.</p>
+      <p class="kicker reveal" data-en="Work">Trabajos</p>
+      <h2 class="display reveal" data-en-html="What I have <em>shot</em>.">Lo que he <em>grabado</em>.</h2>
+      <p class="lead reveal" data-en="Acquisition pieces for Spain, Portugal and the Netherlands, in Spanish and English.">Piezas para captación en España, Portugal y Países Bajos, en español y en inglés.</p>
     </div>
     <div class="rail__ctrl reveal">
-      <button class="round" type="button" data-rail="prev" aria-label="Anterior">←</button>
-      <button class="round" type="button" data-rail="next" aria-label="Siguiente">→</button>
+      <button class="round" type="button" data-rail="prev" aria-label="Anterior" data-en-aria="Previous">←</button>
+      <button class="round" type="button" data-rail="next" aria-label="Siguiente" data-en-aria="Next">→</button>
     </div>
   </div>
-  <div class="rail" id="rail" aria-label="Vídeos UGC">
+  <div class="rail" id="rail" aria-label="Vídeos UGC" data-en-aria="UGC videos">
 
     <article class="work" tabindex="0" role="button"
              data-video="./Resources/ugc/es-ironhack-isa.mp4"
              data-format="vertical"
-             data-title="Ironhack — Estudia ahora, paga cuando trabajes"
-             data-cat="UGC · Formación tech · España"
-             aria-label="Ver vídeo: Estudia ahora, paga cuando trabajes">
+             data-title="Ironhack — Estudia ahora, paga cuando trabajes" data-title-en="Ironhack — Study now, pay once you are working"
+             data-cat="UGC · Formación tech · España" data-cat-en="UGC · Tech education · Spain"
+             aria-label="Ver vídeo: Estudia ahora, paga cuando trabajes" data-en-aria="Watch video: Study now, pay once you are working">
       <div class="work__cover">
-        <img src="./Resources/ugc/portadas/es-ironhack-isa.jpg" alt="Estudia ahora, paga cuando trabajes" loading="lazy" decoding="async">
+        <img src="./Resources/ugc/portadas/es-ironhack-isa.jpg" alt="Estudia ahora, paga cuando trabajes" data-en-alt="Study now, pay once you are working" loading="lazy" decoding="async">
         <span class="work__dur">0:47</span>
       </div>
       <div class="work__meta">
         <span class="work__brand">Ironhack</span>
-        <h3 class="work__title">Estudia ahora, paga cuando trabajes</h3>
+        <h3 class="work__title" data-en="Study now, pay once you are working">Estudia ahora, paga cuando trabajes</h3>
       </div>
       <div class="work__info">
-        <p>Pieza sobre el acuerdo de pago diferido de Ironhack: no pagas la formación hasta que consigues empleo en el sector tech. Abrí con un hook de incredulidad, «me estás diciendo que…», para que el espectador se hiciera la misma pregunta que el anuncio responde.</p>
-        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+        <p data-en="A piece about Ironhack's deferred payment deal: you do not pay for the course until you land a job in tech. I opened on a hook of disbelief — are you telling me that… — so the viewer asks the same question the ad answers.">Pieza sobre el acuerdo de pago diferido de Ironhack: no pagas la formación hasta que consigues empleo en el sector tech. Abrí con un hook de incredulidad, «me estás diciendo que…», para que el espectador se hiciera la misma pregunta que el anuncio responde.</p>
+        <p class="work__role" data-en-html="<strong>My part:</strong> script, performance, filming and editing."><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
       </div>
     </article>
 
     <article class="work" tabindex="0" role="button"
              data-video="./Resources/ugc/es-ironhack-becas.mp4"
              data-format="vertical"
-             data-title="Ironhack — Hasta 3.000 € en becas para formarte en tech"
-             data-cat="UGC · Campaña de urgencia · España"
-             aria-label="Ver vídeo: Hasta 3.000 € en becas para formarte en tech">
+             data-title="Ironhack — Hasta 3.000 € en becas para formarte en tech" data-title-en="Ironhack — Up to €3,000 in scholarships to train in tech"
+             data-cat="UGC · Campaña de urgencia · España" data-cat-en="UGC · Urgency campaign · Spain"
+             aria-label="Ver vídeo: Hasta 3.000 € en becas para formarte en tech" data-en-aria="Watch video: Up to €3,000 in scholarships to train in tech">
       <div class="work__cover">
-        <img src="./Resources/ugc/portadas/es-ironhack-becas.jpg" alt="Hasta 3.000 € en becas para formarte en tech" loading="lazy" decoding="async">
+        <img src="./Resources/ugc/portadas/es-ironhack-becas.jpg" alt="Hasta 3.000 € en becas para formarte en tech" data-en-alt="Up to €3,000 in scholarships to train in tech" loading="lazy" decoding="async">
         <span class="work__dur">0:38</span>
       </div>
       <div class="work__meta">
         <span class="work__brand">Ironhack</span>
-        <h3 class="work__title">Hasta 3.000 € en becas para formarte en tech</h3>
+        <h3 class="work__title" data-en="Up to €3,000 in scholarships to train in tech">Hasta 3.000 € en becas para formarte en tech</h3>
       </div>
       <div class="work__info">
-        <p>Pieza de campaña con fecha límite. El mensaje es una cifra y un plazo, así que el vídeo se construye para que ambos queden claros en los tres primeros segundos y se repitan al cierre.</p>
-        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+        <p data-en="A campaign piece with a deadline. The message is a number and a date, so the video is built to make both clear in the first three seconds and repeat them at the close.">Pieza de campaña con fecha límite. El mensaje es una cifra y un plazo, así que el vídeo se construye para que ambos queden claros en los tres primeros segundos y se repitan al cierre.</p>
+        <p class="work__role" data-en-html="<strong>My part:</strong> script, performance, filming and editing."><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
       </div>
     </article>
 
     <article class="work" tabindex="0" role="button"
              data-video="./Resources/ugc/nl-if-you-lose-your-job.mp4"
              data-format="vertical"
-             data-title="Ironhack — If you lose your job in the Netherlands"
-             data-cat="Ironhack · UGC · Inglés · Países Bajos"
-             aria-label="Ver vídeo: If you lose your job in the Netherlands">
+             data-title="Ironhack — If you lose your job in the Netherlands" data-title-en="Ironhack — If you lose your job in the Netherlands"
+             data-cat="Ironhack · UGC · Inglés · Países Bajos" data-cat-en="Ironhack · UGC · English · Netherlands"
+             aria-label="Ver vídeo: If you lose your job in the Netherlands" data-en-aria="Watch video: If you lose your job in the Netherlands">
       <div class="work__cover">
-        <img src="./Resources/ugc/portadas/nl-if-you-lose-your-job.jpg" alt="If you lose your job in the Netherlands" loading="lazy" decoding="async">
+        <img src="./Resources/ugc/portadas/nl-if-you-lose-your-job.jpg" alt="If you lose your job in the Netherlands" data-en-alt="If you lose your job in the Netherlands" loading="lazy" decoding="async">
         <span class="work__dur">0:52</span>
       </div>
       <div class="work__meta">
         <span class="work__brand">Ironhack</span>
-        <h3 class="work__title">If you lose your job in the Netherlands</h3>
+        <h3 class="work__title" data-en="If you lose your job in the Netherlands">If you lose your job in the Netherlands</h3>
       </div>
       <div class="work__info">
-        <p>Pieza en inglés para el mercado neerlandés. Para explicar una prestación por desempleo usé atrezo sobre la mesa: tarjetas de 1.000 € que convierten una cifra abstracta en algo que se ve y se cuenta.</p>
-        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+        <p data-en="A piece in English for the Dutch market. To explain an unemployment benefit I used props on the table: €1,000 cards that turn an abstract figure into something you can see and count.">Pieza en inglés para el mercado neerlandés. Para explicar una prestación por desempleo usé atrezo sobre la mesa: tarjetas de 1.000 € que convierten una cifra abstracta en algo que se ve y se cuenta.</p>
+        <p class="work__role" data-en-html="<strong>My part:</strong> script, performance, filming and editing."><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
       </div>
     </article>
 
     <article class="work" tabindex="0" role="button"
              data-video="./Resources/ugc/pt-i-quit-my-job.mp4"
              data-format="vertical"
-             data-title="Ironhack — I quit my job to start a better one in tech"
-             data-cat="Ironhack · UGC · Inglés · Portugal"
-             aria-label="Ver vídeo: I quit my job to start a better one in tech">
+             data-title="Ironhack — I quit my job to start a better one in tech" data-title-en="Ironhack — I quit my job to start a better one in tech"
+             data-cat="Ironhack · UGC · Inglés · Portugal" data-cat-en="Ironhack · UGC · English · Portugal"
+             aria-label="Ver vídeo: I quit my job to start a better one in tech" data-en-aria="Watch video: I quit my job to start a better one in tech">
       <div class="work__cover">
-        <img src="./Resources/ugc/portadas/pt-i-quit-my-job.jpg" alt="I quit my job to start a better one in tech" loading="lazy" decoding="async">
+        <img src="./Resources/ugc/portadas/pt-i-quit-my-job.jpg" alt="I quit my job to start a better one in tech" data-en-alt="I quit my job to start a better one in tech" loading="lazy" decoding="async">
         <span class="work__dur">0:45</span>
       </div>
       <div class="work__meta">
         <span class="work__brand">Ironhack</span>
-        <h3 class="work__title">I quit my job to start a better one in tech</h3>
+        <h3 class="work__title" data-en="I quit my job to start a better one in tech">I quit my job to start a better one in tech</h3>
       </div>
       <div class="work__info">
-        <p>Formato directo a cámara con un unboxing como hilo conductor. La historia es dejar un trabajo para reorientar la carrera al sector tech, contada en primera persona.</p>
-        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+        <p data-en="Straight to camera with an unboxing as the thread. The story is leaving a job to move a career into tech, told in the first person.">Formato directo a cámara con un unboxing como hilo conductor. La historia es dejar un trabajo para reorientar la carrera al sector tech, contada en primera persona.</p>
+        <p class="work__role" data-en-html="<strong>My part:</strong> script, performance, filming and editing."><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
       </div>
     </article>
 
     <article class="work" tabindex="0" role="button"
              data-video="./Resources/ugc/es-lo-que-buscan-las-empresas.mp4"
              data-format="vertical"
-             data-title="Ironhack — Esto es lo que realmente buscan las empresas"
-             data-cat="Ironhack · UGC · España"
-             aria-label="Ver vídeo: Esto es lo que realmente buscan las empresas">
+             data-title="Ironhack — Esto es lo que realmente buscan las empresas" data-title-en="Ironhack — What companies are actually looking for"
+             data-cat="Ironhack · UGC · España" data-cat-en="Ironhack · UGC · Spain"
+             aria-label="Ver vídeo: Esto es lo que realmente buscan las empresas" data-en-aria="Watch video: What companies are actually looking for">
       <div class="work__cover">
-        <img src="./Resources/ugc/portadas/es-lo-que-buscan-las-empresas.jpg" alt="Esto es lo que realmente buscan las empresas" loading="lazy" decoding="async">
+        <img src="./Resources/ugc/portadas/es-lo-que-buscan-las-empresas.jpg" alt="Esto es lo que realmente buscan las empresas" data-en-alt="What companies are actually looking for" loading="lazy" decoding="async">
         <span class="work__dur">0:46</span>
       </div>
       <div class="work__meta">
         <span class="work__brand">Ironhack</span>
-        <h3 class="work__title">Esto es lo que realmente buscan las empresas</h3>
+        <h3 class="work__title" data-en="What companies are actually looking for">Esto es lo que realmente buscan las empresas</h3>
       </div>
       <div class="work__info">
-        <p>Pieza de contraste: lo que la gente cree que piden las empresas frente a lo que piden de verdad. El objeto en mano sirve de ancla visual para sostener la atención mientras se explica.</p>
-        <p class="work__role"><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
+        <p data-en="A contrast piece: what people think companies ask for versus what they actually ask for. The object in hand works as a visual anchor to hold attention through the explanation.">Pieza de contraste: lo que la gente cree que piden las empresas frente a lo que piden de verdad. El objeto en mano sirve de ancla visual para sostener la atención mientras se explica.</p>
+        <p class="work__role" data-en-html="<strong>My part:</strong> script, performance, filming and editing."><strong>Mi aportación:</strong> guion, interpretación, grabación y edición.</p>
       </div>
     </article>
   </div>
@@ -883,19 +896,19 @@
      son posicionamiento, no métrica, y aguantan mucho más. -->
 <section id="numeros" style="padding-top: 0;">
   <div class="container">
-    <p class="kicker reveal">Mis números</p>
+    <p class="kicker reveal" data-en="My numbers">Mis números</p>
     <div class="stats">
       <div class="statbox reveal">
         <span class="stat"><span class="stat__plus">+</span><span class="count" data-to="200000">200.000</span></span>
-        <p>Seguidores entre Instagram, TikTok y YouTube.</p>
+        <p data-en="Followers across Instagram, TikTok and YouTube.">Seguidores entre Instagram, TikTok y YouTube.</p>
       </div>
       <div class="statbox reveal">
         <span class="stat"><span class="stat__plus">+</span><span class="count" data-to="9.3" data-dec="1">9,3</span>&nbsp;M</span>
-        <p>Visualizaciones en los últimos 28 días.</p>
+        <p data-en="Views in the last 28 days.">Visualizaciones en los últimos 28 días.</p>
       </div>
       <div class="statbox reveal">
         <span class="stat"><span class="stat__plus">+</span><span class="count" data-to="100">100</span></span>
-        <p>Negocios usando un software que construí yo.</p>
+        <p data-en="Businesses running software I built myself.">Negocios usando un software que construí yo.</p>
       </div>
     </div>
   </div>
@@ -905,38 +918,38 @@
 <section id="servicios">
   <div class="container">
     <div class="head">
-      <p class="kicker reveal">Qué hago</p>
-      <h2 class="display reveal">Cuatro formas de <em>contar tu producto</em>.</h2>
-      <p class="lead reveal">Todas parten del mismo punto: entender qué vendes, a quién y por qué alguien debería pagarte.</p>
+      <p class="kicker reveal" data-en="What I do">Qué hago</p>
+      <h2 class="display reveal" data-en-html="Four ways to <em>show your product</em>.">Cuatro formas de <em>contar tu producto</em>.</h2>
+      <p class="lead reveal" data-en="All four start from the same place: understanding what you sell, who buys it and why anyone should pay you for it.">Todas parten del mismo punto: entender qué vendes, a quién y por qué alguien debería pagarte.</p>
     </div>
     <div class="svc">
 
       <article class="svc__card spot reveal">
         <span class="svc__n">01</span>
-        <h3 class="svc__title">Demo de producto</h3>
-        <p>Tu software en pantalla y yo explicándolo a cámara. Para que se entienda en treinta segundos lo que tu landing tarda tres scrolls en contar.</p>
-        <ul class="tags"><li>Grabación de pantalla</li><li>Guion técnico</li><li>Subtítulos</li></ul>
+        <h3 class="svc__title" data-en="Product demo">Demo de producto</h3>
+        <p data-en="Your software on screen and me explaining it to camera. So it lands in thirty seconds what your landing page takes three scrolls to say.">Tu software en pantalla y yo explicándolo a cámara. Para que se entienda en treinta segundos lo que tu landing tarda tres scrolls en contar.</p>
+        <ul class="tags"><li data-en="Screen recording">Grabación de pantalla</li><li data-en="Technical script">Guion técnico</li><li data-en="Subtitles">Subtítulos</li></ul>
       </article>
 
       <article class="svc__card spot reveal">
         <span class="svc__n">02</span>
-        <h3 class="svc__title">UGC problema-solución</h3>
-        <p>El formato que funciona en anuncios. Un problema real, tu producto como respuesta, sin que parezca un anuncio.</p>
-        <ul class="tags"><li>Naturalidad</li><li>Interpretación</li><li>Meta y TikTok Ads</li></ul>
+        <h3 class="svc__title" data-en="Problem-solution UGC">UGC problema-solución</h3>
+        <p data-en="The format that works in ads. A real problem, your product as the answer, without looking like an ad.">El formato que funciona en anuncios. Un problema real, tu producto como respuesta, sin que parezca un anuncio.</p>
+        <ul class="tags"><li data-en="Natural delivery">Naturalidad</li><li data-en="Performance">Interpretación</li><li data-en="Meta and TikTok Ads">Meta y TikTok Ads</li></ul>
       </article>
 
       <article class="svc__card spot reveal">
         <span class="svc__n">03</span>
-        <h3 class="svc__title">Pack de variaciones</h3>
-        <p>El mismo vídeo con varias aperturas distintas. Para que no quemes creatividad testeando qué hook aguanta mejor el CPA.</p>
-        <ul class="tags"><li>Hooks alternativos</li><li>Listo para testear</li><li>Formato vertical</li></ul>
+        <h3 class="svc__title" data-en="Variation pack">Pack de variaciones</h3>
+        <p data-en="The same video with several different openings. So you do not burn creative testing which hook holds your CPA down.">El mismo vídeo con varias aperturas distintas. Para que no quemes creatividad testeando qué hook aguanta mejor el CPA.</p>
+        <ul class="tags"><li data-en="Alternative hooks">Hooks alternativos</li><li data-en="Ready to test">Listo para testear</li><li data-en="Vertical format">Formato vertical</li></ul>
       </article>
 
       <article class="svc__card spot reveal">
         <span class="svc__n">04</span>
-        <h3 class="svc__title">Vídeo en mis redes</h3>
-        <p>Más de doscientos mil seguidores que ya están interesados en tecnología, negocio y productos digitales. Tu marca, contada con mi voz.</p>
-        <ul class="tags"><li>Instagram</li><li>TikTok</li><li>Libertad creativa</li></ul>
+        <h3 class="svc__title" data-en="Video on my channels">Vídeo en mis redes</h3>
+        <p data-en="Over two hundred thousand followers already interested in tech, business and digital products. Your brand, in my voice.">Más de doscientos mil seguidores que ya están interesados en tecnología, negocio y productos digitales. Tu marca, contada con mi voz.</p>
+        <ul class="tags"><li data-en="Instagram">Instagram</li><li data-en="TikTok">TikTok</li><li data-en="Creative freedom">Libertad creativa</li></ul>
       </article>
 
     </div>
@@ -948,8 +961,8 @@
   <div class="container proc">
     <div class="proc__head">
       <div class="proc__sticky">
-        <p class="kicker reveal">Proceso</p>
-        <h2 class="display reveal">Cómo <em>trabajamos</em>.</h2>
+        <p class="kicker reveal" data-en="Process">Proceso</p>
+        <h2 class="display reveal" data-en-html="How we <em>work together</em>.">Cómo <em>trabajamos</em>.</h2>
       </div>
     </div>
     <div class="proc__steps" id="steps">
@@ -957,28 +970,28 @@
       <ol class="proc__list">
         <li class="step reveal">
           <span class="step__n">01</span>
-          <h3>Cuéntame qué vendes y a quién</h3>
-          <p>Qué hace tu producto, quién lo paga y qué objetivo tienes con el contenido. Con eso valoro el encargo.</p>
+          <h3 data-en="Tell me what you sell and to whom">Cuéntame qué vendes y a quién</h3>
+          <p data-en="What your product does, who pays for it and what you want the content to achieve. That is enough for me to scope the job.">Qué hace tu producto, quién lo paga y qué objetivo tienes con el contenido. Con eso valoro el encargo.</p>
         </li>
         <li class="step step--key reveal">
           <span class="step__n">02</span>
-          <h3>Me doy de alta y uso tu producto</h3>
-          <p>Entro, lo pruebo y lo rompo un poco. Salgo de ahí sabiendo qué parte engancha, cuál no se entiende y qué merece estar en el vídeo. Este paso no te lo va a hacer nadie más.</p>
+          <h3 data-en="I sign up and use your product">Me doy de alta y uso tu producto</h3>
+          <p data-en="I get in, try it and break it a little. I come out knowing what hooks, what does not land and what deserves to be in the video. Nobody else is going to do this step for you.">Entro, lo pruebo y lo rompo un poco. Salgo de ahí sabiendo qué parte engancha, cuál no se entiende y qué merece estar en el vídeo. Este paso no te lo va a hacer nadie más.</p>
         </li>
         <li class="step reveal">
           <span class="step__n">03</span>
-          <h3>Guion y ángulos</h3>
-          <p>Te propongo el enfoque y las aperturas antes de grabar nada. Lo validas tú.</p>
+          <h3 data-en="Script and angles">Guion y ángulos</h3>
+          <p data-en="I propose the approach and the openings before anything is filmed. You sign them off.">Te propongo el enfoque y las aperturas antes de grabar nada. Lo validas tú.</p>
         </li>
         <li class="step reveal">
           <span class="step__n">04</span>
-          <h3>Grabo y edito</h3>
-          <p>Me encargo de todo: cámara, pantalla, montaje, subtítulos y sonido.</p>
+          <h3 data-en="I film and edit">Grabo y edito</h3>
+          <p data-en="I handle all of it: camera, screen, edit, subtitles and sound.">Me encargo de todo: cámara, pantalla, montaje, subtítulos y sonido.</p>
         </li>
         <li class="step reveal">
           <span class="step__n">05</span>
-          <h3>Entrego, con sus variaciones</h3>
-          <p>Te paso los archivos finales en los formatos que necesites, listos para subir o para meter en campaña.</p>
+          <h3 data-en="I deliver, with the variations">Entrego, con sus variaciones</h3>
+          <p data-en="Final files in whatever formats you need, ready to post or drop straight into a campaign.">Te paso los archivos finales en los formatos que necesites, listos para subir o para meter en campaña.</p>
         </li>
       </ol>
     </div>
@@ -991,76 +1004,76 @@
 <section class="tarifas" id="tarifas">
   <div class="container">
     <div class="head">
-      <p class="kicker reveal">Tarifas</p>
-      <h2 class="display reveal">Precios <em>de partida</em>.</h2>
-      <p class="lead reveal">Sobre la tarifa base se calculan los extras y la licencia de uso del contenido.</p>
+      <p class="kicker reveal" data-en="Rates">Tarifas</p>
+      <h2 class="display reveal" data-en-html="Starting <em>prices</em>.">Precios <em>de partida</em>.</h2>
+      <p class="lead reveal" data-en="Extras and the content usage licence are calculated on top of the base rate.">Sobre la tarifa base se calculan los extras y la licencia de uso del contenido.</p>
     </div>
 
     <div class="plans">
 
       <article class="plan spot reveal">
-        <h3 class="plan__name">Vídeo UGC</h3>
-        <p class="plan__dur">1 vídeo · 15–60 segundos</p>
-        <p class="plan__price"><small>Desde</small><span>300 €</span><span class="plan__to">+ IVA</span></p>
+        <h3 class="plan__name" data-en="UGC video">Vídeo UGC</h3>
+        <p class="plan__dur" data-en="1 video · 15–60 seconds">1 vídeo · 15–60 segundos</p>
+        <p class="plan__price" data-en-html="&lt;small&gt;From&lt;/small&gt;&lt;span&gt;300 €&lt;/span&gt;&lt;span class=&quot;plan__to&quot;&gt;+ VAT&lt;/span&gt;"><small>Desde</small><span>300 €</span><span class="plan__to">+ IVA</span></p>
         <ul class="plan__list">
-          <li>1 vídeo para tu marca (15–60s).</li>
-          <li>Investigación de marca, público, contenido, competencia y referencias.</li>
-          <li>Propuesta creativa y guion.</li>
-          <li>Grabación y edición.</li>
-          <li>2 revisiones incluidas.</li>
+          <li data-en="1 video for your brand (15–60s).">1 vídeo para tu marca (15–60s).</li>
+          <li data-en="Research into your brand, audience, content, competitors and references.">Investigación de marca, público, contenido, competencia y referencias.</li>
+          <li data-en="Creative proposal and script.">Propuesta creativa y guion.</li>
+          <li data-en="Filming and editing.">Grabación y edición.</li>
+          <li data-en="2 revisions included.">2 revisiones incluidas.</li>
         </ul>
       </article>
 
       <article class="plan spot reveal">
-        <h3 class="plan__name">Pack UGC</h3>
-        <p class="plan__dur">3 vídeos · 15–60 segundos</p>
-        <p class="plan__price"><small>Desde</small><span>800 €</span><span class="plan__to">+ IVA</span></p>
+        <h3 class="plan__name" data-en="UGC pack">Pack UGC</h3>
+        <p class="plan__dur" data-en="3 videos · 15–60 seconds">3 vídeos · 15–60 segundos</p>
+        <p class="plan__price" data-en-html="&lt;small&gt;From&lt;/small&gt;&lt;span&gt;800 €&lt;/span&gt;&lt;span class=&quot;plan__to&quot;&gt;+ VAT&lt;/span&gt;"><small>Desde</small><span>800 €</span><span class="plan__to">+ IVA</span></p>
         <ul class="plan__list">
-          <li>3 vídeos para tu marca (15–60s).</li>
-          <li>Investigación de marca, público, contenido, competencia y referencias.</li>
-          <li>Propuesta creativa y guion.</li>
-          <li>Grabación y edición.</li>
-          <li>3 revisiones por vídeo.</li>
+          <li data-en="3 videos for your brand (15–60s).">3 vídeos para tu marca (15–60s).</li>
+          <li data-en="Research into your brand, audience, content, competitors and references.">Investigación de marca, público, contenido, competencia y referencias.</li>
+          <li data-en="Creative proposal and script.">Propuesta creativa y guion.</li>
+          <li data-en="Filming and editing.">Grabación y edición.</li>
+          <li data-en="3 revisions per video.">3 revisiones por vídeo.</li>
         </ul>
       </article>
 
       <article class="plan spot reveal">
-        <h3 class="plan__name">Vídeo patrocinado en mis redes</h3>
-        <p class="plan__dur">Más de 200.000 seguidores</p>
-        <p class="plan__price"><small>Desde</small><span>900 €</span><span class="plan__to">+ IVA</span></p>
+        <h3 class="plan__name" data-en="Sponsored video on my channels">Vídeo patrocinado en mis redes</h3>
+        <p class="plan__dur" data-en="Over 200,000 followers">Más de 200.000 seguidores</p>
+        <p class="plan__price" data-en-html="&lt;small&gt;From&lt;/small&gt;&lt;span&gt;900 €&lt;/span&gt;&lt;span class=&quot;plan__to&quot;&gt;+ VAT&lt;/span&gt;"><small>Desde</small><span>900 €</span><span class="plan__to">+ IVA</span></p>
         <ul class="plan__list">
-          <li>1 vídeo patrocinado en mi Instagram/TikTok.</li>
-          <li>Propuesta y guion con libertad creativa, adaptados a mi estilo y audiencia.</li>
-          <li>Grabación y edición.</li>
-          <li>Integración de los mensajes clave de tu marca.</li>
-          <li>3 revisiones incluidas.</li>
+          <li data-en="1 sponsored video on my Instagram/TikTok.">1 vídeo patrocinado en mi Instagram/TikTok.</li>
+          <li data-en="Proposal and script with creative freedom, tailored to my style and audience.">Propuesta y guion con libertad creativa, adaptados a mi estilo y audiencia.</li>
+          <li data-en="Filming and editing.">Grabación y edición.</li>
+          <li data-en="Your brand's key messages woven in.">Integración de los mensajes clave de tu marca.</li>
+          <li data-en="3 revisions included.">3 revisiones incluidas.</li>
         </ul>
       </article>
 
     </div>
 
-    <p class="plans-sub reveal">Extras y licencias</p>
+    <p class="plans-sub reveal" data-en="Extras and licensing">Extras y licencias</p>
     <div class="rates" style="margin-top: 0;">
       <div class="reveal">
-        <p class="rates__title">Extras</p>
-        <div class="rate"><span class="rate__name">Hook adicional</span><span class="rate__val">+50 €</span></div>
-        <div class="rate"><span class="rate__name">CTA adicional</span><span class="rate__val">+50 €</span></div>
-        <div class="rate"><span class="rate__name">Revisión adicional</span><span class="rate__val">+50 €</span></div>
-        <div class="rate"><span class="rate__name">Contenido RAW</span><span class="rate__val">+50 %</span></div>
-        <div class="rate"><span class="rate__name">Entrega exprés</span><span class="rate__val rate__val--soft">A consultar</span></div>
-        <p class="rates__note">El suplemento de contenido RAW se calcula sobre la tarifa base del vídeo.</p>
+        <p class="rates__title" data-en="Extras">Extras</p>
+        <div class="rate"><span class="rate__name" data-en="Additional hook">Hook adicional</span><span class="rate__val">+50 €</span></div>
+        <div class="rate"><span class="rate__name" data-en="Additional CTA">CTA adicional</span><span class="rate__val">+50 €</span></div>
+        <div class="rate"><span class="rate__name" data-en="Additional revision">Revisión adicional</span><span class="rate__val">+50 €</span></div>
+        <div class="rate"><span class="rate__name" data-en="RAW footage">Contenido RAW</span><span class="rate__val">+50 %</span></div>
+        <div class="rate"><span class="rate__name" data-en="Rush delivery">Entrega exprés</span><span class="rate__val rate__val--soft" data-en="On request">A consultar</span></div>
+        <p class="rates__note" data-en="The RAW footage surcharge is calculated on the base rate of the video.">El suplemento de contenido RAW se calcula sobre la tarifa base del vídeo.</p>
       </div>
 
       <div class="reveal">
-        <p class="rates__title">Derechos y uso</p>
-        <div class="rate"><span class="rate__name">Uso en anuncios (por mes)</span><span class="rate__val">+30 %</span></div>
-        <div class="rate"><span class="rate__name">Derechos ilimitados</span><span class="rate__val rate__val--soft">A consultar</span></div>
-        <div class="rate"><span class="rate__name">Exclusividad</span><span class="rate__val rate__val--soft">A consultar</span></div>
-        <p class="rates__note">El suplemento por uso en anuncios se calcula sobre la tarifa base del contenido, por cada mes de campaña contratado. Los derechos ilimitados y la exclusividad se valoran caso por caso según el alcance, la duración y el sector.</p>
+        <p class="rates__title" data-en="Rights and usage">Derechos y uso</p>
+        <div class="rate"><span class="rate__name" data-en="Paid ads usage (per month)">Uso en anuncios (por mes)</span><span class="rate__val">+30 %</span></div>
+        <div class="rate"><span class="rate__name" data-en="Unlimited rights">Derechos ilimitados</span><span class="rate__val rate__val--soft" data-en="On request">A consultar</span></div>
+        <div class="rate"><span class="rate__name" data-en="Exclusivity">Exclusividad</span><span class="rate__val rate__val--soft" data-en="On request">A consultar</span></div>
+        <p class="rates__note" data-en="The paid ads surcharge is calculated on the base rate of the content, for each month of campaign booked. Unlimited rights and exclusivity are priced case by case depending on reach, duration and sector.">El suplemento por uso en anuncios se calcula sobre la tarifa base del contenido, por cada mes de campaña contratado. Los derechos ilimitados y la exclusividad se valoran caso por caso según el alcance, la duración y el sector.</p>
       </div>
     </div>
 
-    <p class="plans__note reveal">El precio final depende de la complejidad del producto, los plazos y los requisitos creativos.</p>
+    <p class="plans__note reveal" data-en="The final price depends on how complex the product is, the deadlines and the creative requirements.">El precio final depende de la complejidad del producto, los plazos y los requisitos creativos.</p>
   </div>
 </section>
 
@@ -1069,42 +1082,42 @@
   <div class="container faq">
     <div class="faq__head">
       <div class="faq__sticky">
-        <p class="kicker reveal">Preguntas frecuentes</p>
-        <h2 class="display reveal">Lo que siempre <em>me preguntan</em>.</h2>
+        <p class="kicker reveal" data-en="FAQ">Preguntas frecuentes</p>
+        <h2 class="display reveal" data-en-html="What people <em>always ask</em>.">Lo que siempre <em>me preguntan</em>.</h2>
       </div>
     </div>
     <div class="faq__list">
       <details class="reveal">
-        <summary>¿Tengo que explicarte cómo funciona nuestro producto?</summary>
-        <div class="faq__body"><p>No. Me doy de alta, lo uso y vengo con las preguntas ya hechas. Soy ingeniero informático y he construido software, así que no necesito que nadie me traduzca qué es una integración, un plan de precios o un flujo de onboarding.</p></div>
+        <summary data-en="Do I have to explain how our product works?">¿Tengo que explicarte cómo funciona nuestro producto?</summary>
+        <div class="faq__body"><p data-en="No. I sign up, use it and come back with the questions already formed. I am a software engineer and I have built software, so nobody needs to translate what an integration, a pricing tier or an onboarding flow is.">No. Me doy de alta, lo uso y vengo con las preguntas ya hechas. Soy ingeniero informático y he construido software, así que no necesito que nadie me traduzca qué es una integración, un plan de precios o un flujo de onboarding.</p></div>
       </details>
       <details class="reveal">
-        <summary>¿Grabas también pantalla y demos, no solo a cámara?</summary>
-        <div class="faq__body"><p>Sí. De hecho es lo que mejor funciona para producto técnico: mi cara para que haya alguien detrás, y la pantalla para que se vea que el producto existe y funciona.</p></div>
+        <summary data-en="Do you record screen and demos too, not just to camera?">¿Grabas también pantalla y demos, no solo a cámara?</summary>
+        <div class="faq__body"><p data-en="Yes. In fact it is what works best for technical products: my face so there is a person behind it, and the screen so people can see the product exists and works.">Sí. De hecho es lo que mejor funciona para producto técnico: mi cara para que haya alguien detrás, y la pantalla para que se vea que el producto existe y funciona.</p></div>
       </details>
       <details class="reveal">
-        <summary>¿Firmas NDA?</summary>
-        <div class="faq__body"><p>Sin problema. Si estáis en fase cerrada o pre-lanzamiento, firmo el acuerdo antes de que me deis acceso a nada.</p></div>
+        <summary data-en="Will you sign an NDA?">¿Firmas NDA?</summary>
+        <div class="faq__body"><p data-en="No problem. If you are in closed beta or pre-launch, I sign before you give me access to anything.">Sin problema. Si estáis en fase cerrada o pre-lanzamiento, firmo el acuerdo antes de que me deis acceso a nada.</p></div>
       </details>
       <details class="reveal">
-        <summary>¿Podemos usar el vídeo en anuncios? ¿Durante cuánto tiempo?</summary>
-        <div class="faq__body"><p>Sí, el uso en anuncios se acuerda antes de empezar y queda recogido por escrito: en qué plataformas, durante cuánto tiempo y con qué exclusividad. Para seguir usándolo después del periodo acordado, renovamos.</p></div>
+        <summary data-en="Can we use the video in ads? For how long?">¿Podemos usar el vídeo en anuncios? ¿Durante cuánto tiempo?</summary>
+        <div class="faq__body"><p data-en="Yes. Paid usage is agreed before we start and put in writing: which platforms, for how long and with what exclusivity. To keep using it after that period, we renew.">Sí, el uso en anuncios se acuerda antes de empezar y queda recogido por escrito: en qué plataformas, durante cuánto tiempo y con qué exclusividad. Para seguir usándolo después del periodo acordado, renovamos.</p></div>
       </details>
       <details class="reveal">
-        <summary>¿Cuántas revisiones entran en el precio?</summary>
-        <div class="faq__body"><p>El Vídeo UGC incluye 2 revisiones. El Pack UGC, 3 por vídeo. El vídeo patrocinado en mis redes, 3. Si hacen falta más, son 50 € cada una, igual que un hook o un CTA adicional.</p></div>
+        <summary data-en="How many revisions are included?">¿Cuántas revisiones entran en el precio?</summary>
+        <div class="faq__body"><p data-en="The UGC video includes 2 revisions. The UGC pack, 3 per video. The sponsored video on my channels, 3. If you need more they are €50 each, same as an additional hook or CTA.">El Vídeo UGC incluye 2 revisiones. El Pack UGC, 3 por vídeo. El vídeo patrocinado en mis redes, 3. Si hacen falta más, son 50 € cada una, igual que un hook o un CTA adicional.</p></div>
       </details>
       <details class="reveal">
-        <summary>¿Emites factura?</summary>
-        <div class="faq__body"><p>Sí. Cada proyecto se factura con su IVA correspondiente, así que podéis deducirlo como cualquier otro gasto de marketing.</p></div>
+        <summary data-en="Do you invoice?">¿Emites factura?</summary>
+        <div class="faq__body"><p data-en="Yes. Every project is invoiced from Spain with the applicable VAT, so you can deduct it like any other marketing cost. For companies in the EU with a valid VAT number, the reverse charge applies.">Sí. Cada proyecto se factura con su IVA correspondiente, así que podéis deducirlo como cualquier otro gasto de marketing.</p></div>
       </details>
       <details class="reveal">
-        <summary>¿Trabajas también en inglés?</summary>
-        <div class="faq__body"><p>Sí. Grabo y guionizo con la misma soltura en español y en inglés, y tengo piezas en ambos idiomas para los mercados de España, Portugal y Países Bajos. También puedo grabar piezas cortas en chino mandarín.</p></div>
+        <summary data-en="Do you work in English too?">¿Trabajas también en inglés?</summary>
+        <div class="faq__body"><p data-en="Yes. I write and perform just as comfortably in Spanish and English, and I have pieces in both languages running in Spain, Portugal and the Netherlands. I can also record short pieces in Mandarin.">Sí. Grabo y guionizo con la misma soltura en español y en inglés, y tengo piezas en ambos idiomas para los mercados de España, Portugal y Países Bajos. También puedo grabar piezas cortas en chino mandarín.</p></div>
       </details>
       <details class="reveal">
-        <summary>¿Cuánto tardas?</summary>
-        <div class="faq__body"><p>Como orientación, una pieza suele llevar alrededor de una semana desde que validamos el guion. Depende de mi disponibilidad y de lo que necesite el proyecto; confirmamos fechas antes de empezar.</p></div>
+        <summary data-en="How long does it take?">¿Cuánto tardas?</summary>
+        <div class="faq__body"><p data-en="As a guide, a piece usually takes about a week from the moment we sign off the script. It depends on my availability and what the project needs; we confirm dates before starting.">Como orientación, una pieza suele llevar alrededor de una semana desde que validamos el guion. Depende de mi disponibilidad y de lo que necesite el proyecto; confirmamos fechas antes de empezar.</p></div>
       </details>
     </div>
   </div>
@@ -1113,14 +1126,14 @@
 <!-- ============ 11 · CONTACTO ============ -->
 <section id="contacto">
   <div class="container cta">
-    <p class="kicker reveal" style="margin-left: 32px;">Contacto</p>
-    <h2 class="display reveal">¿Tienes un producto que <em>merece explicarse mejor</em>?</h2>
-    <p class="lead reveal">Cuéntame qué vendes y te preparo una propuesta.</p>
+    <p class="kicker reveal" style="margin-left: 32px;" data-en="Contact">Contacto</p>
+    <h2 class="display reveal" data-en-html="Got a product that <em>deserves a better explanation</em>?">¿Tienes un producto que <em>merece explicarse mejor</em>?</h2>
+    <p class="lead reveal" data-en="Tell me what you sell and I will put a proposal together.">Cuéntame qué vendes y te preparo una propuesta.</p>
     <div class="cta__actions reveal reveal-delay-1">
-      <a class="btn" href="contacto.html">Escríbeme <span class="arr">→</span></a>
-      <a class="btn btn--ghost" href="proyectos.html">Ver mis proyectos <span class="arr">→</span></a>
+      <a class="btn" href="contacto.html" data-en-html="Get in touch <span class=&quot;arr&quot;>→</span>">Escríbeme <span class="arr">→</span></a>
+      <a class="btn btn--ghost" href="proyectos.html" data-en-html="See my projects <span class=&quot;arr&quot;>→</span>">Ver mis proyectos <span class="arr">→</span></a>
     </div>
-    <p class="cta__mail reveal reveal-delay-2">O directamente a <a href="mailto:info@theivanzheng.com">info@theivanzheng.com</a></p>
+    <p class="cta__mail reveal reveal-delay-2" data-en-html="Or straight to <a href=&quot;mailto:info@theivanzheng.com&quot;>info@theivanzheng.com</a>">O directamente a <a href="mailto:info@theivanzheng.com">info@theivanzheng.com</a></p>
   </div>
 </section>
 
@@ -1129,16 +1142,16 @@
 <footer>
   <div class="footer-left">© <span id="year">2026</span> Iván Zheng</div>
   <div class="footer-nav">
-    <a href="index.html#sobre-mi">Sobre Mí</a>
-    <a href="proyectos.html">Proyectos</a>
-    <a href="productos.html">Productos</a>
+    <a href="index.html#sobre-mi" data-en="About">Sobre Mí</a>
+    <a href="proyectos.html" data-en="Projects">Proyectos</a>
+    <a href="productos.html" data-en="Products">Productos</a>
     <a href="ugc.html">UGC</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="contacto.html" data-en="Contact">Contacto</a>
   </div>
   <div class="footer-mid">
-    <a href="aviso-legal.html">Aviso legal</a>
-    <a href="politica-privacidad.html">Politica de privacidad</a>
-    <a href="politica-cookies.html">Politica de cookies</a>
+    <a href="aviso-legal.html" data-en="Legal notice">Aviso legal</a>
+    <a href="politica-privacidad.html" data-en="Privacy policy">Politica de privacidad</a>
+    <a href="politica-cookies.html" data-en="Cookie policy">Politica de cookies</a>
   </div>
   <div class="footer-right">
     <a href="https://www.instagram.com/theivanzheng/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
@@ -1159,6 +1172,7 @@
   var lerp = function (a, b, t) { return a + (b - a) * t; };
   var ss = function (e0, e1, x) { var t = clamp((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
   var isMobile = function () { return window.innerWidth <= 640; };
+  var LANG = "es";
 
   function safe(fn) { try { fn(); } catch (e) { if (window.console) console.warn("[ugc]", e); } }
 
@@ -1302,17 +1316,30 @@
   }
 
   /* ── Enfoque: las palabras se encienden al hacer scroll ── */
+  // Se monta aparte del observador porque al cambiar de idioma hay que
+  // volver a trocear la frase, no solo sustituir su texto.
+  var enfSpans = [];
+  function montarEnfoque() {
+    var p = $("#enfoqueText");
+    if (!p) return;
+    var texto = (LANG === "en" && p.getAttribute("data-en")) || p.dataset.esText || p.textContent;
+    var accents = ((LANG === "en" ? p.getAttribute("data-accents-en") : p.getAttribute("data-accents")) || "").toLowerCase().split("|");
+    var limpia = function (w) { return w.toLowerCase().replace(/^[¿¡«"(]+|[.,;:!?»")]+$/g, ""); };
+    var esc = function (w) { return w.replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
+    p.innerHTML = texto.trim().split(/\s+/).map(function (w) {
+      return '<span class="' + (accents.indexOf(limpia(w)) > -1 ? "w accent" : "w") + '">' + esc(w) + "</span>";
+    }).join(" ");
+    enfSpans = $$(".w", p);
+  }
+
   function initEnfoque() {
     var p = $("#enfoqueText"), sec = $(".enfoque");
     if (!p || !sec) return;
-    var accents = (p.getAttribute("data-accents") || "").toLowerCase().split("|");
-    var limpia = function (w) { return w.toLowerCase().replace(/^[¿¡«"(]+|[.,;:!?»")]+$/g, ""); };
-    var esc = function (w) { return w.replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
-    p.innerHTML = p.textContent.trim().split(/\s+/).map(function (w) {
-      return '<span class="' + (accents.indexOf(limpia(w)) > -1 ? "w accent" : "w") + '">' + esc(w) + "</span>";
-    }).join(" ");
-    var spans = $$(".w", p);
+    p.dataset.esText = p.textContent.trim();
+    montarEnfoque();
+    var spans = enfSpans;
     scrollFns.push(function () {
+      spans = enfSpans;
       var r = sec.getBoundingClientRect();
       var prog = clamp((window.innerHeight * 0.3 - r.top) / Math.max(r.height - window.innerHeight * 0.7, 1), 0, 1);
       var n = Math.round(prog * spans.length);
@@ -1376,15 +1403,16 @@
         media.innerHTML = '<div class="modal__ph modal__ph--' + fmt + '">Vídeo pendiente · ' + fmt + '</div>';
       }
       var brandTxt = ($(".work__brand", w) || {}).textContent || "";
-      var cat = w.getAttribute("data-cat");
+      var cat = (LANG === "en" && w.getAttribute("data-cat-en")) || w.getAttribute("data-cat");
       $(".modal__brand", modal).textContent = brandTxt + (cat ? " · " + cat : "");
-      var fullTitle = w.getAttribute("data-title") || ($(".work__title", w) || {}).textContent || "";
+      var fullTitle = (LANG === "en" && w.getAttribute("data-title-en")) || w.getAttribute("data-title") || ($(".work__title", w) || {}).textContent || "";
       $(".modal__title", modal).textContent = fullTitle.indexOf(" — ") > -1 ? fullTitle.split(" — ").slice(1).join(" — ") : fullTitle;
       var info = $(".work__info", w);
       $(".modal__info", modal).innerHTML = info ? info.innerHTML : "";
       modal.scrollTop = 0;
       modal.classList.add("is-open");
       body.classList.add("no-scroll");
+      $(".modal__close", modal).setAttribute("aria-label", LANG === "en" ? "Close" : "Cerrar");
       $(".modal__close", modal).focus();
     }
     function close() {
@@ -1436,21 +1464,26 @@
       var to = parseFloat(el.getAttribute("data-to")) || 0;
       var dec = parseInt(el.getAttribute("data-dec") || "0", 10);
       var t0 = performance.now(), dur = 1600;
-      var fmt = function (v) {
-        var s = v.toFixed(dec).split(".");
-        s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        return s.join(",");
-      };
+      var fmt = function (v) { return fmtNum(v, dec); };
       (function stepFn(t) {
         var p = clamp((t - t0) / dur, 0, 1), e = 1 - Math.pow(1 - p, 4);
         el.textContent = fmt(to * e);
-        if (p < 1) requestAnimationFrame(stepFn);
+        if (p < 1) requestAnimationFrame(stepFn); else el._hecho = true;
       })(t0);
     }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
     }, { threshold: 0.3 });
     els.forEach(function (el) { el.textContent = (el.getAttribute("data-dec") ? "0,0" : "0"); io.observe(el); });
+  }
+
+  /* ── Cifras con separadores del idioma activo ── */
+  function fmtNum(v, dec) {
+    var miles = LANG === "en" ? "," : ".";
+    var coma  = LANG === "en" ? "." : ",";
+    var t = v.toFixed(dec).split(".");
+    t[0] = t[0].replace(/\B(?=(\d{3})+(?!\d))/g, miles);
+    return t.join(coma);
   }
 
   /* ── Foco de luz que sigue al ratón ── */
@@ -1505,6 +1538,67 @@
     });
   }
 
+  /* ── Idioma: español por defecto, inglés con el botón o con ?lang=en ── */
+  function aplicarIdioma(l) {
+    LANG = l;
+    var raiz = document.documentElement;
+    raiz.setAttribute("lang", l);
+    raiz.setAttribute("data-lang", l);
+
+    var btn = $("#langBtn");
+    if (btn) {
+      btn.textContent = l === "en" ? "ES" : "EN";
+      btn.setAttribute("aria-label", l === "en" ? "Cambiar a español" : "Switch to English");
+    }
+
+    // El enfoque se excluye: su párrafo está troceado en palabras y lo rehace montarEnfoque.
+    $$("[data-en]:not(meta):not(#enfoqueText)").forEach(function (el) {
+      if (el.dataset.esText === undefined) el.dataset.esText = el.textContent;
+      el.textContent = l === "en" ? el.getAttribute("data-en") : el.dataset.esText;
+    });
+    $$("[data-en-html]").forEach(function (el) {
+      if (el.dataset.esHtml === undefined) el.dataset.esHtml = el.innerHTML;
+      el.innerHTML = l === "en" ? el.getAttribute("data-en-html") : el.dataset.esHtml;
+    });
+    $$("[data-en-aria]").forEach(function (el) {
+      if (el.dataset.esAria === undefined) el.dataset.esAria = el.getAttribute("aria-label") || "";
+      el.setAttribute("aria-label", l === "en" ? el.getAttribute("data-en-aria") : el.dataset.esAria);
+    });
+    $$("[data-en-alt]").forEach(function (el) {
+      if (el.dataset.esAlt === undefined) el.dataset.esAlt = el.getAttribute("alt") || "";
+      el.setAttribute("alt", l === "en" ? el.getAttribute("data-en-alt") : el.dataset.esAlt);
+    });
+
+    var md = $('meta[name="description"]');
+    if (md && md.getAttribute("data-en")) {
+      if (md.dataset.esText === undefined) md.dataset.esText = md.getAttribute("content");
+      md.setAttribute("content", l === "en" ? md.getAttribute("data-en") : md.dataset.esText);
+    }
+
+    montarEnfoque();
+
+    // Las cifras ya contadas se vuelven a escribir con los separadores del idioma.
+    $$(".count").forEach(function (el) {
+      if (!el._hecho) return;
+      el.textContent = fmtNum(parseFloat(el.getAttribute("data-to")) || 0,
+                              parseInt(el.getAttribute("data-dec") || "0", 10));
+    });
+
+    try { localStorage.setItem("ugc-lang", l); } catch (e) {}
+  }
+
+  function initLang() {
+    var btn = $("#langBtn");
+    if (btn) btn.addEventListener("click", function () { aplicarIdioma(LANG === "en" ? "es" : "en"); });
+
+    // Prioridad: lo que diga la URL, luego lo último que eligió el visitante.
+    var q = (location.search.match(/[?&]lang=(es|en)/) || [])[1];
+    var guardado = null;
+    try { guardado = localStorage.getItem("ugc-lang"); } catch (e) {}
+    var l = q || guardado || "es";
+    if (l === "en") aplicarIdioma("en");
+  }
+
   /* ── Menú móvil (mismo comportamiento que la home) ── */
   function initNav() {
     var nav = $("#site-nav"), toggle = $("#nav-toggle"), menu = $("#nav-mobile-menu");
@@ -1542,6 +1636,7 @@
     safe(initSpot);
     safe(initFaq);
     safe(initYear);
+    safe(initLang);   // al final: el resto ya está montado y solo hay que traducirlo
     onScroll();
   }
 
