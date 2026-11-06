@@ -1,1 +1,14 @@
+# Fuera del despliegue: nada de esto lo necesita la web, y todo lo que
+# queda en la raiz se puede leer en abierto desde el dominio.
+
+# Notas de trabajo
 notas
+
+# Documentacion interna
+CLAUDE.md
+DESIGN_SYSTEM.md
+
+# Herramientas locales (previsualizacion y skills)
+.claude
+.agents
+skills-lock.json
